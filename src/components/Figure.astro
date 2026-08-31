@@ -1,13 +1,28 @@
 ---
-interface Props { number?: string; caption?: string; }
-const { number, caption } = Astro.props;
+import { Image } from 'astro:assets';
+interface Props {
+  src: any;
+  alt: string;
+  number?: string;
+  caption?: string;
+  tone?: 'dark' | 'plain';
+  max?: string;
+}
+const { src, alt, number, caption, tone = 'plain', max = '900px' } = Astro.props;
+const dark = tone === 'dark';
 ---
-<figure style="margin:2.5rem 0;background:var(--figure);color:var(--figure-ink)">
-  <div class="wrap" style="padding-block:1.75rem">
-    {number && <p class="meta" style="color:var(--figure-accent);margin:0 0 0.75rem">Fig. {number}</p>}
-    <slot />
+<figure style={`margin:2.5rem 0;${dark ? 'background:var(--figure);' : ''}`}>
+  <div class="wrap" style={dark ? 'padding-block:1.75rem' : 'padding:0'}>
+    {number && (
+      <p class="meta" style={`margin:0 0 0.75rem;color:${dark ? 'var(--figure-accent)' : 'var(--accent)'}`}>
+        Fig. {number}
+      </p>
+    )}
+    <Image src={src} alt={alt} widths={[600, 1000, 1600]} sizes="(max-width: 720px) 92vw, 900px" style={`width:100%;max-width:${max};height:auto`} />
     {caption && (
-      <figcaption class="meta" style="color:#8C9B93;margin-top:0.9rem;max-width:60ch">{caption}</figcaption>
+      <figcaption class="meta" style={`margin-top:0.8rem;max-width:62ch;color:${dark ? '#8C9B93' : 'var(--ink-low)'}`}>
+        {caption}
+      </figcaption>
     )}
   </div>
 </figure>

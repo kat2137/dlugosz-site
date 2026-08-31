@@ -9,20 +9,26 @@ hero: ../../assets/work/hania/01-needle-grip.jpg
 heroAlt: Hania's thumb and index fingertip holding a sewing needle between two silicone pads
 gallery:
   - src: ../../assets/work/hania/02-hand-workshop.jpg
-    alt: The assembled hand upright on its base in the workshop
-    caption: Assembled hand with the perforated wrist shell, driver board at the base
-  - src: ../../assets/work/hania/03-tendon-routing.jpg
-    alt: Spring-wrapped tendon bundle running into the wrist shell
-    caption: Tendon bundle in spring sheathing, routed into the wrist
-  - src: ../../assets/work/hania/04-fingertip-pad.jpg
-    alt: A soft silicone fingertip pad on the index finger, held between two human fingers
-    caption: Silicone fingertip pad — the deformable surface the needle study called for
+    alt: The assembled hand standing upright on its cylindrical base in the workshop
+    caption: Assembled hand on its base, perforated forearm shell over the tendon runs
   - src: ../../assets/work/hania/05-hand-profile.jpg
-    alt: The hand in profile with fingers curled and return springs visible
-    caption: Return springs at each knuckle bring the finger back when the tendon slackens
-  - src: ../../assets/work/hania/07-hand-on-base.jpg
-    alt: The hand mounted on its cylindrical base with the thumb opposed
-    caption: Thumb opposed against the fingers, actuated independently
+    alt: The hand in profile with silicone pads on thumb and index finger
+    caption: Silicone pads on the opposing pair — the deformable surface the needle study called for
+  - src: ../../assets/work/hania/04-fingertip-pad.jpg
+    alt: Close-up of a silicone fingertip pad on the finger, held between two human fingers
+    caption: A single pad, cast and fitted over the printed fingertip
+  - src: ../../assets/work/hania/03-tendon-routing.jpg
+    alt: Servo wiring in spring sheathing running from the base into the forearm shell
+    caption: Wiring in spring sheathing, routed from the base into the forearm
+  - src: ../../assets/work/hania/06-sensor-board.jpg
+    alt: A small sensor board held beside the base of the hand
+    caption: Driver and sensor board at the base of the wrist
+  - src: ../../assets/work/hania/12-cad-render.jpg
+    alt: Rendered view of the full assembly — hand, wrist servos, rotating base and elbow mount
+    caption: Full assembly as designed, hand through to elbow mount
+  - src: ../../assets/work/hania/10-ual-lab.jpg
+    alt: The arm assembled and powered on a bench in the UAL Wearable Technology Lab
+    caption: On the bench at the UAL Wearable Technology Lab
 stack: ['Fusion 360', 'Arduino', 'Python', 'LeRobot / SmolVLA', 'NVIDIA Isaac Lab']
 metrics:
   - { value: '6', label: 'Joint systems prototyped' }
@@ -33,6 +39,12 @@ credits:
   - 'Film: ImageNova'
   - 'Supported by the RS UK Student Fund'
 ---
+
+import Figure from '../../components/Figure.astro';
+import capture from '../../assets/work/hania/08-capture-still.jpg';
+import joints from '../../assets/work/hania/13-cad-joints.jpg';
+import tof from '../../assets/work/hania/09-tof-sequence.jpg';
+import rom from '../../assets/work/hania/11-rom-tests.jpg';
 
 ## The question
 
@@ -53,6 +65,13 @@ thumb and index finger, and deformation of the fingertip around the needle to
 stop it slipping. Threading depends on something a robot has no equivalent for —
 the natural oil on a fingertip holding the spun fibres together.
 
+<Figure
+  src={capture}
+  alt="Overhead video still of two hands drawing a threaded needle through black fabric"
+  number="01"
+  caption="Capture study. Every participant held the needle differently, but the opposing thumb-and-index grip and the deformation of the fingertip around the shaft were constant."
+/>
+
 That ruled out the obvious approach. Large exoskeleton-style arms struggle with
 thin objects, and rigid fingers cannot do the isolating deformation the task
 actually needs.
@@ -63,6 +82,15 @@ Six joint systems, prototyped and rejected in turn. Collapsible joints, pulleys,
 McKibben muscles, chevron pneumatic actuators, constrained ball joints, and
 finally rolling-contact joints driven by motors and tendon, which gave the most
 natural motion and matched hand anatomy most closely.
+
+<Figure
+  src={joints}
+  alt="Fusion 360 viewport showing the hand assembly with joint markers and motion arrows at each finger"
+  number="02"
+  tone="dark"
+  caption="Joint definitions in CAD. Each finger's travel is constrained before anything is printed — the flags mark rotation axes and their limits."
+  max="620px"
+/>
 
 Each finger carries three joints driven by a single tendon actuator, so the
 finger closes by conforming to whatever it meets rather than being posed joint by
@@ -76,8 +104,13 @@ Grip detection uses a time-of-flight sensor pulled apart from its housing —
 emitter on the thumb, receiver on the index finger — so the hand registers a
 needle by the interruption of the beam between fingertips rather than by vision.
 
-{/* TODO Kasia: one paragraph on the current arm — shoulder joint derived from
-    the Unitree design, channels for the tendons, textile skin. */}
+<Figure
+  src={tof}
+  alt="Three stages: CAD section of the fingertip housing, the printed block with emitter soldered in place, and the finished silicone-covered fingertip"
+  number="03"
+  caption="Grip sensing, from section to part. The emitter is designed into the fingertip housing, soldered into the printed block, then covered by the silicone pad."
+  max="100%"
+/>
 
 ## What broke
 
@@ -96,11 +129,17 @@ The chevron pneumatic actuators bent convincingly on their own and could not lif
 the weight of the PLA skeleton. The McKibben muscles reached only about seventy
 degrees of flexion, well short of a human finger.
 
+<Figure
+  src={rom}
+  alt="Documentation sheet of range-of-motion tests, each photograph labelled with which tendon was pulled and the resulting pose"
+  number="04"
+  caption="Range-of-motion testing, tendon by tendon. Each pose is recorded against the tendon that produced it, which is how the travel limits in CAD were set."
+  max="100%"
+/>
+
 ## Where it goes next
 
 Motion capture into simulation, then reinforcement learning: recorded sewing
-gestures multiplied in NVIDIA Isaac Lab and used to train grasp policies. The
-open question is the one the project started with — the capture records the
-gesture, not the judgement behind it.
+gestures multiplied in NVIDIA Isaac Lab and used to train grasp policies.
 
-{/* TODO: update once the training runs have results. */}
+> The capture records the gesture. What it cannot record is the judgement behind it.

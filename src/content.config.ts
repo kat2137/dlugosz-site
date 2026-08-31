@@ -16,6 +16,7 @@ const work = defineCollection({
       gallery: z
         .array(z.object({ src: image(), alt: z.string(), caption: z.string().optional() }))
         .default([]),
+      repo: z.string().optional(),
       stack: z.array(z.string()).default([]),
       metrics: z
         .array(z.object({ value: z.string(), label: z.string() }))

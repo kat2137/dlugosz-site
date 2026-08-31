@@ -1,50 +1,116 @@
 ---
 title: Sviatovid
-outcome: A camera-driven eye mechanism that tracks onlookers, built into a wearable housing.
+outcome: A camera-driven eye mechanism that tracks the people looking at it, built into a wearable leather housing.
 kind: mechanism
 year: 2025
 order: 2
 draft: false
-stack: ['Raspberry Pi', 'PCA9685', 'Fusion 360', 'EasyEDA', 'Python']
+hero: ../../assets/work/sviatovid/01-bag-in-park.jpg
+heroAlt: A brown leather bag shaped as a face, propped against railings in a park, its eyes visible through the leather
+gallery:
+  - src: ../../assets/work/sviatovid/06-shell-cad.jpg
+    alt: Front view of the printed face shell in CAD, panelled, with recessed eye sockets and a mouth aperture
+    caption: Face shell in CAD. Every crease in the finished leather is a panel seam here.
+  - src: ../../assets/work/sviatovid/07-angle-sketch.jpg
+    alt: Hand-drawn sketch of eye rotation ranges and a section through the head marking battery and camera positions
+    caption: Working sketch — rotation ranges, and where the battery and camera had to sit
+stack: ['Raspberry Pi 4', 'PCA9685', 'MG90S servos', 'Fusion 360', 'Python']
 metrics:
-  - { value: '2 DOF', label: 'Gimbal axes' }
-  - { value: '150.74', label: 'Height, mm' }
-  - { value: '1', label: 'Custom PCB' }
+  - { value: '2', label: 'Axes of movement' }
+  - { value: '150.74', label: 'Housing height, mm' }
+  - { value: '51.12', label: 'Housing depth, mm' }
 credits:
   - 'Photography: Katarzyna Długosz'
 ---
 
 import Figure from '../../components/Figure.astro';
 import Loop from '../../components/Loop.astro';
+import study from '../../assets/work/sviatovid/02-mechanism-study.jpg';
+import drawing from '../../assets/work/sviatovid/03-assembly-drawing.jpg';
+import section from '../../assets/work/sviatovid/04-eyeball-section.jpg';
+import wiring from '../../assets/work/sviatovid/05-wiring.jpg';
 
 ## The problem
 
-{/* TODO Kasia: what were you actually trying to make happen, in two sentences? */}
+Sviatovid is a Slavic deity who faces all four directions at once — the
+symbolism is his all-seeing eyes, watching over the people who pray to him. I
+wanted to build that literally: an object that looks back at whoever looks at it,
+so the onlooker becomes the one being observed.
+
+Which turns a piece of symbolism into an engineering problem. The eyes have to
+find a face, track it, and keep tracking as it moves — and all of it has to fit
+inside something a person can carry.
 
 ## Constraint
 
-The whole assembly had to sit inside a wearable housing and stay serviceable —
-motors, camera, Raspberry Pi, battery and driver board within the depth of the
-enclosure, with the camera bed removable without tools.
+Everything lives in the head. Two motors, a camera, a Raspberry Pi, a battery and
+the driver board, inside a housing 150.74 mm tall and just over 51 mm deep.
 
-{/* TODO: replace with the real depth figure and the real reason for it */}
+It also had to stay serviceable. A sealed prototype is a dead prototype the first
+time a servo fails, so the camera bed mounts on magnets, the motor shelf lifts
+out, and the battery charges through a USB-C port let into the shell rather than
+by opening it up.
+
+<Figure
+  src={drawing}
+  alt="Annotated assembly drawing with dimensioned orthographic views and a cutaway showing motors, camera bed, battery and joints"
+  number="01"
+  caption="Assembly as built. The two motors are labelled by the axis each drives, and every joint is marked as mobile or immobilised — the ones that carry load, and the ones that only locate parts."
+  max="100%"
+/>
 
 ## What I built
 
-{/* TODO: the mechanism, the board, the software. Name the parts. */}
+A pan-and-tilt mechanism, borrowed from camera rigs rather than from puppetry.
+Two axes: one motor for vertical movement, one for horizontal, with the eyeballs
+carried on a yoke between them. I worked out the ranges from how far a human eye
+actually travels before the head starts turning, then constrained the joints to
+match.
+
+<Figure
+  src={study}
+  alt="Development board combining hand sketches of eye rotation angles, a kinematic diagram of a pan-tilt linkage, and a CAD render of the eyeball assembly"
+  number="02"
+  caption="Working out the mechanism. Human eye ranges on the right, a pan-tilt kinematic chain as the reference, and the first assembly that fitted both."
+/>
+
+The eyeballs are cast resin and pop into their sockets, so they can be pulled out
+and replaced without dismantling anything behind them.
+
+<Figure
+  src={section}
+  alt="CAD section through one eyeball hemisphere showing the linkage arm running down to a servo horn"
+  number="03"
+  caption="Section through one eye. The linkage converts servo rotation into the eyeball's travel, and sets how far it can go."
+  max="420px"
+/>
+
+The electronics are deliberately unexciting: a Raspberry Pi 4 running the vision,
+a PCA9685 driver taking I²C from the Pi, and two MG90S servos on its channels.
+Putting the servos behind a dedicated driver rather than straight onto the Pi
+means the motors draw from their own supply, so a stall cannot brown out the
+board doing the tracking.
+
+<Figure
+  src={wiring}
+  alt="Wiring diagram showing a Raspberry Pi 4 connected over I²C to a PCA9685 board, which drives two MG90S servos"
+  number="04"
+  caption="Control chain. The Pi handles vision, the PCA9685 handles the motors, and the two are separated so servo current never reaches the Pi."
+/>
+
+Around the mechanism sits a printed shell, and over the shell, leather. The face
+is designed in CAD and then formed by hand — every crease in the finished bag is
+a panel seam in the model.
 
 <Loop
   src="sviatovid-mask"
   poster="/media/sviatovid-mask-poster.jpg"
   alt="CAD render of the panelled face shell rotating, showing the recessed eye sockets and mouth aperture"
-  caption="The 3D-printed shell the leather is formed over. Every crease in the finished face is a panel seam here — the facial geometry is designed in CAD, not sculpted by hand."
+  caption="The printed shell the leather is formed over. The facial geometry is designed, not sculpted."
 />
-
-<Figure number="03" caption="Two-axis eye assembly. Replace with the exported CAD line drawing, white strokes on the dark ground.">
-  <div style="aspect-ratio:16/6;border:1px solid #2A3A33"></div>
-</Figure>
 
 ## What broke
 
-{/* TODO: this section stays. Engineers read it first. What failed, what you
-     changed, and what that cost you elsewhere. */}
+{/* TODO Kasia: the honest one. Tracking failures, servo jitter, the leather
+    fighting the shell geometry, thermal problems in the sealed head — whatever
+    actually went wrong and what you changed. */}

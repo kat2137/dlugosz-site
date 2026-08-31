@@ -1,9 +1,9 @@
 ---
 import Base from '../layouts/Base.astro';
 import SiteHeader from '../components/SiteHeader.astro';
-import { getPinnedRepos } from '../lib/github.ts';
+import { getRepos } from '../lib/github.ts';
 
-const repos = await getPinnedRepos();
+const repos = await getRepos();
 ---
 <Base
   title="Lab — Katarzyna Długosz"
@@ -32,9 +32,11 @@ const repos = await getPinnedRepos();
     <div class="wrap" style="padding-block:1rem">
       {repos.map((r) => (
         <div style="border-bottom:1px solid var(--rule);padding-block:1.25rem">
-          <h3><a href={r.url}>{r.name}</a></h3>
+          <h3>{r.url ? <a href={r.url}>{r.name}</a> : r.name}</h3>
           {r.description && <p style="color:var(--ink-mid);margin:0.35rem 0 0">{r.description}</p>}
-          <p class="meta" style="margin:0.5rem 0 0">{r.language ?? 'Mixed'}</p>
+          <p class="meta" style="margin:0.5rem 0 0">
+            {r.language ?? 'Mixed'}{r.private && ' · private repository'}
+          </p>
         </div>
       ))}
     </div>

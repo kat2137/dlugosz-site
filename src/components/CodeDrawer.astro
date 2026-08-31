@@ -1,0 +1,63 @@
+---
+import { Code } from 'astro:components';
+
+interface Props { slug: string; repo?: string; }
+const { slug, repo } = Astro.props;
+
+const files = import.meta.glob('../assets/code/**/*', { query: '?raw', import: 'default', eager: true });
+const mine = Object.entries(files)
+  .filter(([path]) => path.includes(`/code/${slug}/`))
+  .sort(([a], [b]) => a.localeCompare(b))
+  .map(([path, code]) => {
+    const name = path.split('/').pop() ?? '';
+    return {
+      name,
+      label: name.replace(/^\d+-/, '').replace(/\.[^.]+$/, '').replace(/-/g, ' '),
+      lang: name.endsWith('.py') ? 'python' : name.endsWith('.ts') ? 'typescript' : 'text',
+      code: String(code).trim(),
+    };
+  });
+---
+{(mine.length > 0 || repo) && (
+  <section style="margin-top:2rem">
+    <p class="label">Code</p>
+    {mine.map((f) => (
+      <details class="drawer">
+        <summary>{f.label}</summary>
+        <div class="drawer-body">
+          <Code code={f.code} lang={f.lang as any} theme="github-dark" />
+        </div>
+      </details>
+    ))}
+    {repo && (
+      <p style="margin-top:0.9rem"><a href={repo}>Full repository</a></p>
+    )}
+  </section>
+)}
+
+<style>
+  .drawer { border-top: 1px solid var(--rule); }
+  .drawer:last-of-type { border-bottom: 1px solid var(--rule); }
+  .drawer > summary {
+    cursor: pointer;
+    list-style: none;
+    padding: 0.65rem 0;
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    color: var(--ink);
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+  .drawer > summary::-webkit-details-marker { display: none; }
+  .drawer > summary::after { content: '+'; color: var(--accent); }
+  .drawer[open] > summary::after { content: '–'; }
+  .drawer > summary:hover { color: var(--accent); }
+  .drawer-body {
+    margin: 0 0 0.9rem;
+    background: var(--figure);
+    padding: 0.9rem;
+    overflow-x: auto;
+  }
+  .drawer-body :global(pre) { margin: 0; background: transparent !important; font-size: 0.72rem; line-height: 1.65; }
+</style>

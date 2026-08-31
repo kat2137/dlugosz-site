@@ -3,6 +3,8 @@ import { getCollection, render } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import SiteHeader from '../../components/SiteHeader.astro';
 import Metrics from '../../components/Metrics.astro';
+import Gallery from '../../components/Gallery.astro';
+import { Image } from 'astro:assets';
 
 export async function getStaticPaths() {
   const projects = await getCollection('work', ({ data }) => !data.draft);
@@ -21,6 +23,10 @@ const d = project.data;
     <h1>{d.title}</h1>
     <p style="font-size:1.05rem;color:var(--ink-mid);max-width:46ch;margin-top:1rem">{d.outcome}</p>
   </div>
+
+  {d.hero && (
+    <Image src={d.hero} alt={d.heroAlt ?? d.title} widths={[600, 1200, 1800]} sizes="(max-width: 720px) 100vw, 1180px" style="width:100%;aspect-ratio:16/8;object-fit:cover;object-position:center 35%;margin-bottom:2.5rem" />
+  )}
 
   <Metrics metrics={d.metrics} />
 
@@ -47,6 +53,8 @@ const d = project.data;
       )}
     </aside>
   </div>
+
+  <Gallery items={d.gallery} />
 
   <hr class="rule" />
   <div class="wrap" style="padding-block:2rem">

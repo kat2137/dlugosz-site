@@ -2,11 +2,13 @@
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import SiteHeader from '../components/SiteHeader.astro';
+import { Image } from 'astro:assets';
 
 const projects = (await getCollection('work', ({ data }) => !data.draft)).sort(
   (a, b) => a.data.order - b.data.order,
 );
 const [lead, ...rest] = projects;
+// Trailing slash is not guaranteed on BASE_URL, so normalise before joining.
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 <Base
@@ -28,7 +30,11 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
   {lead && (
     <a href={`${base}/work/${lead.id}`} class="wrap" style="display:block;padding-block:2rem;border:0;color:inherit">
-      <div style="aspect-ratio:16/7;background:var(--figure)"></div>
+      {lead.data.hero ? (
+        <Image src={lead.data.hero} alt={lead.data.heroAlt ?? lead.data.title} widths={[600, 1200, 1800]} sizes="(max-width: 720px) 92vw, 1120px" style="width:100%;aspect-ratio:16/7;object-fit:cover;object-position:center 32%" />
+      ) : (
+        <div style="aspect-ratio:16/7;background:var(--figure)"></div>
+      )}
       <div style="display:flex;flex-wrap:wrap;gap:0.75rem 1.5rem;align-items:baseline;margin-top:1rem">
         <h2>{lead.data.title}</h2>
         <span class="meta">{lead.data.kind}, {lead.data.year}</span>
@@ -42,7 +48,11 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
   <div class="wrap" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:2.5rem;padding-block:2.5rem">
     {rest.map((p) => (
       <a href={`${base}/work/${p.id}`} style="border:0;color:inherit;display:block">
-        <div style="aspect-ratio:4/3;background:var(--figure)"></div>
+        {p.data.hero ? (
+          <Image src={p.data.hero} alt={p.data.heroAlt ?? p.data.title} widths={[300, 600, 900]} sizes="(max-width: 720px) 92vw, 30vw" style="width:100%;aspect-ratio:4/3;object-fit:cover" />
+        ) : (
+          <div style="aspect-ratio:4/3;background:var(--figure)"></div>
+        )}
         <h3 style="margin-top:0.9rem">{p.data.title}</h3>
         <p class="meta" style="margin:0.2rem 0 0.5rem">{p.data.kind}, {p.data.year}</p>
         <p style="color:var(--ink-mid);font-size:0.92rem">{p.data.outcome}</p>

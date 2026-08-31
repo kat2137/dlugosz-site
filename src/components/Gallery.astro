@@ -1,0 +1,15 @@
+---
+import { Image } from 'astro:assets';
+interface Props { items: { src: any; alt: string; caption?: string }[]; }
+const { items } = Astro.props;
+---
+{items.length > 0 && (
+  <div class="wrap" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.5rem;padding-block:1rem 2.5rem">
+    {items.map((it) => (
+      <figure style="margin:0">
+        <Image src={it.src} alt={it.alt} widths={[400, 800, 1200]} sizes="(max-width: 720px) 90vw, 32vw" style="width:100%;height:auto" />
+        {it.caption && <figcaption class="meta" style="margin-top:0.6rem">{it.caption}</figcaption>}
+      </figure>
+    ))}
+  </div>
+)}

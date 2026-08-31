@@ -1,0 +1,16 @@
+---
+interface Props { metrics: { value: string; label: string }[]; }
+const { metrics } = Astro.props;
+---
+{metrics.length > 0 && (
+  <div style="border-block:1px solid var(--rule)">
+    <div class="wrap" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));padding:0">
+      {metrics.map((m, i) => (
+        <div style={`padding:0.9rem var(--gutter) 0.9rem 0;${i < metrics.length - 1 ? 'border-right:1px solid var(--rule);' : ''}padding-left:${i === 0 ? '0' : 'var(--gutter)'}`}>
+          <p style="font-family:var(--display);font-weight:500;font-size:1.4rem;margin:0;line-height:1.2">{m.value}</p>
+          <p class="meta" style="margin:0.25rem 0 0">{m.label}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+)}

@@ -1,0 +1,61 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import SiteHeader from '../../components/SiteHeader.astro';
+import Metrics from '../../components/Metrics.astro';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('work', ({ data }) => !data.draft);
+  return projects.map((p) => ({ params: { slug: p.id }, props: { project: p } }));
+}
+
+const { project } = Astro.props;
+const { Content } = await render(project);
+const d = project.data;
+---
+<Base title={`${d.title} — Katarzyna Długosz`} description={d.outcome}>
+  <SiteHeader />
+
+  <div class="wrap" style="padding-block:clamp(2.5rem,6vw,4rem)">
+    <p class="meta" style="margin:0 0 1rem">{d.kind}, {d.year}</p>
+    <h1>{d.title}</h1>
+    <p style="font-size:1.05rem;color:var(--ink-mid);max-width:46ch;margin-top:1rem">{d.outcome}</p>
+  </div>
+
+  <Metrics metrics={d.metrics} />
+
+  <div class="wrap" style="display:grid;grid-template-columns:minmax(0,1.7fr) minmax(0,1fr);gap:2.5rem;padding-block:2.5rem;align-items:start">
+    <div>
+      <Content />
+    </div>
+    <aside>
+      {d.stack.length > 0 && (
+        <>
+          <p class="label">Built with</p>
+          <ul style="list-style:none;padding:0;margin:0 0 2rem;font-family:var(--mono);font-size:0.85rem;line-height:2;color:var(--ink-mid)">
+            {d.stack.map((s) => <li>{s}</li>)}
+          </ul>
+        </>
+      )}
+      {d.credits.length > 0 && (
+        <>
+          <p class="label">Credits</p>
+          <ul style="list-style:none;padding:0;margin:0;font-size:0.85rem;line-height:1.8;color:var(--ink-mid)">
+            {d.credits.map((c) => <li>{c}</li>)}
+          </ul>
+        </>
+      )}
+    </aside>
+  </div>
+
+  <hr class="rule" />
+  <div class="wrap" style="padding-block:2rem">
+    <a href={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/`}>Back to work</a>
+  </div>
+</Base>
+
+<style>
+  @media (max-width: 720px) {
+    div[style*="1.7fr"] { grid-template-columns: 1fr !important; }
+  }
+</style>

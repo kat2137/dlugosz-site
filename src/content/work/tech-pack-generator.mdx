@@ -1,0 +1,40 @@
+---
+title: Tech pack generator
+outcome: A tool that reads garment drawings and returns a stitch breakdown and bill of materials, using a domain taxonomy rather than a general model.
+kind: software
+year: 2025
+order: 3
+draft: false
+stack: ['Python', 'Pydantic', 'Streamlit']
+metrics:
+  - { value: '4–10', label: 'Tech packs per month' }
+  - { value: 'TBC', label: 'Stitch types classified' }
+  - { value: 'TBC', label: 'Time saved per pack' }
+credits: []
+---
+
+## The problem
+
+Bills of materials and stitch breakdowns are repetitive work that needs no design
+judgement, and a general model gets the vocabulary wrong — confusing lining
+colour with main fabric colour, or naming stitches the way an amateur would.
+
+## Constraint
+
+Production companies need rules and jargon they already recognise. An open
+model invents plausible-sounding terms, mislabels stitches the way an amateur
+would, and confuses lining colour with main fabric colour — all of which cost
+time to correct downstream.
+
+A fixed taxonomy fixes three things at once: stitch and hardware names stay in
+factory vocabulary, materials map to a known set rather than a guess, and
+translations stay consistent across every pack, because the terms are bounded
+before anything is generated.
+
+## What I built
+
+{/* TODO: the classification framework, the extraction pipeline, the export. */}
+
+## What broke
+
+{/* TODO */}

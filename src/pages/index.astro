@@ -1,0 +1,61 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+
+const projects = (await getCollection('work', ({ data }) => !data.draft)).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+const [lead, ...rest] = projects;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+<Base
+  title="Katarzyna Długosz — design engineer, physical computing and machine learning"
+  description="Design engineer working across soft robotics, physical computing and machine learning, from CAD through to manufacture."
+>
+  <SiteHeader current="Work" />
+
+  <section class="wrap" style="padding-block:clamp(3rem,8vw,5.5rem)">
+    <h1 style="max-width:16ch">Objects that sense, move and respond.</h1>
+    <p style="font-size:1.05rem;color:var(--ink-mid);max-width:48ch;margin-top:1.25rem">
+      I design and build interactive objects — the mechanism, the circuit and the
+      software that drives them. Soft robotics, physical computing and machine
+      learning, from CAD through to manufacture.
+    </p>
+  </section>
+
+  <hr class="rule" />
+
+  {lead && (
+    <a href={`${base}/work/${lead.id}`} class="wrap" style="display:block;padding-block:2rem;border:0;color:inherit">
+      <div style="aspect-ratio:16/7;background:var(--figure)"></div>
+      <div style="display:flex;flex-wrap:wrap;gap:0.75rem 1.5rem;align-items:baseline;margin-top:1rem">
+        <h2>{lead.data.title}</h2>
+        <span class="meta">{lead.data.kind}, {lead.data.year}</span>
+      </div>
+      <p style="color:var(--ink-mid);max-width:52ch;margin-top:0.4rem">{lead.data.outcome}</p>
+    </a>
+  )}
+
+  <hr class="rule" />
+
+  <div class="wrap" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:2.5rem;padding-block:2.5rem">
+    {rest.map((p) => (
+      <a href={`${base}/work/${p.id}`} style="border:0;color:inherit;display:block">
+        <div style="aspect-ratio:4/3;background:var(--figure)"></div>
+        <h3 style="margin-top:0.9rem">{p.data.title}</h3>
+        <p class="meta" style="margin:0.2rem 0 0.5rem">{p.data.kind}, {p.data.year}</p>
+        <p style="color:var(--ink-mid);font-size:0.92rem">{p.data.outcome}</p>
+      </a>
+    ))}
+  </div>
+
+  <hr class="rule" />
+
+  <footer class="wrap" style="padding-block:2.5rem;display:flex;flex-wrap:wrap;gap:1.5rem;justify-content:space-between">
+    <p class="meta" style="margin:0">London</p>
+    <p class="meta" style="margin:0">
+      <a href="mailto:kasadlugos@gmail.com">kasadlugos@gmail.com</a>
+    </p>
+  </footer>
+</Base>

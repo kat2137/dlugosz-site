@@ -1,0 +1,42 @@
+---
+title: Sviatovid
+outcome: A camera-driven eye mechanism that tracks onlookers, built into a wearable housing.
+kind: mechanism
+year: 2025
+order: 2
+draft: false
+stack: ['Raspberry Pi', 'PCA9685', 'Fusion 360', 'EasyEDA', 'Python']
+metrics:
+  - { value: '2 DOF', label: 'Gimbal axes' }
+  - { value: '150.74', label: 'Height, mm' }
+  - { value: '1', label: 'Custom PCB' }
+credits:
+  - 'Photography: Katarzyna Długosz'
+---
+
+import Figure from '../../components/Figure.astro';
+
+## The problem
+
+{/* TODO Kasia: what were you actually trying to make happen, in two sentences? */}
+
+## Constraint
+
+The whole assembly had to sit inside a wearable housing and stay serviceable —
+motors, camera, Raspberry Pi, battery and driver board within the depth of the
+enclosure, with the camera bed removable without tools.
+
+{/* TODO: replace with the real depth figure and the real reason for it */}
+
+## What I built
+
+{/* TODO: the mechanism, the board, the software. Name the parts. */}
+
+<Figure number="03" caption="Two-axis eye assembly. Replace with the exported CAD line drawing, white strokes on the dark ground.">
+  <div style="aspect-ratio:16/6;border:1px solid #2A3A33"></div>
+</Figure>
+
+## What broke
+
+{/* TODO: this section stays. Engineers read it first. What failed, what you
+     changed, and what that cost you elsewhere. */}

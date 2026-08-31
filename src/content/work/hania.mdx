@@ -1,0 +1,88 @@
+---
+title: Hania
+outcome: A robotic hand built to learn hand-sewing — and to ask what gets lost when a skill is captured as data.
+kind: robotics
+year: 2026
+order: 1
+draft: false
+stack: ['Fusion 360', 'Arduino', 'Python', 'LeRobot / SmolVLA', 'NVIDIA Isaac Lab']
+metrics:
+  - { value: '6', label: 'Joint systems prototyped' }
+  - { value: '20', label: 'Makers filmed sewing' }
+  - { value: '17', label: 'Joints, arm and hand' }
+credits:
+  - 'Photography: Katarzyna Długosz'
+  - 'Film: ImageNova'
+  - 'Supported by the RS UK Student Fund'
+---
+
+## The question
+
+Scale AI put head cameras on factory workers to harvest their movements as
+training data. Workers could not opt out. Hania started there: if a skill can be
+recorded and replayed by a machine, what exactly has been transferred, and what
+has been left behind?
+
+Rather than argue the point, I built the machine. Hania is a robotic hand
+learning to hold a needle and sew — the most legible test I could find for
+whether embodied craft survives being turned into a dataset.
+
+## What the hand had to do
+
+I filmed around twenty people embroidering and analysed how each held the needle.
+Every grip differed, but two mechanics were constant: opposing force between
+thumb and index finger, and deformation of the fingertip around the needle to
+stop it slipping. Threading depends on something a robot has no equivalent for —
+the natural oil on a fingertip holding the spun fibres together.
+
+That ruled out the obvious approach. Large exoskeleton-style arms struggle with
+thin objects, and rigid fingers cannot do the isolating deformation the task
+actually needs.
+
+## What I built
+
+Six joint systems, prototyped and rejected in turn. Collapsible joints, pulleys,
+McKibben muscles, chevron pneumatic actuators, constrained ball joints, and
+finally rolling-contact joints driven by motors and tendon, which gave the most
+natural motion and matched hand anatomy most closely.
+
+Each finger carries three joints driven by a single tendon actuator, so the
+finger closes by conforming to whatever it meets rather than being posed joint by
+joint. That is the mechanical equivalent of the fingertip deformation the needle
+study identified — the hand wraps the needle instead of pinching at a fixed
+angle. The thumb is actuated separately, because it supplies the opposing force
+the whole grip depends on. Three further joints carry the arm, on servos rated to
+40 kg.
+
+Grip detection uses a time-of-flight sensor pulled apart from its housing —
+emitter on the thumb, receiver on the index finger — so the hand registers a
+needle by the interruption of the beam between fingertips rather than by vision.
+
+{/* TODO Kasia: one paragraph on the current arm — shoulder joint derived from
+    the Unitree design, channels for the tendons, textile skin. */}
+
+## What broke
+
+Nylon was the stiffest of the three tendon materials I tested against woven
+elastic and 120 polyester thread, but it stretched under load and made finger
+travel inconsistent. Steel replaced it for operation. Nylon stayed in the build
+for what it is actually good at — lacing the rolling-contact joints together, where
+the pleating needs to flex rather than hold a length.
+
+The constrained ball joints were the more instructive failure. They produced
+genuinely natural motion, but needed so much added stabilisation that the fingers
+became heavy and hard to drive. Rolling-contact joints got most of the same range
+with none of the mass.
+
+The chevron pneumatic actuators bent convincingly on their own and could not lift
+the weight of the PLA skeleton. The McKibben muscles reached only about seventy
+degrees of flexion, well short of a human finger.
+
+## Where it goes next
+
+Motion capture into simulation, then reinforcement learning: recorded sewing
+gestures multiplied in NVIDIA Isaac Lab and used to train grasp policies. The
+open question is the one the project started with — the capture records the
+gesture, not the judgement behind it.
+
+{/* TODO: update once the training runs have results. */}

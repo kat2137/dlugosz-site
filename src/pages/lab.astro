@@ -1,0 +1,42 @@
+---
+import Base from '../layouts/Base.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import { getPinnedRepos } from '../lib/github.ts';
+
+const repos = await getPinnedRepos();
+---
+<Base
+  title="Lab — Katarzyna Długosz"
+  description="Work in progress: machine learning and hardware experiments, pulled from GitHub."
+>
+  <SiteHeader current="Lab" />
+
+  <div class="wrap" style="padding-block:clamp(2.5rem,6vw,4rem)">
+    <h1>Lab</h1>
+    <p style="color:var(--ink-mid);margin-top:1rem">
+      Work in progress. Pulled from GitHub at build time and refreshed nightly.
+    </p>
+  </div>
+
+  <hr class="rule" />
+
+  {repos.length === 0 ? (
+    <div class="wrap" style="padding-block:2.5rem">
+      <p style="color:var(--ink-mid)">
+        Set <code>GITHUB_USER</code> in the build environment to populate this page.
+        Until there are repositories worth pinning, remove Lab from the nav in
+        <code>src/components/SiteHeader.astro</code> — an empty page costs more than a missing one.
+      </p>
+    </div>
+  ) : (
+    <div class="wrap" style="padding-block:1rem">
+      {repos.map((r) => (
+        <div style="border-bottom:1px solid var(--rule);padding-block:1.25rem">
+          <h3><a href={r.url}>{r.name}</a></h3>
+          {r.description && <p style="color:var(--ink-mid);margin:0.35rem 0 0">{r.description}</p>}
+          <p class="meta" style="margin:0.5rem 0 0">{r.language ?? 'Mixed'}</p>
+        </div>
+      ))}
+    </div>
+  )}
+</Base>

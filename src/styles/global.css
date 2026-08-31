@@ -1,0 +1,76 @@
+@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@400;500&family=IBM+Plex+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;700&display=swap');
+
+:root {
+  --ground: #E7E3DA;
+  --ink: #1E1B16;
+  --ink-mid: #544E44;
+  --ink-low: #6E675B;
+  --rule: #CDC7BA;
+  --accent: #0B6B58;
+  --fill: #9FE2BF;
+  --figure: #14201C;
+  --figure-ink: #EDEAE3;
+  --figure-accent: #57C79E;
+
+  --display: 'Space Grotesk', system-ui, sans-serif;
+  --body: 'Archivo', system-ui, sans-serif;
+  --mono: 'IBM Plex Mono', ui-monospace, monospace;
+
+  --measure: 68ch;
+  --gutter: clamp(1.25rem, 4vw, 3rem);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 16px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3 {
+  font-family: var(--display);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  margin: 0;
+}
+
+h1 { font-size: clamp(2rem, 5vw, 3.25rem); }
+h2 { font-size: clamp(1.25rem, 2.5vw, 1.6rem); }
+h3 { font-size: 1.1rem; font-weight: 500; }
+
+p { margin: 0 0 1.1em; max-width: var(--measure); }
+
+a { color: var(--accent); text-decoration: none; border-bottom: 1px solid var(--accent); }
+a:hover { background: var(--fill); border-bottom-color: transparent; }
+a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+.wrap { max-width: 1180px; margin: 0 auto; padding-inline: var(--gutter); }
+
+.rule { border: 0; border-top: 1px solid var(--rule); margin: 0; }
+
+.meta { font-family: var(--mono); font-size: 0.75rem; color: var(--ink-low); letter-spacing: 0.02em; }
+
+.mark { background: var(--fill); padding: 0 0.25em; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+
+.label {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 0 0 0.5rem;
+}
+
+img { max-width: 100%; height: auto; display: block; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}

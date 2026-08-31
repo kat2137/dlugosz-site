@@ -1,0 +1,61 @@
+---
+import Base from '../layouts/Base.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+
+const roles = [
+  { years: '2025—', role: 'Technical designer', org: 'B Fashion Studio', note: 'Sourcing and end-to-end technical design for independent clients.' },
+  { years: '2025', role: 'Atelier assistant', org: 'Robert Wun', note: 'Pattern amendments and making for the 2026 haute couture collection.' },
+  { years: '2024', role: 'Design consultant', org: 'CYA', note: 'Product development from pattern stage to manufacturing; built a new sizing system.' },
+  { years: '2024', role: 'Design and production intern', org: 'Galia Lahav', note: 'Technical design, documentation and supply chain tracking.' },
+];
+
+const awards = [
+  '2025/6 — Monsoon Accessorize Scholarship for circular design',
+  '2025/6 — Leathersellers Foundation Power2Aspire mentoring award',
+  '2024 — LCF x Marks & Spencer Industry Challenge, winner',
+  '2023 — NEOFUR sustainable design competition, finalist',
+];
+---
+<Base
+  title="About — Katarzyna Długosz"
+  description="Design engineer in London working across soft robotics, physical computing and machine learning."
+>
+  <SiteHeader current="About" />
+
+  <div class="wrap" style="padding-block:clamp(2.5rem,6vw,4rem)">
+    <h1 style="max-width:18ch">Katarzyna Długosz</h1>
+    <p style="font-size:1.05rem;color:var(--ink-mid);margin-top:1.25rem">
+      I work on the relationship between people and machines through textile
+      interfaces — bridging the physical qualities of fabric with soft robotics,
+      wearable technology and sensing. Currently MA Fashion Futures at UAL,
+      following a first-class BA in Fashion Contour at London College of Fashion.
+    </p>
+    <p><a href={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/cv.pdf`}>Download CV</a> · <a href="mailto:kasadlugos@gmail.com">kasadlugos@gmail.com</a></p>
+  </div>
+
+  <hr class="rule" />
+
+  <div class="wrap" style="padding-block:2.5rem">
+    <h2 style="margin-bottom:1.5rem">Experience</h2>
+    <dl style="display:grid;grid-template-columns:auto 1fr;gap:0.5rem 2rem;margin:0">
+      {roles.map((r) => (
+        <>
+          <dt class="meta" style="padding-top:0.35rem">{r.years}</dt>
+          <dd style="margin:0 0 1.25rem">
+            <p style="margin:0"><strong style="font-weight:500">{r.role}</strong>, {r.org}</p>
+            <p style="margin:0;color:var(--ink-mid);font-size:0.92rem">{r.note}</p>
+          </dd>
+        </>
+      ))}
+    </dl>
+  </div>
+
+  <hr class="rule" />
+
+  <div class="wrap" style="padding-block:2.5rem">
+    <h2 style="margin-bottom:1.25rem">Awards</h2>
+    <ul style="list-style:none;padding:0;margin:0;color:var(--ink-mid)">
+      {awards.map((a) => <li style="padding-block:0.35rem">{a}</li>)}
+    </ul>
+  </div>
+</Base>

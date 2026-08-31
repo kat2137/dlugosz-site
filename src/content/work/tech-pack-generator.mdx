@@ -1,40 +1,92 @@
 ---
 title: Tech pack generator
-outcome: A tool that reads garment drawings and returns a stitch breakdown and bill of materials, using a domain taxonomy rather than a general model.
+outcome: A tool that reads garment drawings and returns a stitch breakdown, seam types and a bill of materials — constrained to factory vocabulary rather than free-form generation.
 kind: software
-year: 2025
+year: 2026
 order: 3
 draft: false
-stack: ['Python', 'Pydantic', 'Streamlit']
+stack: ['Python', 'Streamlit', 'Pydantic', 'Anthropic API']
 metrics:
-  - { value: '4–10', label: 'Tech packs per month' }
-  - { value: 'TBC', label: 'Stitch types classified' }
-  - { value: 'TBC', label: 'Time saved per pack' }
+  - { value: '18', label: 'Canonical stitch types' }
+  - { value: '10', label: 'Garment components mapped' }
+  - { value: '10–20', label: 'Tech packs per week' }
 credits: []
 ---
 
 ## The problem
 
-Bills of materials and stitch breakdowns are repetitive work that needs no design
-judgement, and a general model gets the vocabulary wrong — confusing lining
-colour with main fabric colour, or naming stitches the way an amateur would.
+I produce ten to twenty tech packs a week, and the parts that take the longest need no
+design judgement at all — bills of materials, stitch breakdowns, deciding the
+finishes on a t-shirt. It is transcription, not design.
+
+Handing it to a general model does not work. It invents plausible-sounding terms,
+names stitches the way an amateur would, and confuses lining colour with main
+fabric colour. Every one of those errors costs more time to catch downstream than
+doing the work by hand.
 
 ## Constraint
 
-Production companies need rules and jargon they already recognise. An open
-model invents plausible-sounding terms, mislabels stitches the way an amateur
-would, and confuses lining colour with main fabric colour — all of which cost
-time to correct downstream.
+Factories need rules and vocabulary they already recognise. A pack that says
+"double stitching" instead of `twin-needle stitch` is not a pack — it is a
+question the factory has to send back.
 
-A fixed taxonomy fixes three things at once: stitch and hardware names stay in
-factory vocabulary, materials map to a known set rather than a guess, and
-translations stay consistent across every pack, because the terms are bounded
-before anything is generated.
+So the vocabulary is closed before anything is generated: eighteen stitch types,
+five seam types, and an instruction that if a stitch cannot be confidently
+identified the field is left blank. Nothing may be invented. That single rule is
+what makes the output usable, because a blank field is a question I can answer,
+while a confident wrong answer is one I might not catch.
+
+Closing the vocabulary fixes three things at once. Names stay in factory
+language, materials map to a known set instead of a guess, and translations stay
+consistent across every pack, because there is a fixed list to translate rather
+than free text.
 
 ## What I built
 
-{/* TODO: the classification framework, the extraction pipeline, the export. */}
+The first version reads an uploaded drawing and returns three tables — stitch
+breakdown, bill of materials, and fabrics — each validated against a schema, so
+malformed output fails rather than reaching the factory.
+
+The extraction knows how a tech pack is laid out. The colour drawing on page one
+is where fabric type and colour come from; the line drawings on pages two and
+three are where stitches and seams are read. Page roles, not just pixels.
+
+The mapping rules are my own bench knowledge written down:
+
+```
+topstitch, edgestitch, bagged-out seams  →  lockstitch
+raw edges, knits                         →  overlock
+flat seams on athletic wear and t-shirts →  flatlock
+denim seams with visible topstitching    →  twin-needle stitch
+bra underwires                           →  twin-needle stitch
+elastics on lingerie                     →  zigzag / three step zigzag / coverstitch
+strap ends, denim belt loops             →  bartack
+```
+
+Each stitch type also carries its diagram, so the output table arrives with
+drawings of the stitches rather than names a machinist has to interpret.
+
+The second version replaces flat extraction with a component taxonomy — pockets,
+plackets, cuffs, collars, necklines, hoods — and every attribute is tagged with
+how it can be known:
+
+- `vision` — visible in the drawing. Pocket type, whether a cuff is topstitched.
+- `inference` — invisible, and only knowable from construction. Whether a pocket
+  is fused. Whether a hood is lined.
+
+That split is the part that matters. A model looking at a flat drawing cannot see
+interfacing, so asking it to is how you get confident nonsense. Separating the two
+means the drawing answers what drawings can answer, and construction knowledge
+fills the rest. Every attribute also records its source and the rule that produced
+it, so any value in a finished pack can be traced back.
+
+It is trained against a hand-labelled set of garment flats, each tagged in
+construction vocabulary rather than retail description — `flat-felled seams`,
+`back yoke`, `welt pockets`, `blind hem` — because the labels have to match what
+a factory reads.
 
 ## What broke
 
-{/* TODO */}
+{/* TODO Kasia: the honest one. Where did the extraction get it wrong, and what
+    did you change? The vision/inference split reads like it came out of a
+    specific failure — what was it? */}

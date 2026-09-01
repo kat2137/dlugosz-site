@@ -1,0 +1,110 @@
+---
+import { Image } from 'astro:assets';
+
+interface Props {
+  id: string;
+  title: string;
+  number?: string;
+  caption?: string;
+  ratio?: '16/9' | '9/16';
+  poster?: any;
+}
+
+const { id, title, number, caption, ratio = '16/9', poster } = Astro.props;
+const max = ratio === '9/16' ? '320px' : '900px';
+---
+
+<figure style="margin:2.5rem 0">
+  <div class="wrap" style="padding:0">
+    {number && (
+      <p class="meta" style="margin:0 0 0.75rem;color:var(--accent)">Fig. {number}</p>
+    )}
+
+    <div
+      class="yt"
+      data-id={id}
+      data-title={title}
+      style={`max-width:${max};aspect-ratio:${ratio};position:relative;background:var(--figure);border:1px solid var(--rule)`}
+    >
+      {poster ? (
+        <Image
+          src={poster}
+          alt={title}
+          widths={[400, 800, 1200]}
+          sizes="(max-width: 720px) 92vw, 900px"
+          style="width:100%;height:100%;object-fit:cover;display:block"
+        />
+      ) : (
+        <img
+          src={`https://i.ytimg.com/vi/${id}/maxresdefault.jpg`}
+          alt={title}
+          loading="lazy"
+          onerror={`this.src='https://i.ytimg.com/vi/${id}/hqdefault.jpg'`}
+          style="width:100%;height:100%;object-fit:cover;display:block"
+        />
+      )}
+
+      <button type="button" class="yt-play" aria-label={`Play video: ${title}`}>
+        <span class="yt-tri" aria-hidden="true"></span>
+      </button>
+    </div>
+
+    {caption && (
+      <figcaption class="meta" style="margin-top:0.8rem;max-width:62ch;color:var(--ink-low)">
+        {caption}
+      </figcaption>
+    )}
+  </div>
+</figure>
+
+<style>
+  .yt-play {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+    padding: 0;
+  }
+  .yt-play:hover { background: rgba(20, 32, 28, 0.25); }
+  .yt-play:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+  .yt-tri {
+    width: 64px;
+    height: 44px;
+    background: var(--figure);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s ease;
+  }
+  .yt-tri::after {
+    content: '';
+    border-style: solid;
+    border-width: 9px 0 9px 15px;
+    border-color: transparent transparent transparent var(--figure-ink);
+  }
+  .yt-play:hover .yt-tri { background: var(--accent); }
+  .yt iframe { width: 100%; height: 100%; border: 0; display: block; }
+</style>
+
+<script>
+  document.querySelectorAll('.yt').forEach((box) => {
+    const button = box.querySelector('.yt-play');
+    if (!button) return;
+    button.addEventListener('click', () => {
+      const id = (box as HTMLElement).dataset.id;
+      const title = (box as HTMLElement).dataset.title ?? 'Video';
+      const frame = document.createElement('iframe');
+      frame.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0&playsinline=1`;
+      frame.title = title;
+      frame.allow = 'accelerometer; autoplay; encrypted-media; picture-in-picture; web-share';
+      frame.allowFullscreen = true;
+      box.replaceChildren(frame);
+    });
+  });
+</script>

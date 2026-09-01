@@ -1,0 +1,12 @@
+name: Nightly rebuild
+on:
+  schedule:
+    - cron: '0 4 * * *'
+  workflow_dispatch:
+
+jobs:
+  rebuild:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger deploy hook
+        run: curl -fsS -X POST "${{ secrets.DEPLOY_HOOK_URL }}"

@@ -1,5 +1,3 @@
-# Indexing is blocked while the case studies are still drafts.
-# To launch: delete the Disallow line, restore `Allow: /`, and point
-# Sitemap at the live domain.
 User-agent: *
-Disallow: /
+Allow: /
+Sitemap: https://katarzynadlugosz.com/sitemap-index.xml

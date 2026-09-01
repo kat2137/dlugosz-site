@@ -25,6 +25,7 @@ credits:
 
 import Figure from '../../components/Figure.astro';
 import Loop from '../../components/Loop.astro';
+import Video from '../../components/Video.astro';
 import study from '../../assets/work/sviatovid/02-mechanism-study.jpg';
 import drawing from '../../assets/work/sviatovid/03-assembly-drawing.jpg';
 import section from '../../assets/work/sviatovid/04-eyeball-section.jpg';
@@ -109,8 +110,24 @@ a panel seam in the model.
   caption="The printed shell the leather is formed over. The facial geometry is designed, not sculpted."
 />
 
+<Video
+  id="Z70Nya74kp8"
+  title="Sviatovid tracking a face, work in progress"
+  number="05"
+  caption="Tracking in progress. Capture from development, before the horizontal arm was reinforced."
+/>
+
 ## What broke
 
-{/* TODO Kasia: the honest one. Tracking failures, servo jitter, the leather
-    fighting the shell geometry, thermal problems in the sealed head — whatever
-    actually went wrong and what you changed. */}
+The horizontal axis moves both eyeballs from a single motor, and the first arm I
+designed for it was a curved, angled part — chosen so it could clear the camera
+bed inside a head only 51 mm deep. It deformed. The load of driving two eyes
+through one linkage was more than the printed material would hold along a curve,
+and the arm flexed instead of transmitting the motion, which cost travel at the
+end of the range and put the two eyes out of agreement with each other.
+
+The fix was triangulation rather than a heavier part: a second arm at 45°, tying
+the centre of the mechanism to the end-effector. That converts the bending load
+into tension along a straight member, which the material handles. The curve
+stayed, because the packaging still needed it — the reinforcement is what let it
+stay.

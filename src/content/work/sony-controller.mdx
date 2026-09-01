@@ -5,13 +5,26 @@ kind: software
 year: 2025
 order: 5
 draft: false
+hero: ../../assets/work/sony-controller/06-unity-map.jpg
+heroAlt: The surveyed location rebuilt as an explorable 3D terrain, seeded with buildings, planting, waypoint markers and animals
 stack: ['Unity', 'C#', '3D asset pipeline']
-metrics: []
+metrics:
+  - { value: '6', label: 'Controller modes designed' }
+  - { value: '5', label: 'Signal colours mapped to function' }
 credits:
   - 'Developed under a brief from Sony Interactive Entertainment, MA Collaborative Challenge 2025'
   - '3D map assets: Haiyu'
   - 'Group project — game plot developed collectively'
 ---
+
+import Figure from '../../components/Figure.astro';
+import Video from '../../components/Video.astro';
+import controller from '../../assets/work/sony-controller/01-controller-assembled.jpg';
+import modes from '../../assets/work/sony-controller/02-modes.jpg';
+import palette from '../../assets/work/sony-controller/03-signal-palette.jpg';
+import stateMachine from '../../assets/work/sony-controller/04-state-machine.jpg';
+import app from '../../assets/work/sony-controller/05-hikego-app.jpg';
+import avatar from '../../assets/work/sony-controller/07-avatar.jpg';
 
 ## The problem
 
@@ -20,20 +33,12 @@ standard gamepad can still play. The brief asked what to do with it. Our answer
 was to point it outward: most play on a controller is solitary and indoors, and
 the same hardware that makes a game reachable can make it social.
 
-## What we looked at
-
-We surveyed a real site on foot before designing anything — terrain, natural
-features, historic buildings, the people and animals moving through it — and
-built a paper mock-up of the controller to test what interactions the place
-itself suggested. Designing the interaction from the ground rather than from the
-screen is what set the direction.
-
-## What I built
-
 The game maps a physical location as an explorable 3D environment seeded with
 educational assets: plants, artefacts, buildings. Players move through the real
 place and the game responds, with modes for exploring alone and for exploring
 together.
+
+## What I built
 
 My part was the controller interaction and the demo. I designed how the game's
 functions map onto a configurable controller — which is a harder problem than
@@ -43,15 +48,95 @@ signal themselves to the player, which is where the accessibility work actually
 lives: if a control can be moved, its meaning has to be communicated by something
 other than its position.
 
+<Figure
+  src={controller}
+  alt="The configurable controller assembled as a cross of five modules — a turntable, a D-pad, a four-button face and two indicator faces — with lit edge segments"
+  number="01"
+  tone="dark"
+  caption="The controller as assembled for the demo. Five modules, and no fixed relationship between where a control sits and what it does."
+  max="620px"
+/>
+
+If a control can be moved, its meaning cannot be carried by its position. It has
+to be carried by something else — so the edge lighting does the work the layout
+normally would. Each function has a colour before it has a location.
+
+<Figure
+  src={palette}
+  alt="Colour mapping: green for confirmation, red for warning, purple for sound interaction, blue for nature interaction, white for utility signals and yellow for encouragement, each listed against the modes that use it"
+  number="02"
+  tone="dark"
+  caption="Signal design. Colour is assigned to function, not to hardware position, so the mapping survives the controller being rearranged."
+  max="100%"
+/>
+
+Six modes came out of that. Break turns every module white to ask the group for a
+pause. Emergency flashes red and escalates to a message if it is not cleared.
+Torch is triggered by sunset in the detected timezone rather than by a button.
+Social flashes the initialisation sequence and then points players toward each
+other. Sound gives the D-pad song and volume control. Compass is the default —
+green for the right direction, red for the wrong one.
+
+<Figure
+  src={modes}
+  alt="Six mode cards — Break, Emergency, Torch, Social, Sound Selection and Main Compass — each with its trigger, its effect, and a photograph of the lit controller in that state"
+  number="03"
+  caption="The six modes, their triggers and their effects. Every one of them signals through light because it cannot signal through position."
+  max="100%"
+/>
+
 I then built the demo in Unity, animated it fully, and programmed the modes in
 C#. It ran on the Sony controller as an interactive demonstration at the SIE
 Challenge final presentation.
 
-{/* TODO images: field investigation and paper mock-up, the 3D map, function
-    signalling diagrams, the final design — app screens plus the controller in
-    the hand. */}
+<Figure
+  src={stateMachine}
+  alt="Full state machine for the controller: mode selection, the torch branch keyed to timezone dawn, D-pad sound handling with a two-minute lockout, the emergency escalation path, and the games and quests subtree"
+  number="04"
+  tone="dark"
+  caption="The command layer as specified. Mode selection at the centre, the torch branch keyed to timezone, sound on a two-minute lockout, and the emergency path with its escalation timer."
+  max="100%"
+/>
+
+<Figure
+  src={app}
+  alt="The companion app showing an explorable map with waypoint markers, other players' avatars, a session timer, calorie and checkpoint counters, and buttons to rest or explore alone"
+  number="05"
+  caption="The companion app. The controller has no screen, so the map, the session state and the other players live here."
+  max="380px"
+/>
+
+<Figure
+  src={avatar}
+  alt="The player avatar, a low-polygon figure in a blue hooded raincoat and walking boots"
+  number="06"
+  caption="The player in the world. The avatar is moved by the turntable module rather than a thumbstick."
+  max="240px"
+/>
+
+<Video
+  id="d0k3ghUGyYE"
+  title="Playthrough of the location-based game demo built for the Sony configurable controller"
+  number="07"
+  caption="The demo as shown at the SIE Challenge final: a narrative walkthrough of the mapped location, with the controller driving the command layer alongside it."
+/>
 
 ## What I would change
 
-{/* TODO Kasia: what didn't work in the demo, or what you'd redesign about the
-    mapping now. */}
+The demo shows the interactive layer — how commands are issued and how the
+controller signals which function sits where. It is not a playable build. The
+Unity game runs as a narrative walkthrough, and the controller drives the command
+layer beside it rather than the game itself.
+
+Four decisions were specified and then stubbed to get to the presentation, and
+they are marked as bypasses on the state machine above: game selection, the
+randomised generation of location artefacts, the scoring comparison, and the
+translation of another player's coordinates into a direction on the LEDs. The
+layer that got built is the one that could be tested in a room with people in it.
+
+With more time the two halves would be one thing — the Unity demo playable end
+to end through the controller, so that the configurable layout is tested by
+someone actually playing rather than demonstrated alongside a video. That is the
+version that answers the question the project is really asking, which is whether
+a controller with no fixed layout stays legible under pressure. A walkthrough
+cannot answer that.

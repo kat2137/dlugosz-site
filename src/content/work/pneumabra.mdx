@@ -20,12 +20,14 @@ credits: []
 ---
 
 import Figure from '../../components/Figure.astro';
+import Video from '../../components/Video.astro';
 import anatomy from '../../assets/work/pneumabra/02-anatomy.jpg';
 import fabrics from '../../assets/work/pneumabra/03-fabric-tests.jpg';
 import layers from '../../assets/work/pneumabra/04-layer-diagram.jpg';
 import channels from '../../assets/work/pneumabra/05-channel-drawing.jpg';
 import fabrication from '../../assets/work/pneumabra/06-fabrication.jpg';
 import schematic from '../../assets/work/pneumabra/07-schematic.jpg';
+import enclosure from '../../assets/work/pneumabra/09-enclosure.jpg';
 
 ## The problem
 
@@ -71,6 +73,14 @@ adjustable structure inside it is the opposite approach.
 
 ## What I built
 
+<Video
+  id="D4LJ3_pYS1M"
+  title="PneumaBra overview — the garment and how its support changes"
+  number="03"
+  ratio="9/16"
+  caption="The garment and what it does. Three modes, adjusted by air rather than by hooks and straps."
+/>
+
 Air, rather than elastic. Two fabric layers with sealed silicone channels between
 them, inflated and vented to change the compression of the surface — the
 principle of a McKibben muscle, flattened into a textile.
@@ -78,7 +88,7 @@ principle of a McKibben muscle, flattened into a textile.
 <Figure
   src={layers}
   alt="Exploded diagram of the construction: external fabric layer, pneumatic channels, internal fabric layer, and the inlet"
-  number="03"
+  number="04"
   caption="Construction. Channels are sealed between two fabric layers and fed from a single inlet."
   max="100%"
 />
@@ -91,14 +101,14 @@ in PlatSil Gel 25 — skin-safe and food-grade — against a mould modelled in F
 <Figure
   src={channels}
   alt="Technical line drawing of the two perforated fabric panels and the branching channel manifold terminating in a luer lock"
-  number="04"
+  number="05"
   caption="Panels and manifold. The perforations bond the two fabric layers through the silicone, so the assembly holds together across its whole area rather than at the seams."
 />
 
 <Figure
   src={fabrication}
   alt="Fabrication sequence: laser cutting the perforated layer, the cut sheet, and two cast channel panels"
-  number="05"
+  number="06"
   caption="Laser-cut perforation, then casting. The sample held with no bubbles, stayed stitchable, and crept 2 mm over ten hours under sustained load."
   max="100%"
 />
@@ -117,7 +127,7 @@ shared 6 V supply, with the sensor on I²C.
 <Figure
   src={schematic}
   alt="Circuit schematic of the pump inflating mechanism with an ESP32, two MOSFET-driven outputs for pump and valve, power input stages and an I2C sensor connector"
-  number="06"
+  number="07"
   tone="dark"
   caption="Pump and valve drive. Two MOSFET stages, flyback diodes across both inductive loads, and the sensor broken out on I²C."
   max="100%"
@@ -130,6 +140,14 @@ network — no account, no cloud, nothing leaving the house.
 
 The whole garment is designed to come apart at end of life: the fabric is 100%
 biodegradable polyamide, and the silicone separates from it for reuse.
+
+<Video
+  id="TYRTR5eLObc"
+  title="Inflation test on a silicone channel sample"
+  number="08"
+  ratio="9/16"
+  caption="Channel under test. Inflation and release on a bonded sample."
+/>
 
 ## What broke
 

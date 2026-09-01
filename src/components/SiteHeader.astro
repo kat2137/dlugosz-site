@@ -1,16 +1,14 @@
 ---
 const { current } = Astro.props;
-// Trailing slash is not guaranteed on BASE_URL, so normalise before joining.
-const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const links = [
-  { href: `${base}/`, label: 'Work' },
-  { href: `${base}/lab`, label: 'Lab' },
-  { href: `${base}/about`, label: 'About' },
+  { href: '/', label: 'Work' },
+  { href: '/lab', label: 'Lab' },
+  { href: '/about', label: 'About' },
 ];
 ---
 <header style="border-bottom:1px solid var(--rule)">
   <div class="wrap" style="display:flex;justify-content:space-between;align-items:center;padding-block:0.9rem;gap:1rem">
-    <a href={`${base}/`} style="font-family:var(--mono);font-size:0.8rem;letter-spacing:0.08em;color:var(--ink);border:0">K. Długosz</a>
+    <a href="/" style="font-family:var(--mono);font-size:0.8rem;letter-spacing:0.08em;color:var(--ink);border:0">K. Długosz</a>
     <nav style="display:flex;gap:1.25rem">
       {links.map((l) => (
         <a

@@ -21,13 +21,7 @@ credits: []
 
 import Figure from '../../components/Figure.astro';
 import Video from '../../components/Video.astro';
-import anatomy from '../../assets/work/pneumabra/02-anatomy.jpg';
 import fabrics from '../../assets/work/pneumabra/03-fabric-tests.jpg';
-import layers from '../../assets/work/pneumabra/04-layer-diagram.jpg';
-import channels from '../../assets/work/pneumabra/05-channel-drawing.jpg';
-import fabrication from '../../assets/work/pneumabra/06-fabrication.jpg';
-import schematic from '../../assets/work/pneumabra/07-schematic.jpg';
-import enclosure from '../../assets/work/pneumabra/09-enclosure.jpg';
 
 ## The problem
 
@@ -42,14 +36,10 @@ glandular material with elastic moduli that differ by three orders of magnitude,
 suspended from the chest wall by ligaments that can only take a few percent
 strain before damage accumulates.
 
-<Figure
-  src={anatomy}
-  alt="Diagram of breast structure marking fascia location, ligament strain capacity, tissue types and the directions of movement that load the ligaments most"
-  number="01"
-  caption="Where the load goes. The ligaments have a strain ceiling, and the directions that exceed it are specific — which is where support has to be placed."
-/>
-
-> A garment that applies one fixed compression is wrong for most of the time it is worn.
+> Inadequate support is as damaging as excessive tension. Ligament strain occurs
+> both from overstretching and from insufficient support, and the optimal support
+> level changes across the cycle and throughout the day based on tissue stiffness,
+> volume, and activity.
 
 ## Constraint
 
@@ -85,33 +75,10 @@ Air, rather than elastic. Two fabric layers with sealed silicone channels betwee
 them, inflated and vented to change the compression of the surface — the
 principle of a McKibben muscle, flattened into a textile.
 
-<Figure
-  src={layers}
-  alt="Exploded diagram of the construction: external fabric layer, pneumatic channels, internal fabric layer, and the inlet"
-  number="04"
-  caption="Construction. Channels are sealed between two fabric layers and fed from a single inlet."
-  max="100%"
-/>
-
 The channel geometry is a space-filling curve, so one inlet reaches a large area
 without a manifold of separate tubes to leak at every junction. Channels are cast
 in PlatSil Gel 25 — skin-safe and food-grade — against a mould modelled in Fusion
 360, bonded to a fabric base, and fed through a luer lock.
-
-<Figure
-  src={channels}
-  alt="Technical line drawing of the two perforated fabric panels and the branching channel manifold terminating in a luer lock"
-  number="05"
-  caption="Panels and manifold. The perforations bond the two fabric layers through the silicone, so the assembly holds together across its whole area rather than at the seams."
-/>
-
-<Figure
-  src={fabrication}
-  alt="Fabrication sequence: laser cutting the perforated layer, the cut sheet, and two cast channel panels"
-  number="06"
-  caption="Laser-cut perforation, then casting. The sample held with no bubbles, stayed stitchable, and crept 2 mm over ten hours under sustained load."
-  max="100%"
-/>
 
 The channel layout changes by use case. For the hormonal cycle, channels across
 the pectoral fascia and under the bust absorb volume change. For shape
@@ -123,15 +90,6 @@ Control is a pump, a solenoid valve and an MPRLS pressure sensor reading
 continuously, so the garment notices lost rigidity rather than waiting for the
 wearer to. Both actuators are switched by MOSFETs with flyback diodes, off a
 shared 6 V supply, with the sensor on I²C.
-
-<Figure
-  src={schematic}
-  alt="Circuit schematic of the pump inflating mechanism with an ESP32, two MOSFET-driven outputs for pump and valve, power input stages and an I2C sensor connector"
-  number="07"
-  tone="dark"
-  caption="Pump and valve drive. Two MOSFET stages, flyback diodes across both inductive loads, and the sensor broken out on I²C."
-  max="100%"
-/>
 
 Three modes: one raises pressure, one releases it, and one matches the current
 cycle day against the pressure the wearer chose on that same day last cycle. The

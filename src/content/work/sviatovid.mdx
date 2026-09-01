@@ -26,10 +26,10 @@ credits:
 import Figure from '../../components/Figure.astro';
 import Loop from '../../components/Loop.astro';
 import Video from '../../components/Video.astro';
-import study from '../../assets/work/sviatovid/02-mechanism-study.jpg';
 import drawing from '../../assets/work/sviatovid/03-assembly-drawing.jpg';
 import section from '../../assets/work/sviatovid/04-eyeball-section.jpg';
 import wiring from '../../assets/work/sviatovid/05-wiring.jpg';
+import angle from '../../assets/work/sviatovid/07-angle-sketch.jpg';
 
 ## The problem
 
@@ -69,14 +69,11 @@ actually travels before the head starts turning, then constrained the joints to
 match.
 
 <Figure
-  src={study}
-  alt="Development board combining hand sketches of eye rotation angles, a kinematic diagram of a pan-tilt linkage, and a CAD render of the eyeball assembly"
+  src={angle}
+  alt="Hand-drawn sketch of eye rotation ranges and a section through the head marking battery and camera positions"
   number="02"
-  caption="Working out the mechanism. Human eye ranges on the right, a pan-tilt kinematic chain as the reference, and the first assembly that fitted both."
+  caption="Working out the mechanism. Rotation ranges from how far the human eye travels, and where the battery and camera had to sit inside the head."
 />
-
-The eyeballs are cast resin and pop into their sockets, so they can be pulled out
-and replaced without dismantling anything behind them.
 
 <Figure
   src={section}

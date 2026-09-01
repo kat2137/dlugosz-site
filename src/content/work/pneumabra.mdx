@@ -1,0 +1,137 @@
+---
+title: PneumaBra
+outcome: A bra that changes its own support — silicone air channels that adjust compression across the hormonal cycle, the working day and physical activity.
+kind: mechanism
+year: 2026
+order: 3
+draft: false
+hero: ../../assets/work/pneumabra/01-prototype-lit.jpg
+heroAlt: The inflated fabric channel sample connected by tube to a printed spherical pump housing, lit in blue and green
+gallery:
+  - src: ../../assets/work/pneumabra/08-manual.jpg
+    alt: Spreads from the user manual showing bra diagrams, adjustment access points, an exploded inside view and a materials list
+    caption: The manual. Adjustment points, an inside view, and an end-of-life route for every material in the garment.
+stack: ['Fusion 360', 'PlatSil silicone casting', 'NodeMCU ESP32', 'MPRLS pressure sensor', 'EasyEDA']
+metrics:
+  - { value: '4', label: 'Users studied in depth' }
+  - { value: '3', label: 'Operating modes' }
+  - { value: '2 mm', label: 'Channel creep over 10 hrs' }
+credits: []
+---
+
+import Figure from '../../components/Figure.astro';
+import anatomy from '../../assets/work/pneumabra/02-anatomy.jpg';
+import fabrics from '../../assets/work/pneumabra/03-fabric-tests.jpg';
+import layers from '../../assets/work/pneumabra/04-layer-diagram.jpg';
+import channels from '../../assets/work/pneumabra/05-channel-drawing.jpg';
+import fabrication from '../../assets/work/pneumabra/06-fabrication.jpg';
+import schematic from '../../assets/work/pneumabra/07-schematic.jpg';
+
+## The problem
+
+A bra is a static object fitted to a body that is not static. Breast volume
+changes across the hormonal cycle, tissue stiffness changes with it, and the load
+on the supporting ligaments changes hour by hour with posture and activity. Every
+woman I interviewed described the same mismatch in different words — needing two
+sets of bras, or accepting pain for part of every month.
+
+The structure makes it worse. Breast tissue is a mix of adipose, fibrous and
+glandular material with elastic moduli that differ by three orders of magnitude,
+suspended from the chest wall by ligaments that can only take a few percent
+strain before damage accumulates.
+
+<Figure
+  src={anatomy}
+  alt="Diagram of breast structure marking fascia location, ligament strain capacity, tissue types and the directions of movement that load the ligaments most"
+  number="01"
+  caption="Where the load goes. The ligaments have a strain ceiling, and the directions that exceed it are specific — which is where support has to be placed."
+/>
+
+> A garment that applies one fixed compression is wrong for most of the time it is worn.
+
+## Constraint
+
+Support has to be adjustable after the garment is made, by the wearer, without
+tools — and it has to hold that adjustment. Elastic cannot do this. It is a
+material chosen for a property it then loses, over months, while the wearer keeps
+paying for the garment.
+
+I measured what the alternatives actually offer. Bonded lycra came in at 44,600
+N/m along the selvedge; polyester neoprene at 7,300; a biodegradable polyamide at
+5,800. The stiffest fabric is not the most supportive garment — it is the one
+that dictates a single fixed compression. Choosing the softest and adding
+adjustable structure inside it is the opposite approach.
+
+<Figure
+  src={fabrics}
+  alt="Comparison of three candidate fabrics under tension, each with selvedge and weft strain and tensile stiffness measured"
+  number="02"
+  caption="Fabric selection by measurement rather than feel. Selvedge and weft tested separately, because a bra loads the two directions differently."
+/>
+
+## What I built
+
+Air, rather than elastic. Two fabric layers with sealed silicone channels between
+them, inflated and vented to change the compression of the surface — the
+principle of a McKibben muscle, flattened into a textile.
+
+<Figure
+  src={layers}
+  alt="Exploded diagram of the construction: external fabric layer, pneumatic channels, internal fabric layer, and the inlet"
+  number="03"
+  caption="Construction. Channels are sealed between two fabric layers and fed from a single inlet."
+  max="100%"
+/>
+
+The channel geometry is a space-filling curve, so one inlet reaches a large area
+without a manifold of separate tubes to leak at every junction. Channels are cast
+in PlatSil Gel 25 — skin-safe and food-grade — against a mould modelled in Fusion
+360, bonded to a fabric base, and fed through a luer lock.
+
+<Figure
+  src={channels}
+  alt="Technical line drawing of the two perforated fabric panels and the branching channel manifold terminating in a luer lock"
+  number="04"
+  caption="Panels and manifold. The perforations bond the two fabric layers through the silicone, so the assembly holds together across its whole area rather than at the seams."
+/>
+
+<Figure
+  src={fabrication}
+  alt="Fabrication sequence: laser cutting the perforated layer, the cut sheet, and two cast channel panels"
+  number="05"
+  caption="Laser-cut perforation, then casting. The sample held with no bubbles, stayed stitchable, and crept 2 mm over ten hours under sustained load."
+  max="100%"
+/>
+
+The channel layout changes by use case. For the hormonal cycle, channels across
+the pectoral fascia and under the bust absorb volume change. For shape
+adaptation, side and front pads take up partial volume differences and an
+inflatable underwire stabilises the base. For activity, a removable panel adds
+chest-wall stability and a side channel reduces lateral bounce.
+
+Control is a pump, a solenoid valve and an MPRLS pressure sensor reading
+continuously, so the garment notices lost rigidity rather than waiting for the
+wearer to. Both actuators are switched by MOSFETs with flyback diodes, off a
+shared 6 V supply, with the sensor on I²C.
+
+<Figure
+  src={schematic}
+  alt="Circuit schematic of the pump inflating mechanism with an ESP32, two MOSFET-driven outputs for pump and valve, power input stages and an I2C sensor connector"
+  number="06"
+  tone="dark"
+  caption="Pump and valve drive. Two MOSFET stages, flyback diodes across both inductive loads, and the sensor broken out on I²C."
+  max="100%"
+/>
+
+Three modes: one raises pressure, one releases it, and one matches the current
+cycle day against the pressure the wearer chose on that same day last cycle. The
+board advertises itself over mDNS, so it is reachable from any phone on the same
+network — no account, no cloud, nothing leaving the house.
+
+The whole garment is designed to come apart at end of life: the fabric is 100%
+biodegradable polyamide, and the silicone separates from it for reuse.
+
+## What broke
+
+{/* TODO Kasia: leaks, bonding failures, overnight pressure loss, pump noise —
+    whatever actually went wrong and what you changed. */}

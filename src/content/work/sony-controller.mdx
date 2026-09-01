@@ -1,0 +1,57 @@
+---
+title: Embodied play for the Sony configurable controller
+outcome: A location-based game that turns a controller built for accessibility into a reason to go outside with other people.
+kind: software
+year: 2025
+order: 5
+draft: false
+stack: ['Unity', 'C#', '3D asset pipeline']
+metrics: []
+credits:
+  - 'Developed under a brief from Sony Interactive Entertainment, MA Collaborative Challenge 2025'
+  - '3D map assets: Haiyu'
+  - 'Group project — game plot developed collectively'
+---
+
+## The problem
+
+Sony's configurable controller is designed so that people who cannot use a
+standard gamepad can still play. The brief asked what to do with it. Our answer
+was to point it outward: most play on a controller is solitary and indoors, and
+the same hardware that makes a game reachable can make it social.
+
+## What we looked at
+
+We surveyed a real site on foot before designing anything — terrain, natural
+features, historic buildings, the people and animals moving through it — and
+built a paper mock-up of the controller to test what interactions the place
+itself suggested. Designing the interaction from the ground rather than from the
+screen is what set the direction.
+
+## What I built
+
+The game maps a physical location as an explorable 3D environment seeded with
+educational assets: plants, artefacts, buildings. Players move through the real
+place and the game responds, with modes for exploring alone and for exploring
+together.
+
+My part was the controller interaction and the demo. I designed how the game's
+functions map onto a configurable controller — which is a harder problem than
+mapping to a standard pad, because the input layout is not fixed and the mapping
+has to stay legible when the hardware is rearranged. That fed into how functions
+signal themselves to the player, which is where the accessibility work actually
+lives: if a control can be moved, its meaning has to be communicated by something
+other than its position.
+
+I then built the demo in Unity, animated it fully, and programmed the modes in
+C#. It ran on the Sony controller as an interactive demonstration at the SIE
+Challenge final presentation.
+
+{/* TODO images: field investigation and paper mock-up, the 3D map, function
+    signalling diagrams, the final design — app screens plus the controller in
+    the hand. */}
+
+## What I would change
+
+{/* TODO Kasia: what didn't work in the demo, or what you'd redesign about the
+    mapping now. */}

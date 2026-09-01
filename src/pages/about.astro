@@ -2,7 +2,7 @@
 import Base from '../layouts/Base.astro';
 import SiteHeader from '../components/SiteHeader.astro';
 
-const baseUrl = (import.meta.env.BASE_URL || '/').replace(/([^/])$/, '$1/');
+const BASE = '/dlugosz-site';
 
 const roles = [
   { years: '2025—', role: 'Technical designer', org: 'B Fashion Studio', note: 'Sourcing and end-to-end technical design for independent clients.' },
@@ -32,7 +32,7 @@ const awards = [
       wearable technology and sensing. Currently MA Fashion Futures at UAL,
       following a first-class BA in Fashion Contour at London College of Fashion.
     </p>
-    <p><a href={`${baseUrl}cv.pdf`}>Download CV</a> · <a href="mailto:kasadlugos@gmail.com">kasadlugos@gmail.com</a></p>
+    <p><a href={`${BASE}/cv.pdf`}>Download CV</a> · <a href="mailto:kasadlugos@gmail.com">kasadlugos@gmail.com</a></p>
   </div>
 
   <hr class="rule" />

@@ -1,0 +1,43 @@
+---
+import Base from './Base.astro';
+import Nav from '../components/Nav.astro';
+import TitleBand from '../components/TitleBand.astro';
+import NextProject from '../components/NextProject.astro';
+import type { Project } from '../data/types';
+
+interface Props {
+  project: Project;
+  /** File name in src/assets/media used for the social card. */
+  ogImage: string;
+}
+
+const { project, ogImage } = Astro.props;
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'CreativeWork',
+  name: project.title,
+  abstract: project.standfirst,
+  description: project.description,
+  dateCreated: project.year,
+  genre: project.discipline,
+  creator: { '@type': 'Person', name: 'Katarzyna Długosz' },
+  codeRepository: project.repo.url,
+};
+---
+
+<Base
+  title={`${project.title} — K. Długosz`}
+  description={project.description}
+  ogImage={ogImage}
+  jsonLd={jsonLd}
+>
+  <main class="shell">
+    <article class="page">
+      <Nav />
+      <TitleBand project={project} />
+      <slot />
+      <NextProject slug={project.slug} />
+    </article>
+  </main>
+</Base>

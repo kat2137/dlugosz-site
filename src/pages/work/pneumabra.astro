@@ -1,0 +1,60 @@
+---
+import ProjectPage from '../../layouts/ProjectPage.astro';
+import Band from '../../components/Band.astro';
+import HeroFigure from '../../components/HeroFigure.astro';
+import Brief from '../../components/Brief.astro';
+import Figure from '../../components/Figure.astro';
+import CodeViewer from '../../components/CodeViewer.astro';
+import Contents from '../../components/Contents.astro';
+import { bySlug } from '../../data/projects';
+import { pneumaBra } from '../../data/repos';
+import { sections } from '../../data/sections/pneumabra';
+import type { Callout } from '../../data/types';
+
+const project = bySlug.pneumabra;
+
+const callouts: Callout[] = [
+  { label: 'A — feed tube and luer lock', rule: 278, top: '37%' },
+  { label: 'B — pump and valve in the printed housing', rule: 191, top: '44%' },
+  { label: 'C — 6 V supply, shared rail', rule: 108, top: '62%' },
+  { label: 'D — bonded channel sample, inflated', rule: 400, top: '68%' },
+];
+---
+
+<ProjectPage project={project} ogImage="pneumabra-prototype-lit.jpg">
+  <Band label="fig. 01" sub="system">
+    <HeroFigure
+      src="pneumabra-prototype-lit.jpg"
+      alt="The inflated fabric channel sample connected by tube to a printed spherical pump housing and a battery pack, lit in blue and green"
+      aspect="3/2"
+      fit="cover"
+      callouts={callouts}
+      caption="fig. 01 — the working system: one inlet, one sealed channel field, control outside the garment"
+    />
+  </Band>
+
+  <Brief project={project} />
+
+  <Band label="fig. 02—03" sub="construction">
+    <div class="duo">
+      <Figure
+        src="pneumabra-enclosure-ink.png"
+        alt="The printed spherical enclosure holding the pump, valve and control board"
+        aspect="380/430"
+        caption="fig. 02 — control hardware in its printed enclosure"
+        small
+      />
+      <Figure
+        src="pneumabra-cast-panels.jpg"
+        alt="Two cast silicone panels on release paper, one with the interlocking channel geometry and one flat and perforated"
+        aspect="380/430"
+        caption="fig. 03 — cast panels out of the mould; bonding face on the right"
+        small
+      />
+    </div>
+  </Band>
+
+  <CodeViewer repo={pneumaBra} figure="fig. 04" />
+
+  <Contents sections={sections} plateStyle="pneumabra" />
+</ProjectPage>

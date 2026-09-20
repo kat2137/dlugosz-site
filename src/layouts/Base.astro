@@ -1,0 +1,58 @@
+---
+import { getImage } from 'astro:assets';
+import { media } from '../lib/media';
+import { url } from '../lib/paths';
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description: string;
+  /** File name in src/assets/media used for the social card. */
+  ogImage?: string;
+  /** Structured data for the page, serialised into a JSON-LD block. */
+  jsonLd?: Record<string, unknown>;
+}
+
+const { title, description, ogImage, jsonLd } = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, Astro.site ?? 'http://localhost:4321');
+const social = ogImage
+  ? await getImage({ src: media(ogImage), width: 1200, height: 630, fit: 'cover', format: 'jpeg' })
+  : null;
+const socialUrl = social ? new URL(social.src, Astro.site ?? canonical).toString() : null;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical.toString()} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="K. Długosz" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical.toString()} />
+    {socialUrl && <meta property="og:image" content={socialUrl} />}
+    <meta name="twitter:card" content={socialUrl ? 'summary_large_image' : 'summary'} />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
+    />
+
+    <meta name="theme-color" content="#14201C" />
+    <link rel="sitemap" href={url("sitemap-index.xml")} />
+
+    {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

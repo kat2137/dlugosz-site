@@ -1,0 +1,42 @@
+---
+import { Image } from 'astro:assets';
+import { media } from '../lib/media';
+import type { Callout } from '../data/types';
+
+interface Props {
+  src: string;
+  alt: string;
+  /** CSS aspect-ratio for the figure, e.g. "16/10". */
+  aspect: string;
+  fit?: 'cover' | 'contain';
+  callouts?: Callout[];
+  caption: string;
+}
+
+const { src, alt, aspect, fit = 'cover', callouts = [], caption } = Astro.props;
+const image = media(src);
+---
+
+<div class="hero">
+  <Image
+    src={image}
+    alt={alt}
+    widths={[640, 960, 1280]}
+    sizes="(max-width: 900px) 100vw, 660px"
+    style={`aspect-ratio:${aspect};object-fit:${fit}`}
+  />
+  <div></div>
+  {callouts.map((callout) => (
+    <div class:list={['callout', callout.muted && 'callout--muted']} style={`top:${callout.top}`} aria-hidden="true">
+      <span class="callout__label">{callout.label}</span>
+      <span class="callout__rule" style={`width:${callout.rule}px`}></span>
+      <span class="callout__head"></span>
+    </div>
+  ))}
+</div>
+{callouts.length > 0 && (
+  <ul class="callout-list">
+    {callouts.map((callout) => <li>{callout.label}</li>)}
+  </ul>
+)}
+<div class="caption">{caption}</div>

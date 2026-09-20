@@ -1,0 +1,31 @@
+---
+/**
+ * About is in the design but has no route yet, so it renders as a dimmed,
+ * non-interactive label rather than a dead link.
+ */
+import { url } from '../lib/paths';
+
+interface Props {
+  /** Which nav item is the current page. */
+  current?: 'work' | 'lab';
+}
+
+const { current = 'work' } = Astro.props;
+---
+
+<nav class="nav" aria-label="Primary">
+  <div class="nav__inner">
+    <a class="nav__mark" href={url()}>K. Długosz</a>
+    <div class="nav__links">
+      <a
+        class:list={['nav__link', current === 'work' && 'is-current']}
+        href={url()}
+        aria-current={current === 'work' ? 'page' : undefined}>Work</a>
+      <a
+        class:list={['nav__link', current === 'lab' && 'is-current']}
+        href={url('lab')}
+        aria-current={current === 'lab' ? 'page' : undefined}>Lab</a>
+      <span class="nav__link" aria-disabled="true">About</span>
+    </div>
+  </div>
+</nav>

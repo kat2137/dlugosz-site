@@ -1,0 +1,54 @@
+---
+import Base from '../layouts/Base.astro';
+import Nav from '../components/Nav.astro';
+import Band from '../components/Band.astro';
+import { getRepos, formatUpdated } from '../lib/github';
+
+/** Fetched at build; rebuilt nightly so the list stays current on its own. */
+const repos = await getRepos();
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: 'Lab',
+  description: 'Public repositories and work in progress by Katarzyna Długosz.',
+};
+---
+
+<Base
+  title="Lab — K. Długosz"
+  description="Public repositories and work in progress: robotics control, computer vision, embedded firmware and garment tooling."
+  jsonLd={jsonLd}
+>
+  <main class="shell">
+    <div class="page">
+      <Nav current="lab" />
+
+      <Band label="lab" sub="repositories">
+        <p class="index__intro">
+          Everything public, straight from GitHub, rebuilt nightly. Work that is still private is
+          listed without a link.
+        </p>
+      </Band>
+
+      <Band label={`${repos.length} repos`} muted end>
+        <div class="index__list">
+          {repos.map((repo) => {
+            const Tag = repo.url ? 'a' : 'div';
+            return (
+              <Tag class="lab__row" href={repo.url || undefined} {...(repo.url ? { rel: 'noopener' } : {})}>
+                <span class="lab__name">{repo.name}</span>
+                <span class="lab__desc">{repo.description ?? '—'}</span>
+                <span class="lab__meta">
+                  {repo.language ?? '—'}
+                  {repo.manual ? <span class="lab__tag">private</span> : null}
+                  {repo.updated && <span class="lab__date">{formatUpdated(repo.updated)}</span>}
+                </span>
+              </Tag>
+            );
+          })}
+        </div>
+      </Band>
+    </div>
+  </main>
+</Base>

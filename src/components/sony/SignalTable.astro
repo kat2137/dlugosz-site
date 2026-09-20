@@ -1,0 +1,48 @@
+---
+/** fig. 02 — colour assigned to function, not to hardware position. */
+const signals = [
+  {
+    colour: '#4ECB71',
+    name: 'Confirmation',
+    reads: 'right / wrong',
+    used: 'Compass directions · Cube assembly signals',
+  },
+  { colour: '#D41C15', name: 'Warning', reads: 'alert', used: 'Emergency mode · In-game alerts' },
+  {
+    colour: '#8B3DB5',
+    name: 'Sound interaction',
+    reads: 'dreaming tones',
+    used: 'Sound selection · Social mode',
+  },
+  {
+    colour: '#5AB8F7',
+    name: 'Nature interaction',
+    reads: 'in-game sound',
+    used: 'In-game sound interactions',
+  },
+  { colour: '#EFEFEF', name: 'Utility', reads: 'ideas and energy', used: 'Break mode · Torch mode' },
+  {
+    colour: '#FBDF86',
+    name: 'Encouragement',
+    reads: 'light',
+    used: 'In-game light interactions · Rewards',
+  },
+];
+---
+
+<div>
+  <div class="signals">
+    <div class="signals__head">
+      <span></span><span>signal</span><span>reads as</span><span>used by</span>
+    </div>
+    {signals.map((signal) => (
+      <div class="signals__row">
+        <span class="dot" style={`background:${signal.colour}`}></span>
+        <span class="signals__name">{signal.name}</span>
+        <span class="signals__reads">{signal.reads}</span>
+        <span class="signals__used">{signal.used}</span>
+      </div>
+    ))}
+  </div>
+  <div class="caption">fig. 02 — colour is assigned to function, not to hardware position</div>
+</div>

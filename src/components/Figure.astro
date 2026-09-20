@@ -1,0 +1,47 @@
+---
+import { Image } from 'astro:assets';
+import { media } from '../lib/media';
+import { url } from '../lib/paths';
+
+interface Props {
+  src: string;
+  alt: string;
+  /** CSS aspect-ratio for the frame. Omit to let the image set its own height. */
+  aspect?: string;
+  fit?: 'cover' | 'contain';
+  caption?: string;
+  /** Figure captions under a triptych cell are 10px; single plates are 10.5px. */
+  small?: boolean;
+  widths?: number[];
+  sizes?: string;
+}
+
+const {
+  src,
+  alt,
+  aspect,
+  fit = 'contain',
+  caption,
+  small = false,
+  widths = [380, 600, 900],
+  sizes = '(max-width: 900px) 100vw, 380px',
+} = Astro.props;
+/**
+ * Animated GIFs are served straight from public/media — passing them through
+ * astro:assets would flatten them to a still frame.
+ */
+const animated = src.endsWith('.gif');
+const image = animated ? null : media(src);
+const rawSrc = url(`media/${src}`);
+---
+
+<div>
+  <div class:list={['frame', fit === 'cover' && 'frame--cover']} style={aspect ? `aspect-ratio:${aspect}` : undefined}>
+    {image ? (
+      <Image src={image} alt={alt} widths={widths} sizes={sizes} />
+    ) : (
+      <img src={rawSrc} alt={alt} loading="lazy" decoding="async" />
+    )}
+  </div>
+  {caption && <div class:list={['caption', small && 'caption--sm']}>{caption}</div>}
+</div>

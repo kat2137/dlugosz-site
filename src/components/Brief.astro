@@ -1,0 +1,21 @@
+---
+import Band from './Band.astro';
+import type { Project } from '../data/types';
+
+interface Props { project: Project; label?: string }
+const { project, label = 'brief' } = Astro.props;
+---
+
+<Band label={label} muted>
+  <div class="brief__cols">
+    <p class="body">{project.brief[0]}</p>
+    <p class="body">{project.brief[1]}</p>
+  </div>
+  <div class="stats">
+    {project.stats.map((stat) => (
+      <div class="stat">
+        <div class="stat__n">{stat.value}</div>{stat.label}
+      </div>
+    ))}
+  </div>
+</Band>

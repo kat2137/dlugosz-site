@@ -1,0 +1,31 @@
+---
+import type { Project } from '../data/types';
+
+interface Props { project: Project }
+const { project } = Astro.props;
+---
+
+<div class="band">
+  <div class="meta-stack">
+    <div class="meta-stack__accent">project {project.number}</div>
+    <div class="meta-stack__accent">{project.discipline}</div>
+    <div class="meta-stack__muted">{project.year}</div>
+    <div class="meta-stack__group">
+      {project.tools.map((tool, i) => <>{i > 0 && <br />}{tool}</>)}
+    </div>
+    <div class="meta-stack__repo">
+      <a href={project.repo.url} target="_blank" rel="noopener">
+        {project.repo.label.map((line, i) => <>{i > 0 && <br />}{line}</>)} →
+      </a>
+    </div>
+  </div>
+  <div>
+    <h1 class:list={['h1', project.longTitle && 'h1--long']}>{project.title}</h1>
+    <p class="standfirst">{project.standfirst}</p>
+    {project.credit && (
+      <div class="credit">
+        {project.credit.map((line, i) => <>{i > 0 && <br />}{line}</>)}
+      </div>
+    )}
+  </div>
+</div>

@@ -1,0 +1,59 @@
+---
+import Base from '../layouts/Base.astro';
+import Nav from '../components/Nav.astro';
+import Band from '../components/Band.astro';
+import { projects } from '../data/projects';
+import { url } from '../lib/paths';
+
+/**
+ * The handoff covers the four project pages only — the homepage direction was
+ * explicitly out of scope. This is a deliberately spare index so the /work
+ * routes have somewhere to hang off; replace it when the homepage is designed.
+ */
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'ProfilePage',
+  mainEntity: {
+    '@type': 'Person',
+    name: 'Katarzyna Długosz',
+    jobTitle: 'Robotics and physical-interaction designer',
+    url: 'https://kat2137.github.io/dlugosz-site/',
+    sameAs: ['https://github.com/kat2137'],
+  },
+};
+---
+
+<Base
+  title="K. Długosz — work"
+  description="Selected projects by Katarzyna Długosz: robotics, mechanism design and interaction software."
+  ogImage="hania-cad-render.jpg"
+  jsonLd={jsonLd}
+>
+  <main class="shell">
+    <div class="page">
+      <Nav />
+
+      <Band label="work" sub="2025—2026">
+        <p class="index__intro">
+          Robotics, mechanism design and interaction software — four projects, each documented from
+          the brief through to what it did and did not answer.
+        </p>
+      </Band>
+
+      <Band label="projects" muted end>
+        <div class="index__list">
+          {projects.map((project) => (
+            <a class="index__item" href={url(`work/${project.slug}`)}>
+              <span class="index__num">{project.number}</span>
+              <span>
+                <h2 class="index__title">{project.title}</h2>
+                <p class="index__standfirst">{project.standfirst}</p>
+              </span>
+              <span class="index__meta">{project.discipline} — {project.year}</span>
+            </a>
+          ))}
+        </div>
+      </Band>
+    </div>
+  </main>
+</Base>

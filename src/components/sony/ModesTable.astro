@@ -1,0 +1,88 @@
+---
+import { Image } from 'astro:assets';
+import { media } from '../../lib/media';
+
+/** The six modes, in the order they appear in the design. */
+const modes = [
+  {
+    src: 'sony-mode-break.png',
+    alt: 'Modules lit white across the group to signal a break',
+    fit: 'cover' as const,
+    dot: '#EFEFEF',
+    name: 'Break',
+    trigger: 'Any player presses it',
+    effect: 'Every module turns white to ask the group for a pause',
+  },
+  {
+    src: 'sony-mode-emergency.png',
+    alt: 'All five modules flashing red in emergency mode',
+    fit: 'contain' as const,
+    dot: '#D41C15',
+    name: 'Emergency',
+    trigger: 'QUIT held, escalates on a timer',
+    effect: 'Red flash; uncleared, it messages the local emergency centre',
+  },
+  {
+    src: 'sony-mode-torch.png',
+    alt: 'The turntable and D-pad modules with their corner segments lit warm amber in torch mode',
+    fit: 'contain' as const,
+    dot: '#EFEFEF',
+    name: 'Torch',
+    trigger: 'Sunset in the detected timezone',
+    effect: 'Lights come up; triggers raise and dim intensity',
+  },
+  {
+    src: 'sony-mode-social-2.png',
+    alt: 'The five-module controller mid-initialisation flash, each module lit a different colour',
+    fit: 'contain' as const,
+    dot: '#8B3DB5',
+    name: 'Social',
+    trigger: 'Another player detected',
+    effect: 'Initialisation sequence flashes, then points players toward each other',
+  },
+  {
+    src: 'sony-mode-sound.png',
+    alt: 'The turntable and D-pad modules lit magenta for sound interaction',
+    fit: 'contain' as const,
+    dot: '#8B3DB5',
+    name: 'Sound',
+    trigger: 'D-pad, on a two-minute lockout',
+    effect: 'Song and volume control',
+  },
+  {
+    src: 'sony-mode-compass.png',
+    alt: 'The assembled five-module controller in its default compass state, edge segments lit white',
+    fit: 'contain' as const,
+    dot: '#4ECB71',
+    name: 'Compass',
+    trigger: 'Default state',
+    effect: 'Green for the right direction, red for the wrong one',
+  },
+];
+---
+
+<div class="modes">
+  <div class="modes__head">
+    <span>controller</span><span>mode · trigger</span><span>effect</span>
+  </div>
+  {modes.map((mode) => (
+    <div class="modes__row">
+      <div class:list={['modes__shot', mode.fit === 'cover' && 'modes__shot--cover']}>
+        <Image
+          src={media(mode.src)}
+          alt={mode.alt}
+          widths={[300, 600]}
+          sizes="(max-width: 900px) 100vw, 300px"
+        />
+      </div>
+      <div>
+        <div class="modes__name-row">
+          <span class="modes__dot" style={`background:${mode.dot}`}></span>
+          <span class="modes__name">{mode.name}</span>
+        </div>
+        <div class="modes__trigger">{mode.trigger}</div>
+      </div>
+      <p class="modes__effect">{mode.effect}</p>
+    </div>
+  ))}
+</div>

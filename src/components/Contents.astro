@@ -1,0 +1,92 @@
+---
+import Band from './Band.astro';
+import Plate, { type PlateStyle } from './Plate.astro';
+import ModesTable from './sony/ModesTable.astro';
+import TensileChart from './pneumabra/TensileChart.astro';
+import type { Section } from '../data/types';
+
+interface Props {
+  sections: Section[];
+  plateStyle: PlateStyle;
+}
+
+const { sections, plateStyle } = Astro.props;
+
+const platesClass: Record<PlateStyle, string> = {
+  hania: 'plates plates--triptych',
+  sviatovid: 'plates plates--single',
+  pneumabra: 'plates plates--column',
+  sony: 'plates plates--flow',
+};
+---
+
+<Band label="contents" sub="expand">
+  <div class="contents">
+    {sections.map((section, i) => (
+      <details class="section" open={i === 0}>
+        <summary class="section__row">
+          <span class="section__num">{String(i + 1).padStart(2, '0')}</span>
+          <span class="section__title">{section.title}</span>
+          <span class="section__meta">{section.meta}</span>
+          <span class="section__mark" aria-hidden="true"></span>
+        </summary>
+
+        <div class="section__body">
+          <div></div>
+          <div>
+            <p class="lede">{section.lede}</p>
+
+            <div class="groups">
+              {section.groups.map((group) => (
+                <div class="group">
+                  <div class="group__head">
+                    <span class="group__label">{group.label}</span>
+                    <span class="group__tag">{group.tag}</span>
+                  </div>
+                  <p class="group__text">{group.text}</p>
+
+                  {group.chart && <TensileChart />}
+                  {group.modes && <ModesTable />}
+
+                  {group.wides && group.wides.length > 0 && (
+                    <div class="plates plates--wide">
+                      {group.wides.map((plate) => (
+                        <Plate plate={plate} style={plateStyle} as="wide" />
+                      ))}
+                    </div>
+                  )}
+
+                  {group.pairs && group.pairs.length > 0 && (
+                    <div class="plates plates--pair">
+                      {group.pairs.map((plate) => (
+                        <Plate plate={plate} style={plateStyle} as="pair" />
+                      ))}
+                    </div>
+                  )}
+
+                  {group.plates.length > 0 && (
+                    <div class={platesClass[plateStyle]}>
+                      {group.plates.map((plate) => (
+                        <Plate plate={plate} style={plateStyle} />
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+
+            <div class="section__cols">
+              <p class="body body--loose">{section.body1}</p>
+              <p class="body body--loose">{section.body2}</p>
+            </div>
+
+            <div class="takeaway">
+              <div class="takeaway__label">Takeaway</div>
+              <p class="takeaway__text">{section.takeaway}</p>
+            </div>
+          </div>
+        </div>
+      </details>
+    ))}
+  </div>
+</Band>

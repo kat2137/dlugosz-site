@@ -1,0 +1,66 @@
+---
+/**
+ * Tensile stiffness of the three candidate face fabrics. Bars are scaled
+ * against the 0 — 45,000 N/m axis in the header.
+ */
+const materials = [
+  {
+    name: 'Bonded lycra',
+    verdict: 'rejected — too stiff',
+    rows: [
+      { direction: 'selvedge', width: '100.0%', value: '44,600', strain: ' · 0.28%' },
+      { direction: 'weft', width: '48.4%', value: '21,600', strain: ' · 0.58%' },
+    ],
+  },
+  {
+    name: 'Polyester neoprene',
+    verdict: 'rejected — not biodegradable',
+    rows: [
+      { direction: 'selvedge', width: '16.4%', value: '7,300', strain: ' · 0.72%' },
+      { direction: 'weft', width: '15.5%', value: '6,900', strain: ' · 0.80%' },
+    ],
+  },
+  {
+    name: 'Biodegradable polyamide',
+    verdict: 'chosen',
+    rows: [{ direction: 'selvedge', width: '13.0%', value: '5,800', strain: ' · —' }],
+  },
+];
+---
+
+<div class="chart">
+  <div class="chart__head">
+    <span>direction</span>
+    <span>tensile stiffness, 0 — 45,000 N/m</span>
+    <span>N/m · strain</span>
+  </div>
+
+  {materials.map((material) => (
+    <div>
+      <div class="chart__material-head">
+        <span class="chart__material">{material.name}</span>
+        <span class="chart__verdict">{material.verdict}</span>
+      </div>
+      <div class="chart__bars">
+        {material.rows.map((row) => (
+          <div class="chart__bar-row">
+            <span class="chart__direction">{row.direction}</span>
+            <div class="chart__track">
+              <div
+                class:list={['chart__fill', row.direction === 'weft' && 'chart__fill--weft']}
+                style={`width:${row.width}`}
+              ></div>
+            </div>
+            <span class="chart__value">
+              {row.value}<span class="chart__strain">{row.strain}</span>
+            </span>
+          </div>
+        ))}
+      </div>
+    </div>
+  ))}
+
+  <div class="chart__note">
+    Measured on 2 cm samples over a fixed span, selvedge and weft read separately
+  </div>
+</div>

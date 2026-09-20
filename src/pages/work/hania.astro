@@ -1,0 +1,70 @@
+---
+import ProjectPage from '../../layouts/ProjectPage.astro';
+import Band from '../../components/Band.astro';
+import HeroFigure from '../../components/HeroFigure.astro';
+import Brief from '../../components/Brief.astro';
+import Figure from '../../components/Figure.astro';
+import CodeViewer from '../../components/CodeViewer.astro';
+import Contents from '../../components/Contents.astro';
+import { bySlug } from '../../data/projects';
+import { roboticCraftsman } from '../../data/repos';
+import { sections } from '../../data/sections/hania';
+import type { Callout } from '../../data/types';
+
+const project = bySlug.hania;
+
+const callouts: Callout[] = [
+  { label: 'A — tendon-driven palm', rule: 330, top: '14%' },
+  { label: 'B — mid-arm housing the tendon servos below the wrist tilt', rule: 190, top: '41%' },
+  { label: 'C — wrist rotation on a bearing', rule: 275, top: '63%' },
+  { label: 'D — elbow and arm base with a pulley-servo system', rule: 150, top: '84%', muted: true },
+];
+---
+
+<ProjectPage project={project} ogImage="hania-cad-render.jpg">
+  <Band label="fig. 01" sub="assembly">
+    <HeroFigure
+      src="hania-cad-render.jpg"
+      alt="CAD render of the hand assembly"
+      aspect="639/425"
+      fit="cover"
+      callouts={callouts}
+      caption="fig. 01 — 17 joints across six joint systems, tendon-driven with a springed return"
+    />
+  </Band>
+
+  <Brief project={project} label="build" />
+
+  <CodeViewer repo={roboticCraftsman} figure="fig. 02" />
+
+  <Band label="fig. 03—05" sub="process">
+    <div class="triptych triptych--fluid">
+      <Figure
+        src="hania-tendon-exposed.jpeg"
+        alt="Exposed tendon mechanism in the finger joints"
+        aspect="4/3"
+        fit="cover"
+        caption="fig. 03 — exposed tendon mechanism"
+        small
+      />
+      <Figure
+        src="hania-needle-grip.jpg"
+        alt="Fingertip holding a needle"
+        aspect="4/3"
+        fit="cover"
+        caption="fig. 04 — fingertip grip on the needle"
+        small
+      />
+      <Figure
+        src="hania-capture-still.jpg"
+        alt="Still from the reference footage used for training"
+        aspect="4/3"
+        fit="cover"
+        caption="fig. 05 — reference footage, pose extracted per frame"
+        small
+      />
+    </div>
+  </Band>
+
+  <Contents sections={sections} plateStyle="hania" />
+</ProjectPage>

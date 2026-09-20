@@ -1,0 +1,23 @@
+---
+/** One content band: the 150px margin column and the 1fr content column. */
+interface Props {
+  /** Margin-column label, e.g. "fig. 01" or "brief". */
+  label?: string;
+  /** Second line under the label, at 45% ink. */
+  sub?: string;
+  /** Labels that are not figure references sit at 45% ink. */
+  muted?: boolean;
+  /** Adds the closing 48px bottom padding. */
+  end?: boolean;
+  class?: string;
+}
+
+const { label, sub, muted = false, end = false, class: className } = Astro.props;
+---
+
+<div class:list={['band', end && 'band--end', className]}>
+  <div class:list={['band__label', muted && 'band__label--muted']}>
+    {label}{sub && <><br /><span>{sub}</span></>}
+  </div>
+  <div><slot /></div>
+</div>

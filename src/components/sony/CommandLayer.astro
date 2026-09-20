@@ -1,0 +1,143 @@
+---
+/**
+ * fig. 03 — the command layer. One poll loop, six states, each with its own
+ * decision chain. Node kinds: condition (accent fill), action, default branch
+ * (dashed), escalation (red). Every column ends by returning to the loop.
+ */
+type NodeKind = 'condition' | 'action' | 'default' | 'escalate';
+
+interface Column {
+  dot: string;
+  mode: string;
+  trigger: string;
+  nodes: { kind: NodeKind; text: string }[];
+}
+
+const columns: Column[] = [
+  {
+    dot: '#EFEFEF',
+    mode: 'Compass',
+    trigger: 'default state',
+    nodes: [
+      { kind: 'condition', text: 'Is game mode enabled in the app?' },
+      { kind: 'default', text: 'no → build compass configuration' },
+      { kind: 'action', text: 'Edge segments resolve to the next waypoint' },
+      { kind: 'condition', text: 'Different state selection input received?' },
+    ],
+  },
+  {
+    dot: '#B44CE0',
+    mode: 'Sound',
+    trigger: 'D-pad',
+    nodes: [
+      { kind: 'condition', text: 'Any D-pad button pressed?' },
+      { kind: 'action', text: 'Up / down — volume ±1, 10 s timer' },
+      { kind: 'action', text: 'Left / right — previous / next track' },
+      { kind: 'action', text: 'Play song, disable D-pad' },
+      { kind: 'condition', text: 'Have 2 minutes passed?' },
+    ],
+  },
+  {
+    dot: '#F0C33C',
+    mode: 'Torch',
+    trigger: 'clock',
+    nodes: [
+      { kind: 'condition', text: 'Is the time past timezone sunset?' },
+      { kind: 'default', text: 'yes → build torch configuration' },
+      { kind: 'action', text: 'Trigger up — raise intensity' },
+      { kind: 'action', text: 'Trigger down — dim or off' },
+      { kind: 'condition', text: 'Has timezone dawn been reached?' },
+    ],
+  },
+  {
+    dot: '#3FA9F5',
+    mode: 'Social',
+    trigger: 'group start',
+    nodes: [
+      { kind: 'action', text: 'Initialisation flash across modules' },
+      { kind: 'condition', text: 'Are other players within range?' },
+      { kind: 'action', text: 'Modules point toward each player' },
+      { kind: 'condition', text: 'Has the session been ended?' },
+    ],
+  },
+  {
+    dot: '#EFEFEF',
+    mode: 'Break',
+    trigger: 'any player',
+    nodes: [
+      { kind: 'action', text: 'Every module turns white' },
+      { kind: 'condition', text: 'Has any player pressed it again?' },
+      { kind: 'default', text: 'no → hold the pause' },
+    ],
+  },
+  {
+    dot: '#D41C15',
+    mode: 'Emergency',
+    trigger: 'QUIT held',
+    nodes: [
+      { kind: 'condition', text: 'Is QUIT held past the threshold?' },
+      { kind: 'action', text: 'Red flash, QUIT initialised, timer runs' },
+      { kind: 'condition', text: 'Cleared before the timer expires?' },
+      { kind: 'escalate', text: 'no → signal the local emergency centre' },
+    ],
+  },
+];
+
+const stubs = [
+  'Game selection in the app',
+  'Randomised location artefacts',
+  'Score against the leaderboard',
+  'Other player\u2019s coordinates → LED direction',
+];
+---
+
+<div>
+  <div class="cmd">
+    <div class="cmd__top">
+      <div class="cmd__start">Start loop</div>
+      <div class="cmd__span"><span></span></div>
+      <div class="cmd__poll">Poll inputs — app, clock, buttons</div>
+      <div class="cmd__span"><span></span></div>
+      <div class="cmd__repoll">↻ re-poll after every state change</div>
+    </div>
+
+    <div class="cmd__gap"></div>
+    <div class="cmd__rule"></div>
+
+    <div class="cmd__cols">
+      {columns.map((column) => (
+        <div class="cmd__col">
+          <span class="cmd__drop"></span>
+          <div class="cmd__head">
+            <div class="cmd__head-row">
+              <span class="cmd__dot" style={`background:${column.dot}`}></span>
+              <span class="cmd__mode">{column.mode}</span>
+            </div>
+            <div class="cmd__trigger">{column.trigger}</div>
+          </div>
+
+          {column.nodes.map((node, i) => (
+            <>
+              {i > 0 && <div class="cmd__tick"><span></span></div>}
+              <div class:list={['cmd__node', `cmd__node--${node.kind}`]}>{node.text}</div>
+            </>
+          ))}
+
+          <div class="cmd__spacer"></div>
+          <div class="cmd__tick"><span></span></div>
+          <div class="cmd__node cmd__node--return">↻ return to loop</div>
+        </div>
+      ))}
+    </div>
+
+    <div class="cmd__stubs">
+      <div class="cmd__stubs-label">Specified, bypassed for the demo</div>
+      <div class="cmd__stubs-row">
+        {stubs.map((stub) => <div class="cmd__stub">{stub}</div>)}
+      </div>
+    </div>
+  </div>
+  <div class="caption">
+    fig. 03 — the command layer: one poll loop, six states, each with its own decision chain
+  </div>
+</div>

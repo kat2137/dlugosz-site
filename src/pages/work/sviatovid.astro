@@ -1,0 +1,67 @@
+---
+import ProjectPage from '../../layouts/ProjectPage.astro';
+import Band from '../../components/Band.astro';
+import HeroFigure from '../../components/HeroFigure.astro';
+import Brief from '../../components/Brief.astro';
+import Figure from '../../components/Figure.astro';
+import CodeViewer from '../../components/CodeViewer.astro';
+import Contents from '../../components/Contents.astro';
+import { bySlug } from '../../data/projects';
+import { googlyEyes } from '../../data/repos';
+import { sections } from '../../data/sections/sviatovid';
+import type { Callout } from '../../data/types';
+
+const project = bySlug.sviatovid;
+
+const callouts: Callout[] = [
+  { label: 'A — tilt servo, vertical axis', rule: 290, top: '24%' },
+  { label: 'B — eyeball domes on a shared yoke', rule: 190, top: '35%' },
+  { label: 'C — pan servo driving both eyes', rule: 315, top: '46%' },
+  { label: 'D — camera and Pi board in the housing', rule: 250, top: '63%' },
+];
+---
+
+<ProjectPage project={project} ogImage="sviatovid-mechanism-render.png">
+  <Band label="fig. 01" sub="mechanism">
+    <HeroFigure
+      src="sviatovid-mechanism-render.png"
+      alt="CAD render of the eye mechanism: two transparent eyeball domes on a yoke, tilt and pan servos, camera and Pi board inside the printed housing"
+      aspect="1184/1082"
+      fit="contain"
+      callouts={callouts}
+      caption="fig. 01 — mechanism as modelled, housing shown open"
+    />
+  </Band>
+
+  <Brief project={project} />
+
+  <Band label="fig. 02—04" sub="mechanism">
+    <div class="triptych">
+      <Figure
+        src="sviatovid-angle-sketch.jpg"
+        alt="Hand-drawn sketch of eye rotation ranges and a section through the head"
+        aspect="380/430"
+        caption="fig. 02 — rotation ranges, taken from the human eye"
+        small
+      />
+      <Figure
+        src="sviatovid-eyeball-section.jpg"
+        alt="CAD section through one eyeball hemisphere showing the linkage arm down to a servo horn"
+        aspect="380/430"
+        caption="fig. 03 — section through one eye, linkage to servo horn"
+        small
+      />
+      <Figure
+        src="sviatovid-face-animation.gif"
+        alt="Animated CAD turntable of the panelled face shell with recessed eye sockets"
+        aspect="380/430"
+        caption="fig. 04 — face shell in CAD; every crease is a panel seam"
+        small
+      />
+    </div>
+  </Band>
+
+  <CodeViewer repo={googlyEyes} figure="fig. 05" />
+
+  <Contents sections={sections} plateStyle="sviatovid" />
+</ProjectPage>

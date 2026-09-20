@@ -1,0 +1,141 @@
+---
+import fs from 'node:fs';
+import Band from './Band.astro';
+import { highlight, lineCount } from '../lib/highlight';
+import { url } from '../lib/paths';
+import type { CodeRepo } from '../data/types-code';
+
+interface Props {
+  repo: CodeRepo;
+  /** Figure number as shown in the margin and the caption, e.g. "fig. 02". */
+  figure: string;
+  /** Sony's viewer sits on the surface colour rather than surface deep. */
+  surface?: boolean;
+}
+
+const { repo, figure, surface = false } = Astro.props;
+
+const rail = repo.groups.flatMap((group) => group.files);
+const multiGroup = repo.groups.length > 1;
+const [firstPath, firstNote] = rail[0];
+const firstName = firstPath.split('/').pop()!;
+
+/**
+ * The sources are vendored under public/code/ so the browser can fetch them on
+ * demand. The file shown first is read here at build time, so the viewer has
+ * content before any JavaScript runs.
+ */
+const source = fs.readFileSync(
+  new URL(`../../public/code/${repo.base}/${firstPath}`, import.meta.url),
+  'utf-8',
+);
+
+---
+
+<Band label={figure} sub="source">
+  <div
+    class:list={['code', surface && 'code--surface']}
+    data-code-viewer
+    data-base={url(`code/${repo.base}/`)}
+    data-figure={figure}
+  >
+    <div class="code__rail">
+      {repo.groups.map((group) => (
+        <>
+          <div class:list={['code__dir', multiGroup && 'code__dir--inline']}>{group.dir}</div>
+          {group.files.map(([filePath, note]) => (
+            <button
+              type="button"
+              class:list={['code__file', filePath === firstPath && 'is-active']}
+              data-path={filePath}
+              data-note={note}
+            >
+              <div class="code__name">{filePath.split('/').pop()}</div>
+              <div class="code__note">{note}</div>
+            </button>
+          ))}
+        </>
+      ))}
+      <div class="code__stack">
+        {repo.stack.map((line, i) => <>{i > 0 && <br />}{line}</>)}
+      </div>
+    </div>
+
+    <div class="code__pane">
+      <div class="code__header">
+        <span class="code__filename" data-code-name>{firstPath}</span>
+        <span data-code-meta>{lineCount(source)} lines</span>
+      </div>
+      <div class="code__body" data-code-body data-initial set:html={highlight(source, true)}></div>
+    </div>
+  </div>
+  <div class="caption" data-code-caption>{figure} — {firstName} — {firstNote}</div>
+</Band>
+
+<script>
+  import { highlight } from '../lib/highlight';
+
+  document.querySelectorAll<HTMLElement>('[data-code-viewer]').forEach((viewer) => {
+    const base = viewer.dataset.base!;
+    const figure = viewer.dataset.figure!;
+    const body = viewer.querySelector<HTMLElement>('[data-code-body]')!;
+    const nameEl = viewer.querySelector<HTMLElement>('[data-code-name]')!;
+    const metaEl = viewer.querySelector<HTMLElement>('[data-code-meta]')!;
+    const captionEl = viewer.parentElement!.querySelector<HTMLElement>('[data-code-caption]')!;
+    const cache = new Map<string, string>();
+
+    // The first file ships as plain text; highlight it in place on load.
+    const initial = body.dataset.initial;
+    if (initial !== undefined) {
+      const first = viewer.querySelector<HTMLButtonElement>('.code__file.is-active');
+      if (first) {
+        const path = first.dataset.path!;
+        fetch(base + path)
+          .then((r) => (r.ok ? r.text() : Promise.reject(r.status)))
+          .then((text) => {
+            cache.set(path, text);
+            if (viewer.querySelector('.code__file.is-active') === first) {
+              body.innerHTML = highlight(text);
+            }
+          })
+          .catch(() => {});
+      }
+      delete body.dataset.initial;
+    }
+
+    viewer.querySelectorAll<HTMLButtonElement>('.code__file').forEach((button) => {
+      button.addEventListener('click', async () => {
+        const path = button.dataset.path!;
+        const note = button.dataset.note ?? '';
+        const name = path.split('/').pop()!;
+
+        viewer.querySelectorAll('.code__file').forEach((b) => b.classList.remove('is-active'));
+        button.classList.add('is-active');
+        nameEl.textContent = path;
+        captionEl.textContent = `${figure} — ${name} — ${note}`;
+
+        if (cache.has(path)) {
+          render(cache.get(path)!);
+          return;
+        }
+
+        metaEl.textContent = 'loading…';
+        try {
+          const response = await fetch(base + path);
+          if (!response.ok) throw new Error(String(response.status));
+          const text = await response.text();
+          cache.set(path, text);
+          render(text);
+        } catch {
+          render(`// could not load ${path}`);
+        }
+      });
+    });
+
+    function render(text: string) {
+      body.innerHTML = highlight(text);
+      metaEl.textContent = `${text.replace(/\t/g, '    ').split('\n').length} lines`;
+      body.scrollTop = 0;
+    }
+  });
+</script>

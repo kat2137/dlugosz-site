@@ -1,0 +1,16 @@
+---
+import Band from './Band.astro';
+import { nextOf } from '../data/projects';
+import { url } from '../lib/paths';
+
+interface Props { slug: string }
+const { slug } = Astro.props;
+const next = nextOf(slug);
+---
+
+<Band label="next" muted end>
+  <a class="next" href={url(`work/${next.slug}`)}>
+    <h2 class="next__title">{next.title}</h2>
+    <span class="next__meta">{next.discipline} — {next.year}</span>
+  </a>
+</Band>

@@ -1,0 +1,30 @@
+---
+import ProjectPage from '../../layouts/ProjectPage.astro';
+import Band from '../../components/Band.astro';
+import Brief from '../../components/Brief.astro';
+import Contents from '../../components/Contents.astro';
+import { bySlug } from '../../data/projects';
+import { sections } from '../../data/sections/tech-pack';
+
+/**
+ * This project was not in the design handoff, so it has no approved figures
+ * yet. The page runs the same band system as the other four; the hero and the
+ * figure bands drop in as soon as there is imagery.
+ */
+const project = bySlug['tech-pack'];
+---
+
+<ProjectPage project={project} ogImage="hania-cad-render.jpg">
+  <Band label="fig. 01" sub="to come">
+    <div class="plate__frame plate__frame--169">
+      <div class="plate__slot">
+        Hero to come — the four-page user flow, or a generated pack spread
+      </div>
+    </div>
+    <div class="caption">fig. 01 — [caption to come]</div>
+  </Band>
+
+  <Brief project={project} />
+
+  <Contents sections={sections} plateStyle="pneumabra" />
+</ProjectPage>

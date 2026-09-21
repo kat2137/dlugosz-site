@@ -1,0 +1,162 @@
+---
+import { Image } from 'astro:assets';
+import { media } from '../lib/media';
+import { url } from '../lib/paths';
+
+/**
+ * A turntable render that rotates with scroll instead of autoplaying.
+ *
+ * Frames live in public/turntables/<name>/000.webp … and are only fetched once
+ * the figure is near the viewport. One full revolution maps onto the figure's
+ * passage through the viewport: frame 0 when it first comes into view (or at
+ * load, if it starts on screen), the last frame as it leaves the top.
+ *
+ * Without JavaScript, or with reduced motion requested, the poster — frame 0 —
+ * is all that shows.
+ */
+interface Props {
+  /** Folder under public/turntables/. */
+  name: string;
+  frames: number;
+  /** Intrinsic frame size, for the canvas and the layout box. */
+  width: number;
+  height: number;
+  /** Frame 0, in src/assets/media, for no-JS and reduced motion. */
+  poster: string;
+  alt: string;
+  fit?: 'cover' | 'contain';
+  sizes?: string;
+}
+
+const {
+  name,
+  frames,
+  width,
+  height,
+  poster,
+  alt,
+  fit = 'cover',
+  sizes = '(max-width: 900px) 100vw, 660px',
+} = Astro.props;
+---
+
+<div
+  class="turntable"
+  data-turntable
+  data-src={url(`turntables/${name}/`)}
+  data-frames={frames}
+  style={`--tt-fit:${fit};aspect-ratio:${width}/${height}`}
+>
+  <Image src={media(poster)} alt={alt} widths={[440, 660, 880]} sizes={sizes} class="turntable__poster" />
+  <canvas class="turntable__canvas" width={width} height={height} aria-hidden="true"></canvas>
+</div>
+
+<script>
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  document.querySelectorAll<HTMLElement>('[data-turntable]').forEach((root) => {
+    if (reduce.matches) return;
+
+    const base = root.dataset.src!;
+    const count = Number(root.dataset.frames);
+    const canvas = root.querySelector<HTMLCanvasElement>('canvas')!;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    const images: (HTMLImageElement | null)[] = new Array(count).fill(null);
+    let loading = false;
+    let shown = -1;
+    let queued = false;
+
+    // Where the revolution starts and ends, in document scroll positions.
+    let start = 0;
+    let end = 1;
+    const measure = () => {
+      const rect = root.getBoundingClientRect();
+      const top = rect.top + window.scrollY;
+      start = Math.max(0, top - window.innerHeight);
+      end = top + rect.height;
+    };
+
+    const nearestLoaded = (i: number) => {
+      for (let d = 0; d < count; d++) {
+        const a = images[(i + d) % count];
+        if (a) return a;
+        const b = images[(i - d + count) % count];
+        if (b) return b;
+      }
+      return null;
+    };
+
+    // Callouts are placed on the front view; fade them while it faces away.
+    const hero = root.closest<HTMLElement>('.hero');
+
+    const draw = () => {
+      queued = false;
+      const p = Math.min(1, Math.max(0, (window.scrollY - start) / (end - start || 1)));
+      hero?.classList.toggle('is-turning', p > 0.05 && p < 0.95);
+      const index = Math.min(count - 1, Math.round(p * (count - 1)));
+      if (index === shown) return;
+      const frame = images[index] ?? nearestLoaded(index);
+      if (!frame) return;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.drawImage(frame, 0, 0, canvas.width, canvas.height);
+      if (images[index]) shown = index;
+      root.classList.add('is-live');
+    };
+
+    const request = () => {
+      if (!queued) {
+        queued = true;
+        requestAnimationFrame(draw);
+      }
+    };
+
+    const load = () => {
+      if (loading) return;
+      loading = true;
+      for (let i = 0; i < count; i++) {
+        const img = new Image();
+        img.decoding = 'async';
+        img.src = `${base}${String(i).padStart(3, '0')}.webp`;
+        img.onload = () => {
+          images[i] = img;
+          request();
+        };
+      }
+    };
+
+    // Fetch frames only once the figure is within reach; animate only while visible.
+    let visible = false;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) load();
+          visible = entry.isIntersecting;
+          if (visible) request();
+        }
+      },
+      { rootMargin: '600px 0px' },
+    );
+    observer.observe(root);
+
+    measure();
+    // Fonts and images above can shift the figure after first measure.
+    window.addEventListener('load', () => {
+      measure();
+      request();
+    });
+    window.addEventListener('resize', () => {
+      measure();
+      shown = -1;
+      request();
+    });
+    window.addEventListener(
+      'scroll',
+      () => {
+        if (visible) request();
+      },
+      { passive: true },
+    );
+  });
+</script>

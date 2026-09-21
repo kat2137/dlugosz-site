@@ -30,6 +30,16 @@ export const projects: Project[] = [
     next: 'sviatovid',
     description:
       'A seventeen-joint tendon-driven robotic hand built to learn hand-sewing from reference footage, with rolling-contact finger joints and cast silicone fingertips.',
+    card: {
+      src: 'hania-cad-render.jpg',
+      alt: 'CAD render of the hand assembly',
+    },
+    wheel: {
+      image: 'hania-turntable-poster.jpg',
+      alt: 'Render of the full arm assembly',
+      scale: 1.5,
+      turntable: { name: 'hania', frames: 72, width: 880, height: 585 },
+    },
   },
   {
     slug: 'sviatovid',
@@ -56,6 +66,16 @@ export const projects: Project[] = [
     next: 'pneumabra',
     description:
       'A wearable robotic object with four animated eyes that detect and track passers-by, built on a Raspberry Pi with a two-axis servo yoke.',
+    card: {
+      src: 'sviatovid-bag-in-park-wide.jpg',
+      alt: 'The finished leather face bag resting against a railing in a park',
+    },
+    wheel: {
+      image: 'sviatovid-hero-poster.jpg',
+      alt: 'Render of the eye mechanism with its two eyeball domes',
+      scale: 1.09,
+      turntable: { name: 'sviatovid-hero', frames: 72, width: 700, height: 640 },
+    },
   },
   {
     slug: 'pneumabra',
@@ -82,6 +102,16 @@ export const projects: Project[] = [
     next: 'hikego',
     description:
       'A pneumatic support garment: sealed silicone air channels bonded between two fabric layers, inflated and vented to change compression on demand.',
+    card: {
+      src: 'pneumabra-prototype-lit.jpg',
+      alt: 'The inflated channel sample connected to the printed pump housing, lit in blue and green',
+    },
+    wheel: {
+      image: 'pneumabra-hero-poster.jpg',
+      alt: 'Render of the spherical control housing with its feed tube',
+      scale: 1.28,
+      turntable: { name: 'pneumabra-hero', frames: 72, width: 1000, height: 667 },
+    },
   },
   {
     slug: 'hikego',
@@ -112,6 +142,16 @@ export const projects: Project[] = [
     next: 'tech-pack',
     description:
       'A location-based game and companion app for Sony\u2019s configurable controller, where edge lighting carries meaning that a rearrangeable layout cannot.',
+    card: {
+      src: 'sony-mode-social-2.png',
+      alt: 'The five-module controller mid-initialisation flash, each module lit a different colour',
+      fit: 'contain' as const,
+    },
+    wheel: {
+      image: 'sony-mode-social-2.png',
+      alt: 'The five-module controller, each module lit a different colour',
+      scale: 0.86,
+    },
   },
   {
     slug: 'tech-pack',

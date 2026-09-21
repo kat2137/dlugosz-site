@@ -77,4 +77,18 @@ export interface Project {
   next: string;
   /** For the work index and page metadata. */
   description: string;
+  /** Card image. Omit while a project has no imagery yet. */
+  card?: { src: string; alt: string; fit?: 'cover' | 'contain' };
+  /**
+   * The project's miniature on the homepage wheel. `image` is shown at rest;
+   * with a `turntable`, the miniature spins slowly while it sits in the centre.
+   * Omit while a project has no imagery yet.
+   */
+  wheel?: {
+    image: string;
+    alt: string;
+    /** Image width relative to the square tile. Above 1 crops the empty sides. */
+    scale: number;
+    turntable?: { name: string; frames: number; width: number; height: number };
+  };
 }

@@ -1,0 +1,277 @@
+---
+import { Image } from 'astro:assets';
+import { projects } from '../data/projects';
+import { media } from '../lib/media';
+import { url } from '../lib/paths';
+
+/**
+ * The homepage wheel: every project as a miniature on a ring, one in the
+ * centre at a time. Clicking a side miniature (or the arrows, the keyboard
+ * arrows, or a swipe) turns the wheel to bring it forward; the centred one
+ * spins slowly and its description fades in underneath. Clicking the centred
+ * miniature opens the project.
+ *
+ * Without JavaScript every miniature is a plain link, and the first project's
+ * description is shown.
+ */
+
+/** How the centred miniature spins: every Nth turntable frame, at this rate. */
+const SPIN = { step: 2, fps: 6 };
+
+const n = projects.length;
+
+/** Signed position around the ring relative to the centre: 0, ±1, ±2 … */
+const offset = (i: number, active: number) => {
+  let o = (((i - active) % n) + n) % n;
+  if (o > n / 2) o -= n;
+  return o;
+};
+---
+
+<section class="wheel" data-wheel data-step={SPIN.step} data-fps={SPIN.fps} aria-roledescription="carousel" aria-label="Projects">
+  <div class="wheel__stage" data-wheel-stage>
+    {projects.map((project, i) => {
+      const o = offset(i, 0);
+      const w = project.wheel;
+      return (
+        <a
+          class="wheel__item"
+          href={url(`work/${project.slug}`)}
+          data-wheel-item={i}
+          data-src={w?.turntable ? url(`turntables/${w.turntable.name}/`) : undefined}
+          data-frames={w?.turntable?.frames}
+          style={`--o:${o};--a:${Math.abs(o)}`}
+          aria-current={i === 0 ? 'true' : undefined}
+          aria-label={`Project ${project.number}: ${project.title}`}
+        >
+          <span class="wheel__tile" style={`--scale:${w?.scale ?? 1}`}>
+            {w ? (
+              <Image
+                class="wheel__img"
+                src={media(w.image)}
+                alt={w.alt}
+                widths={[320, 480, 720]}
+                sizes="(max-width: 900px) 70vw, 460px"
+                loading={Math.abs(o) <= 1 ? 'eager' : 'lazy'}
+              />
+            ) : (
+              <span class="wheel__blank">
+                <span class="wheel__blank-num">{project.number}</span>
+                <span class="wheel__blank-note">image to come</span>
+              </span>
+            )}
+            {w?.turntable && (
+              <canvas
+                class="wheel__canvas"
+                width={w.turntable.width}
+                height={w.turntable.height}
+                aria-hidden="true"
+              ></canvas>
+            )}
+          </span>
+        </a>
+      );
+    })}
+
+    <button type="button" class="wheel__nav wheel__nav--prev" data-wheel-prev aria-label="Previous project">←</button>
+    <button type="button" class="wheel__nav wheel__nav--next" data-wheel-next aria-label="Next project">→</button>
+  </div>
+
+  <div class="wheel__captions" aria-live="polite">
+    {projects.map((project, i) => (
+      <div class:list={['wheel__caption', i === 0 && 'is-active']} data-wheel-caption={i}>
+        <div class="wheel__num">project {project.number} / {String(n).padStart(2, '0')}</div>
+        <h2 class="wheel__title">
+          <a href={url(`work/${project.slug}`)} tabindex={i === 0 ? undefined : -1}>{project.title}</a>
+        </h2>
+        <p class="wheel__standfirst">{project.standfirst}</p>
+        <div class="wheel__meta">
+          <span>{project.discipline} · {project.year}</span>
+          <a class="wheel__cta" href={url(`work/${project.slug}`)} tabindex={i === 0 ? undefined : -1}>view project →</a>
+        </div>
+      </div>
+    ))}
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-wheel]').forEach((wheel) => {
+    const items = [...wheel.querySelectorAll<HTMLAnchorElement>('[data-wheel-item]')];
+    const captions = [...wheel.querySelectorAll<HTMLElement>('[data-wheel-caption]')];
+    const stage = wheel.querySelector<HTMLElement>('[data-wheel-stage]')!;
+    const n = items.length;
+    const step = Number(wheel.dataset.step) || 2;
+    const fps = Number(wheel.dataset.fps) || 6;
+    const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let active = 0;
+
+    const offset = (i: number, a: number) => {
+      let o = (((i - a) % n) + n) % n;
+      if (o > n / 2) o -= n;
+      return o;
+    };
+
+    /* ---- slow spin for the centred miniature ------------------------------ */
+
+    interface Spinner {
+      frames: (HTMLImageElement | null)[];
+      loaded: boolean;
+      frame: number;
+      raf: number;
+      last: number;
+    }
+    const spinners = new Map<number, Spinner>();
+
+    const spinnerFor = (i: number): Spinner | null => {
+      const el = items[i];
+      if (!el.dataset.src) return null;
+      let s = spinners.get(i);
+      if (!s) {
+        const total = Number(el.dataset.frames);
+        const count = Math.floor(total / step);
+        s = { frames: new Array(count).fill(null), loaded: false, frame: 0, raf: 0, last: 0 };
+        spinners.set(i, s);
+      }
+      if (!s.loaded) {
+        s.loaded = true;
+        s.frames.forEach((_, k) => {
+          const img = new Image();
+          img.decoding = 'async';
+          img.src = `${el.dataset.src}${String(k * step).padStart(3, '0')}.webp`;
+          img.onload = () => (s!.frames[k] = img);
+        });
+      }
+      return s;
+    };
+
+    const start = (i: number) => {
+      if (still) return;
+      const s = spinnerFor(i);
+      if (!s) return;
+      const el = items[i];
+      const canvas = el.querySelector('canvas')!;
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return;
+      const tick = (t: number) => {
+        if (!s.last) s.last = t;
+        if (t - s.last >= 1000 / fps) {
+          s.last = t;
+          const next = (s.frame + 1) % s.frames.length;
+          const img = s.frames[next];
+          if (img) {
+            s.frame = next;
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+            el.classList.add('is-spinning');
+          }
+        }
+        s.raf = requestAnimationFrame(tick);
+      };
+      s.last = 0;
+      s.raf = requestAnimationFrame(tick);
+    };
+
+    const stop = (i: number) => {
+      const s = spinners.get(i);
+      if (s) {
+        cancelAnimationFrame(s.raf);
+        s.frame = 0;
+      }
+      items[i].classList.remove('is-spinning');
+    };
+
+    /* ---- turning the wheel ------------------------------------------------- */
+
+    const go = (next: number) => {
+      next = ((next % n) + n) % n;
+      if (next === active) return;
+      stop(active);
+
+      items.forEach((el, i) => {
+        const before = Number(el.style.getPropertyValue('--o'));
+        const o = offset(i, next);
+        // An item wrapping from one end of the ring to the other jumps, rather
+        // than sweeping across the front.
+        const wraps = Math.abs(o - before) > n / 2;
+        if (wraps) el.style.transition = 'none';
+        el.style.setProperty('--o', String(o));
+        el.style.setProperty('--a', String(Math.abs(o)));
+        if (wraps) {
+          void el.offsetWidth;
+          el.style.transition = '';
+        }
+        if (o === 0) el.setAttribute('aria-current', 'true');
+        else el.removeAttribute('aria-current');
+      });
+
+      captions.forEach((c, i) => {
+        c.classList.toggle('is-active', i === next);
+        c.querySelectorAll('a').forEach((a) => (i === next ? a.removeAttribute('tabindex') : a.setAttribute('tabindex', '-1')));
+      });
+
+      active = next;
+      start(active);
+      // Warm the neighbours so they spin straight away when chosen.
+      spinnerFor((active + 1) % n);
+      spinnerFor((active - 1 + n) % n);
+    };
+
+    items.forEach((el, i) =>
+      el.addEventListener('click', (event) => {
+        if (i !== active) {
+          event.preventDefault();
+          go(i);
+        }
+      }),
+    );
+    wheel.querySelector('[data-wheel-prev]')!.addEventListener('click', () => go(active - 1));
+    wheel.querySelector('[data-wheel-next]')!.addEventListener('click', () => go(active + 1));
+
+    wheel.addEventListener('keydown', (event) => {
+      if (event.key === 'ArrowLeft') {
+        event.preventDefault();
+        go(active - 1);
+      } else if (event.key === 'ArrowRight') {
+        event.preventDefault();
+        go(active + 1);
+      }
+    });
+
+    // Swipe on touch screens; a swipe must not also count as a click.
+    let downX = 0;
+    let swiped = false;
+    stage.addEventListener('pointerdown', (e) => {
+      downX = e.clientX;
+      swiped = false;
+    });
+    stage.addEventListener('pointerup', (e) => {
+      const dx = e.clientX - downX;
+      if (Math.abs(dx) > 50) {
+        swiped = true;
+        go(active + (dx < 0 ? 1 : -1));
+      }
+    });
+    stage.addEventListener(
+      'click',
+      (e) => {
+        if (swiped) {
+          e.preventDefault();
+          e.stopPropagation();
+          swiped = false;
+        }
+      },
+      true,
+    );
+
+    // Pause while the tab is hidden.
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) stop(active);
+      else start(active);
+    });
+
+    wheel.classList.add('is-ready');
+    start(active);
+    spinnerFor(1);
+    spinnerFor(n - 1);
+  });
+</script>

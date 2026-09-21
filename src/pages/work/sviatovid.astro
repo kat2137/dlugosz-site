@@ -13,11 +13,15 @@ import type { Callout } from '../../data/types';
 
 const project = bySlug.sviatovid;
 
+/*
+ * Carried over from the approved positions on the still render, mapped
+ * proportionally onto the turntable's framing and placed on frame 0.
+ */
 const callouts: Callout[] = [
-  { label: 'A — tilt servo, vertical axis', rule: 290, top: '24%' },
-  { label: 'B — eyeball domes on a shared yoke', rule: 190, top: '35%' },
-  { label: 'C — pan servo driving both eyes', rule: 315, top: '46%' },
-  { label: 'D — camera and Pi board in the housing', rule: 250, top: '63%' },
+  { label: 'A — tilt servo, vertical axis', rule: 186, top: '15.5%' },
+  { label: 'B — eyeball domes on a shared yoke', rule: 150, top: '28.5%' },
+  { label: 'C — pan servo driving both eyes', rule: 257, top: '41.6%' },
+  { label: 'D — camera and Pi board in the housing', rule: 198, top: '61.9%' },
 ];
 ---
 
@@ -25,10 +29,17 @@ const callouts: Callout[] = [
   <Band label="fig. 01" sub="mechanism">
     <HeroFigure
       src="sviatovid-mechanism-render.png"
-      alt="CAD render of the eye mechanism: two transparent eyeball domes on a yoke, tilt and pan servos, camera and Pi board inside the printed housing"
+      alt="Render of the eye mechanism — two eyeball domes on a yoke, tilt and pan servos, camera and Pi board in the housing — turning as the page scrolls"
       aspect="1184/1082"
       fit="contain"
       callouts={callouts}
+      turntable={{
+        name: 'sviatovid-hero',
+        frames: 72,
+        width: 700,
+        height: 640,
+        poster: 'sviatovid-hero-poster.jpg',
+      }}
       caption="fig. 01 — mechanism as modelled, housing shown open"
     />
   </Band>
@@ -53,10 +64,17 @@ const callouts: Callout[] = [
       />
       <Figure
         src="sviatovid-face-animation.gif"
-        alt="Animated CAD turntable of the panelled face shell with recessed eye sockets"
+        alt="CAD turntable of the panelled face shell with recessed eye sockets, turning as the page scrolls"
         aspect="380/430"
         caption="fig. 04 — face shell in CAD; every crease is a panel seam"
         small
+        turntable={{
+          name: 'sviatovid',
+          frames: 72,
+          width: 760,
+          height: 570,
+          poster: 'sviatovid-turntable-poster.jpg',
+        }}
       />
     </div>
   </Band>

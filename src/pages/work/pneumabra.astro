@@ -13,11 +13,14 @@ import type { Callout } from '../../data/types';
 
 const project = bySlug.pneumabra;
 
+/*
+ * The turntable shows the control unit on its own, so only the two parts in
+ * shot are labelled; the supply rail and the channel sample were in the old
+ * photograph, not in this render. Placed on frame 0.
+ */
 const callouts: Callout[] = [
-  { label: 'A — feed tube and luer lock', rule: 278, top: '37%' },
-  { label: 'B — pump and valve in the printed housing', rule: 191, top: '44%' },
-  { label: 'C — 6 V supply, shared rail', rule: 108, top: '62%' },
-  { label: 'D — bonded channel sample, inflated', rule: 400, top: '68%' },
+  { label: 'A — feed tube and luer lock', rule: 21, top: '73.8%' },
+  { label: 'B — pump and valve in the printed housing', rule: 15, top: '55%' },
 ];
 ---
 
@@ -25,11 +28,19 @@ const callouts: Callout[] = [
   <Band label="fig. 01" sub="system">
     <HeroFigure
       src="pneumabra-prototype-lit.jpg"
-      alt="The inflated fabric channel sample connected by tube to a printed spherical pump housing and a battery pack, lit in blue and green"
+      alt="Render of the printed spherical control housing with its feed tube, turning as the page scrolls"
       aspect="3/2"
       fit="cover"
       callouts={callouts}
-      caption="fig. 01 — the working system: one inlet, one sealed channel field, control outside the garment"
+      gutter={0}
+      turntable={{
+        name: 'pneumabra-hero',
+        frames: 72,
+        width: 1000,
+        height: 667,
+        poster: 'pneumabra-hero-poster.jpg',
+      }}
+      caption="fig. 01 — the control unit: pump and valve in one printed housing, a single feed line out to the garment"
     />
   </Band>
 

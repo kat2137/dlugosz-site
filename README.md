@@ -17,7 +17,7 @@ npm run check    # astro check (TypeScript + template diagnostics)
 
 | Route              | Project                                      |
 | ------------------ | -------------------------------------------- |
-| `/`                | Work index                                   |
+| `/`                | Project wheel — five miniatures, link to Lab |
 | `/work/hania`      | Hania — robotics · 2026                      |
 | `/work/sviatovid`  | Sviatovid — robotics · 2025                  |
 | `/work/pneumabra`  | PneumaBra — interactive material · 2026      |
@@ -48,7 +48,7 @@ src/
   assets/media/            imagery, processed by astro:assets
 public/
   code/<repo>/             vendored repo sources for the code viewers
-  media/                   assets served unprocessed (animated GIFs)
+  turntables/<name>/       scroll-scrubbed turntable frames, 000.webp …
 ```
 
 **All project copy is approved text from the handoff and was ported
@@ -80,8 +80,21 @@ To refresh the code from GitHub, replace the files under
 `public/code/<repo>/` and update the file lists in `src/data/repos.ts`.
 
 **Images.** `astro:assets` generates WebP at several widths for everything in
-`src/assets/media`. Animated GIFs would be flattened by that pipeline, so they
-live in `public/media/` and are referenced directly.
+`src/assets/media`. Animated GIFs would be flattened by that pipeline; put any
+new ones in `public/media/` and they are referenced directly.
+
+**Turntables.** The Hania hero and Sviatovid fig. 04 rotate with scroll rather
+than autoplaying (`src/components/Turntable.astro`). Each is a folder of 72
+frames under `public/turntables/`, fetched only once the figure is near the
+viewport; one full revolution maps onto the figure's passage through the
+screen, starting from frame 0. Frame 0 is also saved as a poster in
+`src/assets/media/*-turntable-poster.jpg`, which is all that shows without
+JavaScript or with reduced motion requested.
+
+To replace one, export the new turntable, cut it into numbered WebP frames at
+the size given in the page's `turntable` prop, and replace the poster. The Hania
+frames were cropped to the hero's 639:425 proportions with the background
+shifted onto the page surface colour, so the figure has no visible edge.
 
 **SEO.** Per-page title, description, canonical, Open Graph and a generated
 social image; `CreativeWork` JSON-LD on each project and `ProfilePage` on the
@@ -141,11 +154,24 @@ workflow passes `GITHUB_TOKEN`, which lifts the unauthenticated limit.
 4. **Lab and About** are in the nav in the design but have no routes yet, so
    they render dimmed and non-interactive rather than as dead links.
 
-5. **The homepage is scaffolding.** The handoff explicitly excluded it, so `/`
-   is a spare index listing the four projects, built from the same tokens.
-   Replace it when the homepage direction is approved.
+5. **The homepage is a project wheel** (`src/components/ProjectWheel.astro`).
+   Five miniatures on a ring; clicking a side one, the arrows, the keyboard
+   arrows or a swipe turns it to the centre, where it spins slowly and its
+   description fades in below. Clicking the centred one opens the project.
+   Spin speed is the `SPIN` constant at the top of the component — every 2nd
+   turntable frame at 6 fps, about six seconds a revolution.
+   Miniatures are set per project under `wheel` in `src/data/projects.ts`;
+   `scale` crops the empty sides of a wide render so each object reads at a
+   similar size. HikeGo has no turntable yet and sits still; the tech pack
+   generator has no imagery and shows a numbered placeholder tile.
 
-6. **Hania's hero** is a hand-tuned 639 × 425 in the prototype, inside a 660px
+6. **PneumaBra's hero fills the column.** `HeroFigure` takes a `gutter` prop —
+   250px by default, which is the label margin the design reserves. PneumaBra
+   passes `gutter={0}`, so the figure spans the full content width and the
+   callout labels sit over the image on a scrim. The other three keep the
+   gutter.
+
+7. **Hania's hero** is a hand-tuned 639 × 425 in the prototype, inside a 660px
    column. It is reproduced as `width: 100%` with that aspect ratio, so it fills
    the column. The callout arrows are unaffected — they are positioned against
    the wrapper, not the image.

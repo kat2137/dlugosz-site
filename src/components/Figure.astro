@@ -1,5 +1,6 @@
 ---
 import { Image } from 'astro:assets';
+import Turntable from './Turntable.astro';
 import { media } from '../lib/media';
 import { url } from '../lib/paths';
 
@@ -14,6 +15,8 @@ interface Props {
   small?: boolean;
   widths?: number[];
   sizes?: string;
+  /** Swap the still for a scroll-scrubbed turntable. */
+  turntable?: { name: string; frames: number; width: number; height: number; poster: string };
 }
 
 const {
@@ -25,19 +28,22 @@ const {
   small = false,
   widths = [380, 600, 900],
   sizes = '(max-width: 900px) 100vw, 380px',
+  turntable,
 } = Astro.props;
 /**
  * Animated GIFs are served straight from public/media — passing them through
  * astro:assets would flatten them to a still frame.
  */
-const animated = src.endsWith('.gif');
-const image = animated ? null : media(src);
+const animated = !turntable && src.endsWith('.gif');
+const image = animated || turntable ? null : media(src);
 const rawSrc = url(`media/${src}`);
 ---
 
 <div>
   <div class:list={['frame', fit === 'cover' && 'frame--cover']} style={aspect ? `aspect-ratio:${aspect}` : undefined}>
-    {image ? (
+    {turntable ? (
+      <Turntable {...turntable} alt={alt} fit={fit} sizes={sizes} />
+    ) : image ? (
       <Image src={image} alt={alt} widths={widths} sizes={sizes} />
     ) : (
       <img src={rawSrc} alt={alt} loading="lazy" decoding="async" />

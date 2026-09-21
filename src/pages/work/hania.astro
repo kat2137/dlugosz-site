@@ -13,11 +13,16 @@ import type { Callout } from '../../data/types';
 
 const project = bySlug.hania;
 
+/*
+ * Re-tuned for the turntable framing: each arrow sits at its part's height on
+ * frame 0 and stops just short of the arm's edge. The arm turns about a
+ * vertical axis, so the heights hold for the whole revolution.
+ */
 const callouts: Callout[] = [
-  { label: 'A — tendon-driven palm', rule: 330, top: '14%' },
-  { label: 'B — mid-arm housing the tendon servos below the wrist tilt', rule: 190, top: '41%' },
-  { label: 'C — wrist rotation on a bearing', rule: 275, top: '63%' },
-  { label: 'D — elbow and arm base with a pulley-servo system', rule: 150, top: '84%', muted: true },
+  { label: 'A — tendon-driven palm', rule: 410, top: '29%' },
+  { label: 'B — mid-arm housing the tendon servos below the wrist tilt', rule: 164, top: '48%' },
+  { label: 'C — wrist rotation on a bearing', rule: 336, top: '61.5%' },
+  { label: 'D — elbow and arm base with a pulley-servo system', rule: 176, top: '80%', muted: true },
 ];
 ---
 
@@ -25,10 +30,17 @@ const callouts: Callout[] = [
   <Band label="fig. 01" sub="assembly">
     <HeroFigure
       src="hania-cad-render.jpg"
-      alt="CAD render of the hand assembly"
+      alt="Render of the full arm assembly — hand, wrist, mid-arm and elbow — turning as the page scrolls"
       aspect="639/425"
       fit="cover"
       callouts={callouts}
+      turntable={{
+        name: 'hania',
+        frames: 72,
+        width: 880,
+        height: 585,
+        poster: 'hania-turntable-poster.jpg',
+      }}
       caption="fig. 01 — 17 joints across six joint systems, tendon-driven with a springed return"
     />
   </Band>

@@ -1,5 +1,6 @@
 ---
 import { Image } from 'astro:assets';
+import Turntable from './Turntable.astro';
 import { media } from '../lib/media';
 import type { Callout } from '../data/types';
 
@@ -11,20 +12,36 @@ interface Props {
   fit?: 'cover' | 'contain';
   callouts?: Callout[];
   caption: string;
+  /**
+   * Width reserved to the right of the image for the callout labels. Set to 0
+   * to let the figure fill the content column, with the labels over the image.
+   */
+  gutter?: number;
+  /** Swap the still for a scroll-scrubbed turntable. */
+  turntable?: { name: string; frames: number; width: number; height: number; poster: string };
 }
 
-const { src, alt, aspect, fit = 'cover', callouts = [], caption } = Astro.props;
-const image = media(src);
+const { src, alt, aspect, fit = 'cover', callouts = [], caption, gutter = 250, turntable } = Astro.props;
+const image = turntable ? null : media(src);
 ---
 
-<div class="hero">
-  <Image
-    src={image}
-    alt={alt}
-    widths={[640, 960, 1280]}
-    sizes="(max-width: 900px) 100vw, 660px"
-    style={`aspect-ratio:${aspect};object-fit:${fit}`}
-  />
+<div class:list={['hero', gutter === 0 && 'hero--full']} style={`--hero-gutter:${gutter}px`}>
+  {turntable ? (
+    <Turntable
+      {...turntable}
+      alt={alt}
+      fit={fit}
+      sizes={gutter === 0 ? '(max-width: 900px) 100vw, 910px' : '(max-width: 900px) 100vw, 660px'}
+    />
+  ) : (
+    <Image
+      src={image!}
+      alt={alt}
+      widths={[640, 960, 1280]}
+      sizes="(max-width: 900px) 100vw, 910px"
+      style={`aspect-ratio:${aspect};object-fit:${fit}`}
+    />
+  )}
   <div></div>
   {callouts.map((callout) => (
     <div class:list={['callout', callout.muted && 'callout--muted']} style={`top:${callout.top}`} aria-hidden="true">

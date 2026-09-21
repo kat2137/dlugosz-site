@@ -2,6 +2,7 @@
 import { Image } from 'astro:assets';
 import { media } from '../lib/media';
 import { url } from '../lib/paths';
+import { turntableVersion } from '../lib/turntable';
 
 /**
  * A turntable render that rotates with scroll instead of autoplaying.
@@ -38,6 +39,8 @@ const {
   fit = 'cover',
   sizes = '(max-width: 900px) 100vw, 660px',
 } = Astro.props;
+
+const version = turntableVersion(name, frames);
 ---
 
 <div
@@ -45,6 +48,7 @@ const {
   data-turntable
   data-src={url(`turntables/${name}/`)}
   data-frames={frames}
+  data-v={version}
   style={`--tt-fit:${fit};aspect-ratio:${width}/${height}`}
 >
   <Image src={media(poster)} alt={alt} widths={[440, 660, 880]} sizes={sizes} class="turntable__poster" />
@@ -58,6 +62,7 @@ const {
     if (reduce.matches) return;
 
     const base = root.dataset.src!;
+    const v = root.dataset.v ? `?v=${root.dataset.v}` : '';
     const count = Number(root.dataset.frames);
     const canvas = root.querySelector<HTMLCanvasElement>('canvas')!;
     const ctx = canvas.getContext('2d');
@@ -118,7 +123,7 @@ const {
       for (let i = 0; i < count; i++) {
         const img = new Image();
         img.decoding = 'async';
-        img.src = `${base}${String(i).padStart(3, '0')}.webp`;
+        img.src = `${base}${String(i).padStart(3, '0')}.webp${v}`;
         img.onload = () => {
           images[i] = img;
           request();

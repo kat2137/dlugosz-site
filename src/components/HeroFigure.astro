@@ -25,7 +25,7 @@ const { src, alt, aspect, fit = 'cover', callouts = [], caption, gutter = 250, t
 const image = turntable ? null : media(src);
 ---
 
-<div class:list={['hero', gutter === 0 && 'hero--full']} style={`--hero-gutter:${gutter}px`}>
+<div class:list={['hero', gutter === 0 && 'hero--full']}>
   {turntable ? (
     <Turntable
       {...turntable}
@@ -44,9 +44,13 @@ const image = turntable ? null : media(src);
   )}
   <div></div>
   {callouts.map((callout) => (
-    <div class:list={['callout', callout.muted && 'callout--muted']} style={`top:${callout.top}`} aria-hidden="true">
+    <div
+      class:list={['callout', callout.muted && 'callout--muted']}
+      style={`top:${callout.top};--x:${callout.x}`}
+      aria-hidden="true"
+    >
       <span class="callout__label">{callout.label}</span>
-      <span class="callout__rule" style={`width:${callout.rule}px`}></span>
+      <span class="callout__rule"></span>
       <span class="callout__head"></span>
     </div>
   ))}

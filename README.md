@@ -92,9 +92,13 @@ screen, starting from frame 0. Frame 0 is also saved as a poster in
 JavaScript or with reduced motion requested.
 
 To replace one, export the new turntable, cut it into numbered WebP frames at
-the size given in the page's `turntable` prop, and replace the poster. The Hania
-frames were cropped to the hero's 639:425 proportions with the background
-shifted onto the page surface colour, so the figure has no visible edge.
+the size given in the page's `turntable` prop, and replace the poster.
+
+The three hero turntables (Hania, Sviatovid, PneumaBra) are transparent
+cut-outs: the render background is keyed out and the floor shadow kept as
+partial transparency, so they sit on the page, and overlap each other on the
+homepage wheel, without a box. The object pixels are the source's own, lightly
+sharpened — not blurred. Their posters are PNG for the same reason.
 
 **SEO.** Per-page title, description, canonical, Open Graph and a generated
 social image; `CreativeWork` JSON-LD on each project and `ProfilePage` on the

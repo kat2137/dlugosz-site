@@ -307,9 +307,10 @@ a.nav__link:hover {
 /* Hero with schematic callout arrows */
 
 .hero {
+  --hero-gutter: 250px;
   position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) var(--hero-gutter, 250px);
+  grid-template-columns: minmax(0, 1fr) var(--hero-gutter);
 }
 
 .hero > img {
@@ -318,9 +319,16 @@ a.nav__link:hover {
   align-self: start;
 }
 
+/*
+ * Each arrow runs from its label (right) to a point on the image given as a
+ * fraction of the image width (--x), so it stays on its part whatever the
+ * window width. The line is centred on its `top`.
+ */
 .callout {
   position: absolute;
+  left: calc((100% - var(--hero-gutter)) * var(--x, 0.5));
   right: 0;
+  transform: translateY(-50%);
   display: flex;
   align-items: center;
   flex-direction: row-reverse;
@@ -339,8 +347,15 @@ a.nav__link:hover {
 
 .callout__rule {
   display: block;
+  flex: 1 1 auto;
+  min-width: 16px;
   height: 1px;
   background: var(--accent);
+}
+
+.callout__label,
+.callout__head {
+  flex: none;
 }
 
 .callout__head {
@@ -1433,8 +1448,8 @@ a.next:hover .next__title {
    --------------------------------------------------------------------------- */
 
 .wheel {
-  --tile: clamp(220px, 34vw, 440px);
-  --step: clamp(130px, 22vw, 320px);
+  --tile: clamp(220px, 32vw, 420px);
+  --step: clamp(170px, 27vw, 380px);
   padding: 20px 0 0;
 }
 
@@ -1455,8 +1470,8 @@ a.next:hover .next__title {
   transform:
     translate(-50%, -50%)
     translateX(calc(var(--o) * var(--step)))
-    translateZ(calc(var(--a) * -320px))
-    rotateY(calc(var(--o) * -24deg));
+    translateZ(calc(var(--a) * -260px))
+    rotateY(calc(var(--o) * -14deg));
   opacity: calc(1 - var(--a) * 0.36);
   z-index: calc(10 - var(--a));
   transition:
@@ -1479,12 +1494,13 @@ a.next:hover .next__title {
   outline-offset: 6px;
 }
 
+/* No clipping: the miniatures are transparent cut-outs, so a neighbour
+   behind the centre shows around it rather than being cut by a square. */
 .wheel__tile {
   position: relative;
   display: block;
   width: 100%;
   height: 100%;
-  overflow: hidden;
 }
 
 .wheel__img,
@@ -1657,8 +1673,8 @@ a.next:hover .next__title {
 
 @media (max-width: 900px) {
   .wheel {
-    --tile: 62vw;
-    --step: 44vw;
+    --tile: 58vw;
+    --step: 52vw;
   }
 
   .wheel__item {
@@ -1897,12 +1913,18 @@ a.lab__row:hover .lab__name {
    --------------------------------------------------------------------------- */
 
 @media (max-width: 1180px) {
-  .hero {
-    grid-template-columns: minmax(0, 1fr) 190px;
+  .hero:not(.hero--full) {
+    --hero-gutter: 190px;
   }
 
-  .callout__rule {
-    max-width: 22vw;
+  /* A full-width figure has no margin to hold long labels once the window
+     narrows, so they move under the figure as a list instead. */
+  .hero--full .callout {
+    display: none;
+  }
+
+  .hero--full + .callout-list {
+    display: block;
   }
 
   .triptych,

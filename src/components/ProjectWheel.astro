@@ -3,6 +3,7 @@ import { Image } from 'astro:assets';
 import { projects } from '../data/projects';
 import { media } from '../lib/media';
 import { url } from '../lib/paths';
+import { turntableVersion } from '../lib/turntable';
 
 /**
  * The homepage wheel: every project as a miniature on a ring, one in the
@@ -40,6 +41,7 @@ const offset = (i: number, active: number) => {
           data-wheel-item={i}
           data-src={w?.turntable ? url(`turntables/${w.turntable.name}/`) : undefined}
           data-frames={w?.turntable?.frames}
+          data-v={w?.turntable ? turntableVersion(w.turntable.name, w.turntable.frames) : undefined}
           style={`--o:${o};--a:${Math.abs(o)}`}
           aria-current={i === 0 ? 'true' : undefined}
           aria-label={`Project ${project.number}: ${project.title}`}
@@ -137,7 +139,7 @@ const offset = (i: number, active: number) => {
         s.frames.forEach((_, k) => {
           const img = new Image();
           img.decoding = 'async';
-          img.src = `${el.dataset.src}${String(k * step).padStart(3, '0')}.webp`;
+          img.src = `${el.dataset.src}${String(k * step).padStart(3, '0')}.webp?v=${el.dataset.v ?? ''}`;
           img.onload = () => (s!.frames[k] = img);
         });
       }

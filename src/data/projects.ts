@@ -35,7 +35,7 @@ export const projects: Project[] = [
       alt: 'CAD render of the hand assembly',
     },
     wheel: {
-      image: 'hania-turntable-poster.jpg',
+      image: 'hania-turntable-poster.png',
       alt: 'Render of the full arm assembly',
       scale: 1.5,
       turntable: { name: 'hania', frames: 72, width: 880, height: 585 },
@@ -71,7 +71,7 @@ export const projects: Project[] = [
       alt: 'The finished leather face bag resting against a railing in a park',
     },
     wheel: {
-      image: 'sviatovid-hero-poster.jpg',
+      image: 'sviatovid-hero-poster.png',
       alt: 'Render of the eye mechanism with its two eyeball domes',
       scale: 1.09,
       turntable: { name: 'sviatovid-hero', frames: 72, width: 700, height: 640 },
@@ -107,7 +107,7 @@ export const projects: Project[] = [
       alt: 'The inflated channel sample connected to the printed pump housing, lit in blue and green',
     },
     wheel: {
-      image: 'pneumabra-hero-poster.jpg',
+      image: 'pneumabra-hero-poster.png',
       alt: 'Render of the spherical control housing with its feed tube',
       scale: 1.28,
       turntable: { name: 'pneumabra-hero', frames: 72, width: 1000, height: 667 },

@@ -49,9 +49,13 @@ export interface Stat {
 
 export interface Callout {
   label: string;
-  /** Rule length in px — tuned per arrow in the design; keep the exact value. */
-  rule: number;
-  /** Vertical position over the figure, as a percentage. */
+  /**
+   * Where the arrowhead lands, as a fraction of the image's width (0 = left
+   * edge, 1 = right edge). The rule stretches from there to the label, so the
+   * arrow stays on its part at any window width.
+   */
+  x: number;
+  /** Vertical position of the arrow over the figure, as a percentage. */
   top: string;
   muted?: boolean;
 }

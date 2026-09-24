@@ -14,8 +14,8 @@ import type { Callout } from '../../data/types';
 const project = bySlug.sviatovid;
 
 /*
- * Carried over from the approved positions on the still render, mapped
- * proportionally onto the turntable's framing and placed on frame 0.
+ * The approved heights on this render; each arrowhead lands just beside its
+ * part, as a fraction of the image width.
  */
 const callouts: Callout[] = [
   { label: 'A — tilt servo, vertical axis', x: 0.778, top: '15.5%' },
@@ -29,7 +29,7 @@ const callouts: Callout[] = [
   <Band label="fig. 01" sub="mechanism">
     <HeroFigure
       src="sviatovid-mechanism-render.png"
-      alt="Render of the eye mechanism — two eyeball domes on a yoke, tilt and pan servos, camera and Pi board in the housing — turning as the page scrolls"
+      alt="CAD render of the eye mechanism: two transparent eyeball domes on a yoke, tilt and pan servos, camera and Pi board inside the printed housing"
       aspect="1184/1082"
       fit="contain"
       callouts={callouts}

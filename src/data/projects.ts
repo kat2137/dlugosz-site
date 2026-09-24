@@ -109,7 +109,7 @@ export const projects: Project[] = [
     wheel: {
       image: 'pneumabra-hero-poster.png',
       alt: 'Render of the spherical control housing with its feed tube',
-      scale: 1.28,
+      scale: 1.35,
       turntable: { name: 'pneumabra-hero', frames: 72, width: 1000, height: 667 },
     },
   },

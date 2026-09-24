@@ -14,9 +14,8 @@ import type { Callout } from '../../data/types';
 const project = bySlug.hania;
 
 /*
- * Re-tuned for the turntable framing: each arrow sits at its part's height on
- * frame 0 and stops just short of the arm's edge. The arm turns about a
- * vertical axis, so the heights hold for the whole revolution.
+ * Heights are the designer's on this render; each arrowhead lands just beside
+ * its part, as a fraction of the image width.
  */
 const callouts: Callout[] = [
   { label: 'A — tendon-driven palm', x: 0.516, top: '29%' },
@@ -30,7 +29,7 @@ const callouts: Callout[] = [
   <Band label="fig. 01" sub="assembly">
     <HeroFigure
       src="hania-cad-render.jpg"
-      alt="Render of the full arm assembly — hand, wrist, mid-arm and elbow — turning as the page scrolls"
+      alt="CAD render of the hand assembly"
       aspect="639/425"
       fit="cover"
       callouts={callouts}

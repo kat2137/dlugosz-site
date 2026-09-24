@@ -94,11 +94,12 @@ JavaScript or with reduced motion requested.
 To replace one, export the new turntable, cut it into numbered WebP frames at
 the size given in the page's `turntable` prop, and replace the poster.
 
-The three hero turntables (Hania, Sviatovid, PneumaBra) are transparent
-cut-outs: the render background is keyed out and the floor shadow kept as
-partial transparency, so they sit on the page, and overlap each other on the
-homepage wheel, without a box. The object pixels are the source's own, lightly
-sharpened — not blurred. Their posters are PNG for the same reason.
+Turntable frames are transparent cut-outs, so they sit on the page and overlap
+on the homepage wheel without a box. All three were cut from GIF exports, whose
+256-colour dither shows as a fine grain at this size; re-cutting them from the
+original video exports would remove it. `hania-cutout.png` and
+`sviatovid-cutout.png` are clean cut-outs of the high-resolution renders, kept
+for anywhere a still is wanted.
 
 **SEO.** Per-page title, description, canonical, Open Graph and a generated
 social image; `CreativeWork` JSON-LD on each project and `ProfilePage` on the

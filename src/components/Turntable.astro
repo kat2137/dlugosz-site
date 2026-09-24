@@ -108,6 +108,8 @@ const version = turntableVersion(name, frames);
       ctx.drawImage(frame, 0, 0, canvas.width, canvas.height);
       if (images[index]) shown = index;
       root.classList.add('is-live');
+      const poster = root.querySelector<HTMLElement>('.turntable__poster');
+      if (poster) poster.style.opacity = '0';
     };
 
     const request = () => {

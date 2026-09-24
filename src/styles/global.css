@@ -405,6 +405,11 @@ a.nav__link:hover {
   opacity: 1;
 }
 
+/* Frames are transparent, so the still underneath must go once they draw. */
+.turntable.is-live .turntable__poster {
+  opacity: 0;
+}
+
 .hero > .turntable {
   align-self: start;
 }
@@ -1448,8 +1453,8 @@ a.next:hover .next__title {
    --------------------------------------------------------------------------- */
 
 .wheel {
-  --tile: clamp(220px, 32vw, 420px);
-  --step: clamp(170px, 27vw, 380px);
+  --tile: clamp(280px, 44vw, 580px);
+  --step: clamp(250px, 38vw, 540px);
   padding: 20px 0 0;
 }
 
@@ -1520,6 +1525,10 @@ a.next:hover .next__title {
 
 .wheel__item.is-spinning .wheel__canvas {
   opacity: 1;
+}
+
+.wheel__item.is-spinning .wheel__img {
+  opacity: 0;
 }
 
 .wheel__blank {
@@ -1673,8 +1682,8 @@ a.next:hover .next__title {
 
 @media (max-width: 900px) {
   .wheel {
-    --tile: 58vw;
-    --step: 52vw;
+    --tile: 76vw;
+    --step: 66vw;
   }
 
   .wheel__item {

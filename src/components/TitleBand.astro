@@ -10,6 +10,7 @@ const { project } = Astro.props;
     <div class="meta-stack__accent">project {project.number}</div>
     <div class="meta-stack__accent">{project.discipline}</div>
     <div class="meta-stack__muted">{project.year}</div>
+    {project.tags && project.tags.map((tag) => <div class="index__tag">{tag}</div>)}
     <div class="meta-stack__group">
       {project.tools.map((tool, i) => <>{i > 0 && <br />}{tool}</>)}
     </div>

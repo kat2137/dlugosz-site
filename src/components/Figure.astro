@@ -1,7 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import Turntable from './Turntable.astro';
-import { media } from '../lib/media';
+import { media, duoFor } from '../lib/media';
 import { url } from '../lib/paths';
 
 interface Props {
@@ -37,14 +37,18 @@ const {
 const animated = !turntable && src.endsWith('.gif');
 const image = animated || turntable ? null : media(src);
 const rawSrc = url(`media/${src}`);
+const duo = image ? duoFor(src) : null;
 ---
 
 <div>
-  <div class:list={['frame', fit === 'cover' && 'frame--cover']} style={aspect ? `aspect-ratio:${aspect}` : undefined}>
+  <div class:list={['frame', fit === 'cover' && 'frame--cover', duo && 'frame--develops']} style={aspect ? `aspect-ratio:${aspect}` : undefined}>
     {turntable ? (
       <Turntable {...turntable} alt={alt} fit={fit} sizes={sizes} />
     ) : image ? (
-      <Image src={image} alt={alt} widths={widths} sizes={sizes} />
+      <>
+        {duo && <Image class="plate__duo" src={duo} alt="" widths={widths} sizes={sizes} aria-hidden="true" />}
+        <Image class={duo ? 'plate__real' : undefined} src={image} alt={alt} widths={widths} sizes={sizes} />
+      </>
     ) : (
       <img src={rawSrc} alt={alt} loading="lazy" decoding="async" />
     )}

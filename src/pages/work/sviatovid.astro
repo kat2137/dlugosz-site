@@ -18,10 +18,10 @@ const project = bySlug.sviatovid;
  * part, as a fraction of the image width.
  */
 const callouts: Callout[] = [
-  { label: 'A — tilt servo, vertical axis', x: 0.778, top: '15.5%' },
-  { label: 'B — eyeball domes on a shared yoke', x: 0.784, top: '28.5%' },
-  { label: 'C — pan servo driving both eyes', x: 0.649, top: '41.6%' },
-  { label: 'D — camera and Pi board in the housing', x: 0.671, top: '61.9%' },
+  { label: 'A — tilt servo, vertical axis', x: 0.80, top: '14%' },
+  { label: 'B — eyeball domes on a shared yoke', x: 0.86, top: '24%' },
+  { label: 'C — pan servo driving both eyes', x: 0.70, top: '44%' },
+  { label: 'D — camera and Pi board in the housing', x: 0.70, top: '62%' },
 ];
 ---
 
@@ -30,14 +30,15 @@ const callouts: Callout[] = [
     <HeroFigure
       src="sviatovid-mechanism-render.png"
       alt="CAD render of the eye mechanism: two transparent eyeball domes on a yoke, tilt and pan servos, camera and Pi board inside the printed housing"
-      aspect="1184/1082"
+      aspect="361/481"
       fit="contain"
+      fig="clamp(240px, 46%, 400px)"
       callouts={callouts}
       turntable={{
         name: 'sviatovid-hero',
         frames: 72,
-        width: 700,
-        height: 640,
+        width: 361,
+        height: 481,
         poster: 'sviatovid-hero-poster.png',
       }}
       caption="fig. 01 — mechanism as modelled, housing shown open"

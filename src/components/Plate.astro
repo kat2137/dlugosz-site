@@ -1,6 +1,6 @@
 ---
 import { Image } from 'astro:assets';
-import { media, mediaForSlot } from '../lib/media';
+import { media, mediaForSlot, duoFor } from '../lib/media';
 import type { Plate } from '../data/types';
 
 export type PlateStyle = 'hania' | 'sviatovid' | 'pneumabra' | 'sony';
@@ -32,6 +32,8 @@ function frameClass(): string {
  * where one exists; the rest render as an empty frame with the placeholder.
  */
 const image = plate.src ? media(plate.src) : plate.id ? mediaForSlot(plate.id) : null;
+/** The print that shows at rest; the photograph above is revealed on hover. */
+const duo = image ? duoFor(image.src.split('/').pop()!) : null;
 ---
 
 <div class="plate">
@@ -46,12 +48,24 @@ const image = plate.src ? media(plate.src) : plate.id ? mediaForSlot(plate.id) :
       ></iframe>
     </div>
   ) : image ? (
-    <div class:list={['plate__frame', frameClass()]}>
+    <div class:list={['plate__frame', frameClass(), duo && 'plate__frame--develops']}>
+      {duo && (
+        <Image
+          class="plate__duo"
+          src={duo}
+          alt=""
+          widths={[380, 600, 900]}
+          sizes="(max-width: 900px) 100vw, 600px"
+          aria-hidden="true"
+        />
+      )}
       <Image
+        class="plate__real"
         src={image}
         alt={plate.alt ?? plate.caption ?? ''}
         widths={[380, 600, 900]}
         sizes="(max-width: 900px) 100vw, 600px"
+        loading="lazy"
       />
     </div>
   ) : (

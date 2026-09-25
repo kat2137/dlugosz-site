@@ -19,8 +19,8 @@ const project = bySlug.pneumabra;
  * photograph, not in this render. Placed on frame 0.
  */
 const callouts: Callout[] = [
-  { label: 'A — feed tube and luer lock', x: 0.758, top: '73.8%' },
-  { label: 'B — pump and valve in the printed housing', x: 0.661, top: '55%' },
+  { label: 'A — feed tube and luer lock', x: 0.70, top: '16%' },
+  { label: 'B — pump and valve in the printed housing', x: 0.95, top: '55%' },
 ];
 ---
 
@@ -29,15 +29,15 @@ const callouts: Callout[] = [
     <HeroFigure
       src="pneumabra-prototype-lit.jpg"
       alt="Render of the printed spherical control housing with its feed tube, turning as the page scrolls"
-      aspect="3/2"
+      aspect="369/246"
+      fig="clamp(280px, 56%, 520px)"
       fit="cover"
       callouts={callouts}
-      gutter={0}
       turntable={{
         name: 'pneumabra-hero',
         frames: 72,
-        width: 1000,
-        height: 667,
+        width: 369,
+        height: 246,
         poster: 'pneumabra-hero-poster.png',
       }}
       caption="fig. 01 — the control unit: pump and valve in one printed housing, a single feed line out to the garment"

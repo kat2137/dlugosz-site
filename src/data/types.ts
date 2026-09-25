@@ -69,6 +69,8 @@ export interface Project {
   longTitle?: boolean;
   discipline: string;
   year: string;
+  /** Techniques the project exercises, listed under the discipline. */
+  tags?: string[];
   /** Tools and materials, one per line in the margin stack. */
   tools: string[];
   repo: { label: string[]; url: string };

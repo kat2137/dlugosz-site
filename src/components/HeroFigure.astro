@@ -13,25 +13,27 @@ interface Props {
   callouts?: Callout[];
   caption: string;
   /**
-   * Width reserved to the right of the image for the callout labels. Set to 0
-   * to let the figure fill the content column, with the labels over the image.
+   * Width of the figure column, as any CSS length. The rest of the band is
+   * left for the callout labels, and the arrows are positioned against this
+   * width — so a tall render can sit narrow with its labels beside it.
    */
-  gutter?: number;
+  fig?: string;
   /** Swap the still for a scroll-scrubbed turntable. */
   turntable?: { name: string; frames: number; width: number; height: number; poster: string };
 }
 
-const { src, alt, aspect, fit = 'cover', callouts = [], caption, gutter = 250, turntable } = Astro.props;
+const { src, alt, aspect, fit = 'cover', callouts = [], caption, fig, turntable } = Astro.props;
+const figure = fig ?? (callouts.length ? 'calc(100% - 250px)' : '100%');
 const image = turntable ? null : media(src);
 ---
 
-<div class:list={['hero', gutter === 0 && 'hero--full']}>
+<div class="hero" style={`--fig:${figure}`}>
   {turntable ? (
     <Turntable
       {...turntable}
       alt={alt}
       fit={fit}
-      sizes={gutter === 0 ? '(max-width: 900px) 100vw, 910px' : '(max-width: 900px) 100vw, 660px'}
+      sizes="(max-width: 900px) 100vw, 660px"
     />
   ) : (
     <Image

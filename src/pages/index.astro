@@ -1,8 +1,34 @@
 ---
+import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import Nav from '../components/Nav.astro';
-import ProjectWheel from '../components/ProjectWheel.astro';
+import { media, duoFor } from '../lib/media';
+import { projects } from '../data/projects';
 import { url } from '../lib/paths';
+
+/**
+ * The homepage is a contact sheet: nine frames in a three-by-three grid, a word
+ * printed under each, so the sheet reads as one sentence about the work. Every
+ * frame sits as a duotone print and develops into the photograph on hover.
+ *
+ * The nine run three to a phrase, and each phrase is one project — hands that
+ * learn is the robotic hand, eyes that follow is Sviatovid, cloth that breathes
+ * is PneumaBra — so the frame above a word always belongs to it.
+ */
+const SHEET: { src: string; alt: string; slug: string; title: string; word: string }[] = [
+  { src: 'arm-wrist-ref.png', alt: 'Anatomical reference for the wrist and forearm', slug: 'robotic-craftsman', title: 'Robotic Craftsman', word: 'Hands' },
+  { src: 'hania-cutout.png', alt: 'The robotic arm, isolated', slug: 'robotic-craftsman', title: 'Robotic Craftsman', word: 'that' },
+  { src: 'int-handsewing.png', alt: 'Hands sewing a panel, filmed as reference footage', slug: 'robotic-craftsman', title: 'Robotic Craftsman', word: 'learn,' },
+  { src: 'sviatovid-shell-cad.jpg', alt: 'The face of Sviatovid in CAD', slug: 'sviatovid', title: 'Sviatovid', word: 'eyes' },
+  { src: 'sviatovid-mechanism-render.png', alt: 'The mechanism that drives the eyes', slug: 'sviatovid', title: 'Sviatovid', word: 'that' },
+  { src: 'sviatovid-mechanism-study.jpg', alt: 'Angle study for the eye linkage', slug: 'sviatovid', title: 'Sviatovid', word: 'follow,' },
+  { src: 'pn-bra-pattern.png', alt: 'The garment pattern', slug: 'pneumabra', title: 'PneumaBra', word: 'cloth' },
+  { src: 'pneumabra-cast-panels.jpg', alt: 'Cast silicone channel panels', slug: 'pneumabra', title: 'PneumaBra', word: 'that' },
+  { src: 'pn-pressure-map.png', alt: 'Pressure map across the garment', slug: 'pneumabra', title: 'PneumaBra', word: 'breathes.' },
+];
+
+const portrait = media('kd-portrait.jpg');
+const portraitDuo = duoFor('kd-portrait.jpg');
 
 const jsonLd = {
   '@context': 'https://schema.org',
@@ -30,11 +56,92 @@ const jsonLd = {
         Katarzyna Długosz — robotics, interactive materials and interaction software
       </h1>
 
-      <div class="band band--end" style="display:block">
-        <ProjectWheel />
-        <div class="home__lab">
-          <a href={url('lab')}>lab — every public repository →</a>
+      <div class="sheet">
+        {SHEET.map((tile) => {
+          const image = media(tile.src);
+          const duo = duoFor(tile.src);
+          return (
+            <div class="cell">
+              <a href={url(`work/${tile.slug}`)} aria-label={tile.title}>
+                <span class:list={['plate__frame', duo && 'plate__frame--develops']}>
+                  {duo && (
+                    <Image
+                      class="plate__duo"
+                      src={duo}
+                      alt=""
+                      widths={[180, 280, 520]}
+                      sizes="(max-width: 860px) 32vw, 260px"
+                      aria-hidden="true"
+                    />
+                  )}
+                  <Image
+                    class="plate__real"
+                    src={image}
+                    alt={tile.alt}
+                    widths={[180, 280, 520]}
+                    sizes="(max-width: 860px) 32vw, 260px"
+                    loading="lazy"
+                  />
+                  <span class="cell__tag">{tile.title}</span>
+                </span>
+              </a>
+              <div class="word">{tile.word}</div>
+            </div>
+          );
+        })}
+      </div>
+
+      <div class="intro">
+        <span class:list={['plate__frame', portraitDuo && 'plate__frame--develops']}>
+          {portraitDuo && (
+            <Image
+              class="plate__duo"
+              src={portraitDuo}
+              alt=""
+              widths={[180, 280, 520]}
+              sizes="(max-width: 860px) 200px, 260px"
+              aria-hidden="true"
+            />
+          )}
+          <Image
+            class="plate__real"
+            src={portrait}
+            alt="Katarzyna Długosz"
+            widths={[180, 280, 520]}
+            sizes="(max-width: 860px) 200px, 260px"
+            loading="lazy"
+          />
+        </span>
+        <div>
+          <p class="intro__name">Katarzyna Długosz</p>
+          <p class="intro__line">
+            Designer and engineer building robotic and interactive objects — the mechanism, the
+            electronics, and the software that makes them move.
+          </p>
         </div>
+      </div>
+
+      <h2 class="index__head">Projects</h2>
+      <div class="index__list">
+        {projects.map((project) => (
+          <a class="index__row" href={url(`work/${project.slug}`)}>
+            <span class="index__n">{project.number}</span>
+            <span>
+              <span class="index__t">{project.title}</span>
+              <p class="index__s">{project.standfirst}</p>
+            </span>
+            <span class="index__m">
+              <span class="index__lead">{project.discipline} · {project.year}</span>
+              {project.tags?.map((tag) => <span class="index__tag">{tag}</span>)}
+            </span>
+            <span class="index__a" aria-hidden="true">→</span>
+          </a>
+        ))}
+      </div>
+
+      <div class="foot">
+        <span>Katarzyna Długosz — London</span>
+        <a href={url('lab')}>lab — every public repository →</a>
       </div>
     </div>
   </main>

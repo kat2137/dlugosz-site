@@ -6,6 +6,103 @@ import type { Section } from '../types';
  */
 export const sections: Section[] = [
   {
+    title: 'Robot training',
+    meta: 'Imitation \u00b7 kinematics \u00b7 sim',
+    lede: 'Rather than programming a stitch, the hand is taught one. Reference footage of hand-sewing is lifted into 21 landmarks a frame, those landmarks become joint angles through the same link tree the arm is built on, and the angles are retargeted onto a hand whose fingers are not the proportions of the one in the video.',
+    groups: [
+      {
+        label: 'Imitation with WiLoR',
+        tag: 'footage \u2192 landmarks \u2192 angles',
+        text: 'Footage runs through WiLoR, which returns 21 hand landmarks per frame in a fixed order \u2014 wrist at index 0, then thumb through pinky in fours, each fingertip last. The per-frame JSON is globbed into a single NumPy array shaped [n_frames, 21, 3] and plotted with matplotlib, one coloured polyline per finger, so a clip can be read as a sequence of poses rather than a wall of numbers. Angles come out of the landmarks as vectors: each bone is the vector between two joints, and the flexion angle is the arccos of the normalised dot product between adjacent bones \u2014 taken in the wrist frame for MCP, and in the MCP frame for PIP and tip.',
+        plates: [
+          { id: 'train-wilor-plot', src: 'train-wilor-plot.png', alt: 'Matplotlib 3D plot of hand keypoints, one coloured polyline per finger', caption: 'WiLoR landmarks plotted per frame, matplotlib' },
+          { id: 'train-phases', placeholder: 'Frame-range breakdown of one stitch' },
+        ],
+      },
+      {
+        label: 'Calibrating motors',
+        tag: 'on the hardware',
+        text: 'Calibration runs on the arm itself rather than in simulation. The finger servos are addressed as PWM channels through a PCA9685 over I\u00b2C at 60 Hz, between 1000 and 2000 \u00b5s; the wrist runs on Feetech STS3215 bus servos over a single half-duplex serial line at 1 Mbaud, addressed by ID. A sweep script walks every channel across its range, waits for each position to settle, and writes step, channel, commanded position, settle time and measured angle to CSV \u2014 tied to the video by a clap on frame one, so the log and the footage share a timebase. Travel limits are then written into the bus servos\u2019 own EPROM: 2000\u20134095 counts for wrist rotate, 2200\u20133000 for wrist tilt, so a bad command cannot drive a joint past its stop.',
+        plates: [
+          { id: 'train-sweep', placeholder: 'Position sweep against the video log' },
+        ],
+      },
+      {
+        label: 'Kinematics and pose estimation',
+        tag: 'forward \u00b7 inverse \u00b7 palm frame',
+        text: 'The arm is described as a link tree: each link carries a parent, a rotation axis, an offset from that parent and, where a joint is tendon-driven rather than motor-driven, the driver it follows and the ratio it follows it at. Forward kinematics composes Rodrigues rotations down the tree to place any joint in space; the inverse solve runs the other way, from a fingertip target back to the angles that reach it. Wrist tilt and roll are the part WiLoR cannot give \u2014 it reports the wrist only in relation to the finger joints, so it carries no bend or rotation. They are recovered instead by building a palm frame from the landmarks: the wrist-to-middle-MCP vector as one axis, the index-to-pinky MCP vector as the second, their cross product as the palm normal, re-orthogonalised, then read off as tilt and roll. Motion logic follows Jazar, \u201cTheory of Applied Robotics: Kinematics, Dynamics and Control\u201d; object orientation in frame is estimated by PCA on the contour axes.',
+        plates: [
+          { id: 'train-linktree', placeholder: 'Link tree, axes and offsets' },
+        ],
+      },
+      {
+        label: 'Simulation',
+        tag: 'fusion 360 \u2192 mujoco',
+        text: 'Every link is animated in Fusion 360 and exported as meshes, then assembled into a MuJoCo model \u2014 palm.xml for the hand alone, palm_with_frame.xml for the hand on the arm frame \u2014 through the Fusion-to-MuJoCo export. In simulation the joints get physics: actuator ranges, the coupling between a driven joint and its driver, and contact, so a grasp can be run against a needle before it is run against a real one. The driver script maps raw servo counts onto simulated joint angles (2048 open, 3100 closed, a ratio-1.0 joint reaching about 1.5 rad at full curl), which means a pose can be sent to the sim and the bench in the same units.',
+        plates: [
+          { id: 'train-mujoco', placeholder: 'MuJoCo hand, joint visualisation on' },
+          { id: 'train-grasp-sim', placeholder: 'Simulated grasp against the needle' },
+        ],
+      },
+      {
+        label: 'Retargeting',
+        tag: 'video hand \u2192 robot hand',
+        text: 'The robot\u2019s fingers are not the proportions of the hand in the footage, so angles cannot simply be copied across. The arm was measured by logging the position of every finger through its range and comparing that log against real video, drawn over frame by frame in matplotlib, until each segment\u2019s share of the finger was known: for the index, roughly 0.35 MCP, 0.46 PIP, 0.15 DIP; for the thumb, 0.44 and 0.56; with the bus servos turning about 2.6 degrees per 100 \u00b5s. Those ratios are stored and applied as a scaling layer, and the grasp itself is matched on vector distance from the fingertip rather than on joint angle \u2014 so what transfers from the footage is the shape of the grasp, not the geometry of the hand that made it.',
+        plates: [
+          { id: 'train-ratios', placeholder: 'Measured segment ratios per finger' },
+          { id: 'train-overlay', placeholder: 'Logged positions drawn over footage' },
+        ],
+      },
+      {
+        label: 'Vision',
+        tag: 'in progress',
+        text: 'Not finished. The camera is being brought up to answer one question the arm cannot answer from its own joint angles: where it actually is in relation to the frame. A YOLO26 detector with depth estimation gives the arm\u2019s position in the scene, and a second, smaller model \u2014 fine-tuned on Edge Impulse specifically to find a needle \u2014 locates the needle itself. Camera bring-up, checkerboard calibration and live capture are already in the repository; the models are not yet in the loop.',
+        plates: [],
+      },
+    ],
+    body1: 'Training targets the pose rather than the outcome. A stitch is a rhythm: the approach angle only makes sense after the pull before it, so the hand is scored on whether it passes through the same intermediate poses a practised hand does, not on whether a seam held at the end.',
+    body2: 'Errors are read as diagnostics. A consistent offset points at the link model, a growing one at cable stretch, and a pose the hand cannot reach at all points back at the ratios. Process knowledge for the pipeline was researched with AI assistance; the code is written by hand.',
+    takeaway: 'Grip pressure and the pause before a knot never survive video capture. That gap is the argument of the project, not a bug in it.',
+    notes: ['WiLoR \u00b7 YOLO', 'MuJoCo \u00b7 Fusion 360', 'NumPy \u00b7 OpenCV \u00b7 matplotlib', 'Rodrigues \u00b7 Jazar'],
+  },
+  {
+    title: 'Electronics',
+    meta: 'Actuators \u00b7 board \u00b7 sensors',
+    lede: 'Seventeen driven axes on two different buses, a single-board computer doing the vision, and a loom that has to survive being opened every time a joint is re-laced.',
+    groups: [
+      {
+        label: 'Actuators',
+        tag: 'two buses',
+        text: 'The fingers run on PWM hobby servos wired to a PCA9685 breakout, which the board addresses over I\u00b2C \u2014 sixteen channels from two wires, at 60 Hz with pulses between 1000 and 2000 \u00b5s. The wrist runs on Feetech STS3215 bus servos instead, which take position, speed and acceleration as commands and report their own position back. Those do not use I\u00b2C: they are daisy-chained on a single half-duplex TTL serial line at 1 Mbaud, one wire carrying both directions, with each servo answering on its own ID \u2014 so the wrist can be asked where it is, which the PWM fingers cannot be. First prototypes drove everything from the PCA board; the wrist moved to the bus servos once position feedback became the thing that mattered.',
+        plates: [
+          { id: 'elec-servo-finger', placeholder: 'Finger servo bed and PCA9685' },
+          { id: 'elec-servo-wrist', placeholder: 'STS3215 bus servos at the wrist' },
+        ],
+      },
+      {
+        label: 'Board',
+        tag: 'jetson orin nano',
+        text: 'Everything runs on a Jetson Orin Nano under Linux, chosen because the vision models have to run on the arm rather than on a laptop over the network. The first infrastructure was built on an Arduino Uno Q, which drove the servos well enough but could not carry inference alongside them, so it was retired rather than worked around.',
+        plates: [
+          { id: 'elec-board', placeholder: 'Jetson Orin Nano in the arm base' },
+        ],
+      },
+      {
+        label: 'Sensors',
+        tag: 'camera \u00b7 time-of-flight',
+        text: 'A camera on the Linux board carries two jobs: a needle detector, custom fine-tuned on Edge Impulse for this one object, and YOLO26 with depth estimation to place the arm within the frame. A time-of-flight sensor sits alongside it for the close work \u2014 needle range at the fingertip, and the feedback that tells the hand it has the needle rather than inferring it from cable tension.',
+        plates: [
+          { id: 'elec-camera', placeholder: 'Camera mount and field of view' },
+          { id: 'elec-tof', placeholder: 'Time-of-flight sensor at the fingertip' },
+        ],
+      },
+    ],
+    body1: 'Two buses is a deliberate split rather than an accident of parts: the fingers need many cheap channels and the wrist needs to be able to answer questions about itself. Keeping them separate means a finger can be re-laced without touching the joint that carries the load.',
+    body2: 'Serviceability set the rest of the layout. The servo bed sits behind the wrist so its mass stays off the fingers, connectors sit outside the shell where a hand can reach them, and nothing that has to be re-soldered lives inside a finger.',
+    takeaway: 'One connector, one bus per job, no soldering inside a finger \u2014 the electronics were designed around how often the hand gets taken apart.',
+    notes: ['PCA9685 \u00b7 I\u00b2C', 'Feetech STS3215 \u00b7 serial', 'Jetson Orin Nano', 'Edge Impulse \u00b7 YOLO26'],
+  },
+  {
     title: 'Arm design',
     meta: 'CAD · mechanism',
     lede: 'The brief was a hand that could hold a needle and pull a stitch. Everything below follows from that: joints that bend without a pin, fingertips that grip thread, and a wrist and elbow taken from human anatomy rather than from a robot arm.',
@@ -44,56 +141,6 @@ export const sections: Section[] = [
     body2: 'The production hand has seventeen driven axes in three tendon families, routed through channels moulded into the forearm so the cable path is serviceable from outside. The shell prints in two halves around those channels. Modelled in Fusion 360, printed in PETG with TPU fingertip pads.',
     takeaway: 'The only gripper dexterous enough to complete a variety of actions with different sets of tools is a human hand. Tested in a study comparing beginners and professionals in sewing, the fingers proved to move more with increased experience, while shoulders or the object held were moving less and less.',
     notes: ['Fusion 360', 'Rolling-contact joints', '17 joints', 'PETG · TPU · nylon'],
-  },
-  {
-    title: 'Electronics',
-    meta: 'Drive · control',
-    lede: 'Seventeen driven axes, one control board, and a loom that has to survive being opened every time a joint is re-laced.',
-    groups: [
-      {
-        label: 'Drive and control',
-        tag: 'servo bed',
-        text: 'Servos sit in a bed behind the wrist so their mass stays off the fingers, each driven from a single control board with a shared bus for position feedback. Tendon groups are addressed as channels rather than individual joints, which keeps the control surface small enough to drive from predicted poses.',
-        plates: [
-        ],
-      },
-    ],
-    body1: 'Keeping the electronics behind the wrist was a serviceability decision as much as a mass one: the hand is opened often, and nothing that has to be re-soldered lives inside a finger.',
-    body2: 'Position feedback on a shared bus means a joint that drifts is identified from the log rather than by eye.',
-    takeaway: 'One connector, one bus, no soldering inside a finger — the electronics were designed around how often the hand gets taken apart.',
-    notes: ['Custom control board', 'Shared feedback bus', 'Single break-out connector'],
-  },
-  {
-    title: 'Robot training',
-    meta: 'Machine learning',
-    lede: 'Rather than programming a stitch, the hand learns one: reference footage of sewing is turned into pose sequences, and a small recurrent model predicts where the needle goes next.',
-    groups: [
-      {
-        label: 'Capture',
-        tag: 'footage → poses',
-        text: 'Footage is sampled every fourth frame, hand landmarks lifted with OpenCV, and the needle tip tracked as a fourth point. That gives a sequence rather than a single target — a stitch is a rhythm, and the approach angle only makes sense after the pull before it.',
-        plates: [
-          { id: 'train-cap-still', src: 'train-wilor-plot.png', alt: 'Matplotlib 3D plot of hand keypoints, one coloured polyline per finger', caption: 'WiLoR plotting of the hand using matplotlib, single frame' },
-        ],
-      },
-      {
-        label: 'Motion',
-        tag: 'pose → cable travel',
-        text: 'Predicted poses are handed to the tendon solver, which converts joint angles into millimetres of cable travel per group and drives the servos. Motion is tuned on the arc rather than the endpoint: the hand is scored on whether it passes through the same intermediate poses a practised hand does.',
-        plates: [
-        ],
-      },
-      {
-        label: 'Model',
-        tag: 'torch · gru',
-        text: 'A two-layer GRU over joint angles plus needle position, trained to predict the next pose. Scoring on pose error rather than a finished seam shows where the hand diverges frame by frame, instead of only whether the stitch held.',
-        plates: [],
-      },
-    ],
-    body1: 'Training targets the pose, not the outcome. The tendon solver then turns each predicted pose into cable travel per group, which is what the servos actually receive.',
-    body2: 'Errors are read as diagnostics rather than failures: a consistent offset points at the joint model, a growing one at cable stretch.',
-    takeaway: 'Grip pressure and the pause before a knot never survive video capture. That gap is the argument of the project, not a bug in it.',
-    notes: ['PyTorch · GRU', 'OpenCV', 'Pose sequences', 'Tendon solver'],
   },
   {
     title: 'Artist interviews',

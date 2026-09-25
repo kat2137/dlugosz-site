@@ -28,6 +28,17 @@ export function hasMedia(name: string): boolean {
 }
 
 /**
+ * Every plate has a duotone twin alongside it — <stem>.duo.jpg — which is what
+ * shows at rest. The photograph underneath is revealed on hover, so the page
+ * reads as a contact sheet that develops where you touch it. Twins are
+ * generated, so a missing one is not an error: the plate simply never develops.
+ */
+export function duoFor(name: string): ImageMetadata | null {
+  const stem = name.slice(0, name.lastIndexOf('.'));
+  return byName.get(`${stem}.duo.jpg`) ?? null;
+}
+
+/**
  * Unfilled plates in the prototype carry only a slot id. Where an asset with
  * that stem exists it is the intended image, so it is wired up here.
  */

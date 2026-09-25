@@ -11,17 +11,17 @@ import { roboticCraftsman } from '../../data/repos';
 import { sections } from '../../data/sections/hania';
 import type { Callout } from '../../data/types';
 
-const project = bySlug.hania;
+const project = bySlug['robotic-craftsman'];
 
 /*
  * Heights are the designer's on this render; each arrowhead lands just beside
  * its part, as a fraction of the image width.
  */
 const callouts: Callout[] = [
-  { label: 'A — tendon-driven palm', x: 0.516, top: '29%' },
-  { label: 'B — mid-arm housing the tendon servos below the wrist tilt', x: 0.527, top: '48%' },
-  { label: 'C — wrist rotation on a bearing', x: 0.541, top: '61.5%' },
-  { label: 'D — elbow and arm base with a pulley-servo system', x: 0.601, top: '80%', muted: true },
+  { label: 'A — tendon-driven palm', x: 0.53, top: '18%' },
+  { label: 'B — mid-arm housing the tendon servos below the wrist tilt', x: 0.54, top: '45%' },
+  { label: 'C — wrist rotation on a bearing', x: 0.56, top: '60%' },
+  { label: 'D — elbow and arm base with a pulley-servo system', x: 0.74, top: '78%', muted: true },
 ];
 ---
 
@@ -30,14 +30,15 @@ const callouts: Callout[] = [
     <HeroFigure
       src="hania-cad-render.jpg"
       alt="CAD render of the hand assembly"
-      aspect="639/425"
-      fit="cover"
+      aspect="504/672"
+      fit="contain"
+      fig="clamp(240px, 48%, 420px)"
       callouts={callouts}
       turntable={{
         name: 'hania',
         frames: 72,
-        width: 880,
-        height: 585,
+        width: 504,
+        height: 672,
         poster: 'hania-turntable-poster.png',
       }}
       caption="fig. 01 — 17 joints across six joint systems, tendon-driven with a springed return"

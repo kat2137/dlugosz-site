@@ -6,11 +6,13 @@ import type { Project } from './types';
  */
 export const projects: Project[] = [
   {
-    slug: 'hania',
+    slug: 'robotic-craftsman',
     number: '01',
-    title: 'Hania',
+    title: 'Robotic Craftsman',
+    longTitle: true,
     discipline: 'robotics',
     year: '2026',
+    tags: ['robotic arm', 'training pipeline', 'ML'],
     tools: ['fusion 360', 'machine learning', 'python'],
     repo: {
       label: ['github.com/kat2137/robotic-craftsman'],
@@ -27,7 +29,7 @@ export const projects: Project[] = [
       { value: '06', label: 'joint systems' },
       { value: '03', label: 'tendon groups' },
     ],
-    next: 'sviatovid',
+    next: 'pneumabra',
     description:
       'A seventeen-joint tendon-driven robotic hand built to learn hand-sewing from reference footage, with rolling-contact finger joints and cast silicone fingertips.',
     card: {
@@ -38,51 +40,16 @@ export const projects: Project[] = [
       image: 'hania-turntable-poster.png',
       alt: 'Render of the full arm assembly',
       scale: 1.5,
-      turntable: { name: 'hania', frames: 72, width: 880, height: 585 },
-    },
-  },
-  {
-    slug: 'sviatovid',
-    number: '02',
-    title: 'Sviatovid',
-    discipline: 'robotics',
-    year: '2025',
-    tools: ['raspberry pi 4', 'pca9685', 'mg90s servos', 'fusion 360', 'python'],
-    repo: {
-      label: ['github.com/kat2137/', 'Googly_eyes_project'],
-      url: 'https://github.com/kat2137/Googly_eyes_project',
-    },
-    standfirst:
-      'An interactive robotic system that recognises the people looking at it and looks back — a wearable object that makes the onlooker the one being observed.',
-    brief: [
-      'Sviatovid is a Slavic deity who faces all four directions at once, all-seeing, watching over the people who pray to him. The object takes that literally: it looks back at whoever looks at it, so the onlooker becomes the observed.',
-      'Which turns symbolism into an engineering problem. The eyes have to find a face, track it, and keep tracking as it moves — and all of it has to fit inside something a person can carry.',
-    ],
-    stats: [
-      { value: '02', label: 'axes of movement' },
-      { value: '150.74', label: 'housing height, mm' },
-      { value: '51.12', label: 'housing depth, mm' },
-    ],
-    next: 'pneumabra',
-    description:
-      'A wearable robotic object with four animated eyes that detect and track passers-by, built on a Raspberry Pi with a two-axis servo yoke.',
-    card: {
-      src: 'sviatovid-bag-in-park-wide.jpg',
-      alt: 'The finished leather face bag resting against a railing in a park',
-    },
-    wheel: {
-      image: 'sviatovid-hero-poster.png',
-      alt: 'Render of the eye mechanism with its two eyeball domes',
-      scale: 1.09,
-      turntable: { name: 'sviatovid-hero', frames: 72, width: 700, height: 640 },
+      turntable: { name: 'hania', frames: 72, width: 504, height: 672 },
     },
   },
   {
     slug: 'pneumabra',
-    number: '03',
+    number: '02',
     title: 'PneumaBra',
-    discipline: 'interactive material',
+    discipline: 'pneumatic textile system',
     year: '2026',
+    tags: ['pcb', 'electronic design', 'ui'],
     tools: ['fusion 360', 'platsil gel 25', 'nodemcu esp32', 'mprls sensor', 'easyeda'],
     repo: {
       label: ['github.com/kat2137/', 'PneumaBra'],
@@ -99,7 +66,7 @@ export const projects: Project[] = [
       { value: '03', label: 'operating modes' },
       { value: '2 mm', label: 'channel creep over 10 hrs' },
     ],
-    next: 'hikego',
+    next: 'sviatovid',
     description:
       'A pneumatic support garment: sealed silicone air channels bonded between two fabric layers, inflated and vented to change compression on demand.',
     card: {
@@ -110,7 +77,44 @@ export const projects: Project[] = [
       image: 'pneumabra-hero-poster.png',
       alt: 'Render of the spherical control housing with its feed tube',
       scale: 1.35,
-      turntable: { name: 'pneumabra-hero', frames: 72, width: 1000, height: 667 },
+      turntable: { name: 'pneumabra-hero', frames: 72, width: 369, height: 246 },
+    },
+  },
+  {
+    slug: 'sviatovid',
+    number: '03',
+    title: 'Sviatovid',
+    discipline: 'robotics',
+    year: '2025',
+    tags: ['computer vision', 'interactive robot'],
+    tools: ['raspberry pi 4', 'pca9685', 'mg90s servos', 'fusion 360', 'python'],
+    repo: {
+      label: ['github.com/kat2137/', 'Googly_eyes_project'],
+      url: 'https://github.com/kat2137/Googly_eyes_project',
+    },
+    standfirst:
+      'An interactive robotic system that recognises the people looking at it and looks back — a wearable object that makes the onlooker the one being observed.',
+    brief: [
+      'Sviatovid is a Slavic deity who faces all four directions at once, all-seeing, watching over the people who pray to him. The object takes that literally: it looks back at whoever looks at it, so the onlooker becomes the observed.',
+      'Which turns symbolism into an engineering problem. The eyes have to find a face, track it, and keep tracking as it moves — and all of it has to fit inside something a person can carry.',
+    ],
+    stats: [
+      { value: '02', label: 'axes of movement' },
+      { value: '150.74', label: 'housing height, mm' },
+      { value: '51.12', label: 'housing depth, mm' },
+    ],
+    next: 'hikego',
+    description:
+      'A wearable robotic object with four animated eyes that detect and track passers-by, built on a Raspberry Pi with a two-axis servo yoke.',
+    card: {
+      src: 'sviatovid-bag-in-park-wide.jpg',
+      alt: 'The finished leather face bag resting against a railing in a park',
+    },
+    wheel: {
+      image: 'sviatovid-hero-poster.png',
+      alt: 'Render of the eye mechanism with its two eyeball domes',
+      scale: 1.09,
+      turntable: { name: 'sviatovid-hero', frames: 72, width: 361, height: 481 },
     },
   },
   {
@@ -119,6 +123,7 @@ export const projects: Project[] = [
     title: 'HikeGo',
     discipline: 'software',
     year: '2025',
+    tags: ['hardware demo', 'unity'],
     tools: ['unity', 'c#', '3d asset pipeline'],
     repo: {
       label: ['github.com/kat2137/', 'sony_scripts'],
@@ -159,6 +164,7 @@ export const projects: Project[] = [
     title: 'Tech pack generator',
     discipline: 'tooling',
     year: '2026',
+    tags: ['factory specification software', 'ML'],
     tools: ['python', 'pydantic', 'pymupdf', 'streamlit'],
     repo: {
       label: ['private \u2014 available', 'on request'],
@@ -175,7 +181,7 @@ export const projects: Project[] = [
       { value: '04', label: 'ML architectures rejected' },
       { value: '06', label: 'phases to build' },
     ],
-    next: 'hania',
+    next: 'robotic-craftsman',
     description:
       'A tech pack generation system for apparel: vector extraction from Illustrator PDFs, a controlled garment taxonomy, a Pydantic schema with per-attribute source stamps, and a frequency-table suggestion layer.',
   },

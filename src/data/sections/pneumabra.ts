@@ -16,9 +16,9 @@ export const sections: Section[] = [
         text: 'Inadequate support is as damaging as excessive tension \u2014 ligament strain occurs both from overstretching and from insufficient support, and the optimal level changes across the cycle and through the day with tissue stiffness, volume and activity. A garment with one fixed compression is wrong for most of the month by definition.',
         plates: [],
         wides: [
-          { src: 'pn-strain-hormonal.png', alt: 'Chart of ligament strain across a 28-day hormonal cycle against the long-term pain threshold', caption: 'Hormonal — strain across a 28-day cycle against the failure threshold' },
-          { src: 'pn-strain-daily.png', alt: 'Chart of average strain through a 9-to-5 working day with activity peaks', caption: 'Daily — average strain through a 9–5 day, with activity peaks' },
-          { src: 'pn-strain-dynamic.png', alt: 'Chart of cyclic strain over thirty seconds of running against follicular, mid-cycle and pre-menstrual thresholds', caption: 'Dynamic — thirty seconds of running against three cycle states' },
+          { src: 'pn-strain-hormonal.jpg', alt: 'Chart of ligament strain across a 28-day hormonal cycle against the long-term pain threshold', caption: 'Hormonal — strain across a 28-day cycle against the failure threshold' },
+          { src: 'pn-strain-daily.jpg', alt: 'Chart of average strain through a 9-to-5 working day with activity peaks', caption: 'Daily — average strain through a 9–5 day, with activity peaks' },
+          { src: 'pn-strain-dynamic.jpg', alt: 'Chart of cyclic strain over thirty seconds of running against follicular, mid-cycle and pre-menstrual thresholds', caption: 'Dynamic — thirty seconds of running against three cycle states' },
         ],
       },
       {
@@ -54,8 +54,8 @@ export const sections: Section[] = [
         text: 'The garment is adjusted from a phone on the same network \u2014 no account, no cloud. One screen raises or releases pressure directly; a calendar screen maps pressure against cycle day, so the mode that matches today against the same day last cycle has something to read from.',
         plates: [],
         pairs: [
-          { src: 'pn-ui-home.png', alt: 'Annotated home page: an adjustment hub showing pressure and cycle day, with input day, manual and auto adjust controls and a cycle-phase loading bar', caption: 'Home page — pressure and cycle day, manual or auto adjustment' },
-          { src: 'pn-ui-calendar.png', alt: 'Monthly calendar with a pressure reading in hPa on each day, colour-coded for menstrual, ovulation and luteal phases', caption: 'Pressure calendar — hPa per day, coded by cycle phase' },
+          { src: 'pn-ui-home.jpg', alt: 'Annotated home page: an adjustment hub showing pressure and cycle day, with input day, manual and auto adjust controls and a cycle-phase loading bar', caption: 'Home page — pressure and cycle day, manual or auto adjustment' },
+          { src: 'pn-ui-calendar.jpg', alt: 'Monthly calendar with a pressure reading in hPa on each day, colour-coded for menstrual, ovulation and luteal phases', caption: 'Pressure calendar — hPa per day, coded by cycle phase' },
         ],
       },
     ],
@@ -74,7 +74,7 @@ export const sections: Section[] = [
         tag: 'space-filling curve',
         text: 'The channel field is a space-filling curve, so one inlet reaches a large area without a manifold of separate tubes to leak at every junction. Layout changes by use case: channels across the pectoral fascia and under the bust absorb cycle volume change; side and front pads take up partial volume differences with an inflatable underwire stabilising the base; a removable panel adds chest-wall stability and a side channel reduces lateral bounce during activity.',
         plates: [
-          { id: 'pn-channels', src: 'pn-channel-stack.png', alt: 'Exploded diagram of the channel build-up: external fabric, silicone base layer on fabric, the empty channel field and its luer lock inlet', caption: 'The build-up: fabric, silicone base, channel field, one luer lock inlet', tall: true },
+          { id: 'pn-channels', src: 'pn-channel-stack.jpg', alt: 'Exploded diagram of the channel build-up: external fabric, silicone base layer on fabric, the empty channel field and its luer lock inlet', caption: 'The build-up: fabric, silicone base, channel field, one luer lock inlet', tall: true },
         ],
       },
       {
@@ -82,7 +82,7 @@ export const sections: Section[] = [
         tag: 'PlatSil Gel 25',
         text: 'Channels are cast in PlatSil Gel 25 \u2014 skin-safe and food-grade \u2014 against a mould modelled in Fusion 360, bonded to a fabric base and fed through a luer lock. The whole garment is designed to come apart at end of life: the fabric is 100% biodegradable polyamide and the silicone separates from it for reuse.',
         plates: [
-          { id: 'pn-fabrication', src: 'pn-peano-moulds.png', alt: 'Three channel-pattern moulds compared: a simple linear tunnel model, a wavy linear distribution, and a Peano space-filling curve redirected to cover a bigger surface', caption: 'Different Peano curve pattern moulds', tall: true },
+          { id: 'pn-fabrication', src: 'pn-peano-moulds.jpg', alt: 'Three channel-pattern moulds compared: a simple linear tunnel model, a wavy linear distribution, and a Peano space-filling curve redirected to cover a bigger surface', caption: 'Different Peano curve pattern moulds', tall: true },
         ],
       },
     ],

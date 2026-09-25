@@ -2,29 +2,59 @@
 import ProjectPage from '../../layouts/ProjectPage.astro';
 import Band from '../../components/Band.astro';
 import Brief from '../../components/Brief.astro';
+import Figure from '../../components/Figure.astro';
 import Contents from '../../components/Contents.astro';
 import { bySlug } from '../../data/projects';
 import { sections } from '../../data/sections/tech-pack';
 
-/**
- * This project was not in the design handoff, so it has no approved figures
- * yet. The page runs the same band system as the other four; the hero and the
- * figure bands drop in as soon as there is imagery.
- */
 const project = bySlug['tech-pack'];
 ---
 
-<ProjectPage project={project} ogImage="hania-cad-render.jpg">
-  <Band label="fig. 01" sub="to come">
-    <div class="plate__frame plate__frame--169">
-      <div class="plate__slot">
-        Hero to come — the four-page user flow, or a generated pack spread
-      </div>
+<ProjectPage project={project} ogImage="tp-bom-output.jpg">
+  <Band label="fig. 01" sub="the tool">
+    <Figure
+      src="tp-bom.jpg"
+      alt="The tool's upload screen: a drag-and-drop field for a tech pack drawing, the uploaded PDF, and a Detected Materials table listing main fabric as suede and lining as twill"
+      aspect="1500/987"
+      fit="contain"
+      caption="fig. 01 — a drawing goes in; materials come back out as rows, before anything is inferred"
+      widths={[640, 960, 1280]}
+      sizes="(max-width: 900px) 100vw, 910px"
+    />
+  </Band>
+
+  <Band label="fig. 02—03" sub="what goes in">
+    <div class="duo">
+      <Figure
+        src="tp-input-annotated.jpg"
+        alt="A STRODE tech pack page for an ice grey suede jacket: front and back flats with construction callouts for the collar stand, back yoke, twin-needle topstitching, CF placket, cuffs and folded hem"
+        aspect="1065/753"
+        caption="fig. 02 — an annotated pack page: every callout is already a specification"
+        small
+      />
+      <Figure
+        src="tp-input-flats.jpg"
+        alt="Plain front and back flats of the same jacket, with an embroidered sunflower placed on the front panel"
+        aspect="941/500"
+        caption="fig. 03 — and the plain flat, which carries the shape but none of the words"
+        small
+      />
     </div>
-    <div class="caption">fig. 01 — [caption to come]</div>
+  </Band>
+
+  <Band label="fig. 04" sub="what comes out">
+    <Figure
+      src="tp-bom-output.jpg"
+      alt="The generated bill of materials: seven rows naming ice grey suede, silk twill lining, lightweight fusing, corozo buttons, thread, brand label and care label, each with colour, quantity and unit"
+      aspect="1270/1044"
+      fit="contain"
+      caption="fig. 04 — the bill of materials the two drawings produce, with quantity and unit per line"
+      widths={[640, 960, 1280]}
+      sizes="(max-width: 900px) 100vw, 910px"
+    />
   </Band>
 
   <Brief project={project} />
 
-  <Contents sections={sections} plateStyle="pneumabra" />
+  <Contents sections={sections} plateStyle="sviatovid" />
 </ProjectPage>

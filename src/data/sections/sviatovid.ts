@@ -15,7 +15,7 @@ export const sections: Section[] = [
         tag: 'two axes',
         text: 'Ranges were worked out from how far a human eye actually travels before the head starts to turn, then the joints were constrained to match — an eye that over-rotates reads as a machine, not a gaze. Inside each hemisphere a linkage arm converts servo rotation into eyeball travel and sets the hard limit of the range.',
         plates: [
-          { id: 'sv-mech-yoke', src: 'sviatovid-yoke-linkage.png', alt: 'CAD view of the eyeball yoke: MG90S servo between two transparent domes with the linkage arms', caption: 'Eyeball yoke and linkage arms, as modelled' },
+          { id: 'sv-mech-yoke', src: 'sviatovid-yoke-linkage.jpg', alt: 'CAD view of the eyeball yoke: MG90S servo between two transparent domes with the linkage arms', caption: 'Eyeball yoke and linkage arms, as modelled' },
         ],
       },
     ],

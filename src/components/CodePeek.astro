@@ -1,7 +1,7 @@
 ---
 import fs from 'node:fs';
 import { highlightLine, toLines } from '../lib/highlight';
-import { url } from '../lib/paths';
+import { GITHUB } from '../data/repos';
 
 /**
  * A short look at one source file, sized to sit in the plate grid beside a
@@ -48,8 +48,8 @@ const truncated = all.length > start + lines;
       )
       .join('')} /></pre>
     {truncated && (
-      <a class="peek__more" href={`${url(`code/${repo}/${path}`)}`} target="_blank" rel="noopener">
-        read the file →
+      <a class="peek__more" href={`${GITHUB[repo] ?? '#'}/blob/main/${path}`} target="_blank" rel="noopener">
+        read it on github ↗
       </a>
     )}
   </div>

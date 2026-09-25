@@ -50,7 +50,7 @@ export const projects: Project[] = [
     discipline: 'pneumatic textile system',
     year: '2026',
     tags: ['pcb', 'electronic design', 'ui'],
-    tools: ['fusion 360', 'platsil gel 25', 'nodemcu esp32', 'mprls sensor', 'easyeda'],
+    tools: ['fusion 360', 'platsil gel 25', 'nodemcu esp8266', 'mprls sensor', 'easyeda'],
     repo: {
       label: ['github.com/kat2137/', 'PneumaBra'],
       url: 'https://github.com/kat2137/PneumaBra',
@@ -120,7 +120,7 @@ export const projects: Project[] = [
   {
     slug: 'hikego',
     number: '04',
-    title: 'HikeGo',
+    title: 'Hike Go',
     discipline: 'software',
     year: '2025',
     tags: ['hardware demo', 'unity'],
@@ -141,7 +141,7 @@ export const projects: Project[] = [
     ],
     stats: [
       { value: '06', label: 'interaction modes' },
-      { value: '05', label: 'signal colours' },
+      { value: '06', label: 'signal colours' },
       { value: '01', label: 'companion app' },
     ],
     next: 'tech-pack',
@@ -167,8 +167,8 @@ export const projects: Project[] = [
     tags: ['factory specification software', 'ML'],
     tools: ['python', 'pydantic', 'pymupdf', 'streamlit'],
     repo: {
-      label: ['private \u2014 available', 'on request'],
-      url: 'https://github.com/kat2137',
+      label: ['private \u2014 ask for', 'access'],
+      url: '/dlugosz-site/about',
     },
     standfirst:
       'Flat garment drawings in, structured tech packs out \u2014 built on a controlled taxonomy rather than a model that guesses.',

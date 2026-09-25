@@ -15,7 +15,7 @@ export const sections: Section[] = [
         tag: 'footage \u2192 landmarks \u2192 angles',
         text: 'Footage runs through WiLoR, which returns 21 hand landmarks per frame in a fixed order \u2014 wrist at index 0, then thumb through pinky in fours, each fingertip last. The per-frame JSON is globbed into a single NumPy array shaped [n_frames, 21, 3] and plotted with matplotlib, one coloured polyline per finger, so a clip can be read as a sequence of poses rather than a wall of numbers. Angles come out of the landmarks as vectors: each bone is the vector between two joints, and the flexion angle is the arccos of the normalised dot product between adjacent bones \u2014 taken in the wrist frame for MCP, and in the MCP frame for PIP and tip.',
         plates: [
-          { id: 'train-wilor-plot', src: 'train-wilor-plot.png', alt: 'Matplotlib 3D plot of hand keypoints, one coloured polyline per finger', caption: 'WiLoR landmarks plotted per frame, matplotlib' },
+          { id: 'train-wilor-plot', src: 'train-wilor-plot.jpg', alt: 'Matplotlib 3D plot of hand keypoints, one coloured polyline per finger', caption: 'WiLoR landmarks plotted per frame, matplotlib' },
           { peek: { repo: 'robotic-craftsman', path: 'main_motion/grasp_test2.py', lines: 20 },
             caption: 'grasp_test2.py \u2014 the grasp rig the captured poses are driven through' },
         ],
@@ -62,8 +62,6 @@ export const sections: Section[] = [
         plates: [
           { peek: { repo: 'robotic-craftsman', path: 'main_motion/ratios.json', lines: 14 },
             caption: 'ratios.json \u2014 each segment\u2019s share of its finger, measured off the arm' },
-          { peek: { repo: 'robotic-craftsman', path: 'main_motion/retargeting.py', lines: 20 },
-            caption: 'retargeting.py \u2014 the scaling layer, and grasp matched on fingertip distance' },
         ],
       },
       {
@@ -153,7 +151,7 @@ export const sections: Section[] = [
     ],
     body1: 'Six joint systems were modelled and printed as test fingers — pin hinges, a compliant living hinge, a cross-tendon four-bar, a ball socket, a pulley return and the rolling-contact joint that was carried through. Each was judged on travel under load, drift after a hundred cycles, and whether it could be repaired without cutting the part open.',
     body2: 'The production hand has seventeen driven axes in three tendon families, routed through channels moulded into the forearm so the cable path is serviceable from outside. The shell prints in two halves around those channels. Modelled in Fusion 360, printed in PETG with TPU fingertip pads.',
-    takeaway: 'The only gripper dexterous enough to complete a variety of actions with different sets of tools is a human hand. Tested in a study comparing beginners and professionals in sewing, the fingers proved to move more with increased experience, while shoulders or the object held were moving less and less.',
+    takeaway: 'Skill migrates into the fingers. Watching beginners and professionals sew, the experienced hand moves its fingers more and its shoulders and the held object less \u2014 so the dexterity worth building is distal, and the arm exists to put the hand somewhere useful rather than to do the work itself.',
     notes: ['Fusion 360', 'Rolling-contact joints', '17 joints', 'PETG · TPU · nylon'],
   },
   {
@@ -166,8 +164,8 @@ export const sections: Section[] = [
         tag: 'field research',
         text: 'The questions were deliberately narrow: what were you taught explicitly, what did you only learn by feel, and what would you refuse to write down. The answers were consistent about tension — every maker judged thread tension by hand, and none could name a number for it.',
         plates: [
-          { id: 'int-portrait', src: 'int-weaver.png', alt: 'A traditional weaver working at a warp-weighted hand loom', caption: 'Traditional weaver' },
-          { id: 'int-hands', src: 'int-handsewing.png', alt: 'Two hands sewing a black panel by hand, filmed from above as reference footage', caption: 'Handsewing captured for robot training' },
+          { id: 'int-portrait', src: 'int-weaver.jpg', alt: 'A traditional weaver working at a warp-weighted hand loom', caption: 'Traditional weaver' },
+          { id: 'int-hands', src: 'int-handsewing.jpg', alt: 'Two hands sewing a black panel by hand, filmed from above as reference footage', caption: 'Handsewing captured for robot training' },
         ],
       },
     ],

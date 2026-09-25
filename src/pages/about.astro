@@ -1,0 +1,174 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import Nav from '../components/Nav.astro';
+import Band from '../components/Band.astro';
+import { media, duoFor, hasMedia } from '../lib/media';
+import { url } from '../lib/paths';
+
+/**
+ * Who she is and how to reach her. Until there is enough for a separate CV
+ * route these live on one page, because a visitor who wants one wants the
+ * other, and two thin pages read worse than one full one.
+ */
+const portrait = hasMedia('kd-portrait.jpg') ? media('kd-portrait.jpg') : null;
+const portraitDuo = portrait ? duoFor('kd-portrait.jpg') : null;
+
+/** [TO CONFIRM] the address she wants public — swap and the mailto follows. */
+const EMAIL = 'kasadlugos@gmail.com';
+const GITHUB = 'https://github.com/kat2137';
+/** [TO CONFIRM] her LinkedIn. Until it is set the row is left out entirely. */
+const LINKEDIN = '';
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'AboutPage',
+  mainEntity: {
+    '@type': 'Person',
+    name: 'Katarzyna Długosz',
+    jobTitle: 'Robotics and physical-interaction designer and engineer',
+    email: `mailto:${EMAIL}`,
+    address: { '@type': 'PostalAddress', addressLocality: 'London', addressCountry: 'GB' },
+    alumniOf: 'London College of Fashion, University of the Arts London',
+    url: 'https://kat2137.github.io/dlugosz-site/about',
+    sameAs: [GITHUB, ...(LINKEDIN ? [LINKEDIN] : [])],
+  },
+};
+---
+
+<Base
+  title="About and contact — K. Długosz"
+  description="Katarzyna Długosz builds robotic and interactive objects — mechanism, electronics and the software that drives them. Based in London; open to roles in robotics, machine learning and wearable technology."
+  ogImage="kd-portrait.jpg"
+  jsonLd={jsonLd}
+>
+  <main class="shell">
+    <div class="page">
+      <Nav current="about" />
+
+      <div class="band">
+        <div class="meta-stack">
+          <div class="meta-stack__accent">about</div>
+          <div class="meta-stack__muted">London</div>
+          <div class="index__tag">robotics</div>
+          <div class="index__tag">machine learning</div>
+          <div class="index__tag">wearable technology</div>
+        </div>
+        <div>
+          <h1 class="h1">Katarzyna Długosz</h1>
+          <p class="standfirst">
+            Designer and engineer building robotic and interactive objects — the mechanism, the
+            electronics, and the software that makes them move.
+          </p>
+        </div>
+      </div>
+
+      <div class="about">
+        {portrait && (
+          <div>
+            <span class:list={['plate__frame', portraitDuo && 'plate__frame--develops']}>
+              {portraitDuo && (
+                <Image
+                  class="plate__duo"
+                  src={portraitDuo}
+                  alt=""
+                  widths={[280, 420, 560]}
+                  sizes="(max-width: 860px) 200px, 300px"
+                  aria-hidden="true"
+                />
+              )}
+              <Image
+                class="plate__real"
+                src={portrait}
+                alt="Katarzyna Długosz"
+                widths={[280, 420, 560]}
+                sizes="(max-width: 860px) 200px, 300px"
+                loading="lazy"
+              />
+            </span>
+          </div>
+        )}
+        <div class="about__text">
+          <p class="body body--loose">
+            I came to robotics through garment construction. Patternmaking is already a kind of
+            engineering — you are working out how a flat thing becomes a moving one, on a body that
+            never holds still — and the questions that interested me there, about how force travels
+            through a structure and where a material gives, turned out to be the same questions a
+            mechanism asks. So I kept the questions and changed the material.
+          </p>
+          <p class="body body--loose">
+            I am finishing an MA in Fashion Futures at London College of Fashion, UAL, where the
+            work has been a seventeen-joint robotic hand taught to sew from video, a garment that
+            adjusts its own compression, and an object that notices when it is being looked at. I
+            build all of it end to end: CAD and mechanism, the board and the loom, and the model
+            that decides what the thing should do next.
+          </p>
+          <p class="body body--loose">
+            I am in London, and looking for a role — robotics, machine learning, wearable
+            technology or R&amp;D, at a company small enough that one person can still own a
+            problem from the mechanism to the model. Open to remote. If any of the work here is
+            close to what you are building, I would like to hear about it.
+          </p>
+        </div>
+      </div>
+
+      <Band label="contact" sub="where to find her" end>
+        <div class="index__list">
+          <a class="index__row" href={`mailto:${EMAIL}`}>
+            <span class="index__n">01</span>
+            <span>
+              <span class="index__t">Email</span>
+              <p class="index__s">
+                The fastest route — about a role, a collaboration, or anything on these pages.
+                Including the tech pack generator, whose repository is private and shared on
+                request.
+              </p>
+            </span>
+            <span class="index__m"><span class="index__lead">{EMAIL}</span></span>
+            <span class="index__a" aria-hidden="true">→</span>
+          </a>
+
+          <a class="index__row" href={GITHUB} target="_blank" rel="noopener">
+            <span class="index__n">02</span>
+            <span>
+              <span class="index__t">GitHub</span>
+              <p class="index__s">
+                Source for the robotic hand, the eye mechanism and the garment controller — and
+                everything else public, listed on the lab page.
+              </p>
+            </span>
+            <span class="index__m"><span class="index__lead">github.com/kat2137</span></span>
+            <span class="index__a" aria-hidden="true">↗</span>
+          </a>
+
+          {LINKEDIN && (
+            <a class="index__row" href={LINKEDIN} target="_blank" rel="noopener">
+              <span class="index__n">03</span>
+              <span>
+                <span class="index__t">LinkedIn</span>
+                <p class="index__s">For the formal version, and for anyone who would rather connect than write.</p>
+              </span>
+              <span class="index__m"><span class="index__lead">linkedin</span></span>
+              <span class="index__a" aria-hidden="true">↗</span>
+            </a>
+          )}
+
+          <a class="index__row" href={url('lab')}>
+            <span class="index__n">{LINKEDIN ? '04' : '03'}</span>
+            <span>
+              <span class="index__t">Lab</span>
+              <p class="index__s">Every public repository, straight from GitHub, rebuilt nightly.</p>
+            </span>
+            <span class="index__m"><span class="index__lead">/lab</span></span>
+            <span class="index__a" aria-hidden="true">→</span>
+          </a>
+        </div>
+      </Band>
+
+      <div class="foot">
+        <span>Katarzyna Długosz — London · open to remote</span>
+        <a href={url()}>work ↗</a>
+      </div>
+    </div>
+  </main>
+</Base>

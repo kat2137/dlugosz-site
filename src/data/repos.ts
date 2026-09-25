@@ -8,6 +8,7 @@ import type { CodeRepo } from './types-code';
 export const roboticCraftsman: CodeRepo = {
   name: 'robotic-craftsman/',
   base: 'robotic-craftsman',
+  github: 'https://github.com/kat2137/robotic-craftsman',
   stack: ['python 3', 'wilor \u00b7 yolo \u00b7 mujoco', 'pca9685 \u00b7 sts3215'],
   groups: [
   { dir: 'robotic-craftsman/', files: [
@@ -72,6 +73,7 @@ export const roboticCraftsman: CodeRepo = {
 export const googlyEyes: CodeRepo = {
   name: 'Googly_eyes_project/',
   base: 'Googly_eyes_project',
+  github: 'https://github.com/kat2137/Googly_eyes_project',
   stack: ['python 3', 'opencv · picamera2', 'adafruit servokit'],
   groups: [{ dir: 'Googly_eyes_project/', files: [
   ['README.md', 'project readme'],
@@ -84,9 +86,10 @@ export const googlyEyes: CodeRepo = {
 export const pneumaBra: CodeRepo = {
   name: 'PneumaBra/',
   base: 'PneumaBra',
-  stack: ['arduino c++', 'esp32 · mdns', 'mprls over i²c'],
+  stack: ['arduino c++', 'esp8266 · mdns', 'mprls over i²c'],
   groups: [{ dir: 'PneumaBra/', files: [
-  ['cycle-tracker.ino', 'modes · cycle match · web ui'],
+  ['cycle-tracker.ino', 'pump, valve and sensor bring-up',
+    { from: 243, lines: 36, of: 'setup — pump and valve pins, the MPRLS on I²C, the cycle table' }],
   ['pump_test.ino', 'pump and valve bring-up'],
   ['mDNS_test.ino', 'local discovery'],
 ] }],
@@ -95,9 +98,11 @@ export const pneumaBra: CodeRepo = {
 export const sonyScripts: CodeRepo = {
   name: 'sony_scripts/',
   base: 'sony_scripts',
+  github: 'https://github.com/kat2137/sony_scripts',
   stack: ['unity · c#', 'monobehaviour', 'sie challenge 2025'],
   groups: [{ dir: 'sony_scripts/', files: [
-  ['Main_Gameplay.cs', 'mode selection · main loop'],
+  ['Main_Gameplay.cs', 'bearing → which cube lights',
+    { from: 240, lines: 38, of: 'the compass — a bearing resolved to the module that should light' }],
   ['Compass_Main.cs', 'direction signalling'],
   ['Compass_Initialisation.cs', 'compass start-up'],
   ['SocialMode_2.cs', 'player-to-player pointing'],
@@ -108,4 +113,12 @@ export const sonyScripts: CodeRepo = {
   ['EmergencyMode.cs', 'red flash · escalation'],
   ['Full_Game.cs', 'treasure hunt quest'],
 ] }],
+};
+
+/** Where each vendored folder came from, so a listing can link to the source. */
+export const GITHUB: Record<string, string> = {
+  'robotic-craftsman': 'https://github.com/kat2137/robotic-craftsman',
+  Googly_eyes_project: 'https://github.com/kat2137/Googly_eyes_project',
+  PneumaBra: 'https://github.com/kat2137/PneumaBra',
+  sony_scripts: 'https://github.com/kat2137/sony_scripts',
 };

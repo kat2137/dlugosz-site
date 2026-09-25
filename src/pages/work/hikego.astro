@@ -15,12 +15,25 @@ const project = bySlug.hikego;
 ---
 
 <ProjectPage project={project} ogImage="sony-app-header-2.png">
-  <Band label="fig. 01" sub="companion app">
+  <Band label="fig. 01" sub="demo film">
+    <div class="film">
+      <iframe
+        src="https://www.youtube.com/embed/d0k3ghUGyYE"
+        title="Hike Go — the game and the controller interactions"
+        loading="lazy"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; picture-in-picture"
+        allowfullscreen
+      ></iframe>
+    </div>
+    <div class="caption">fig. 01 — the game and the controller interactions, end to end</div>
+  </Band>
+
+  <Band label="fig. 02" sub="companion app">
     <Figure
       src="sony-app-header-2.png"
       alt="Companion app screens: the mapped location with a quest timer and calorie count, a Social and Game card offering Explore the Garden, Truth or Dare and Treasure Hunt, and a GPS navigation card explaining that the cube signals direction at forks in the road"
       aspect="16/9"
-      caption="fig. 01 — the companion app: mapped location, game selection and the cube as a direction signal"
+      caption="fig. 02 — the companion app: mapped location, game selection and the cube as a direction signal"
       widths={[640, 960, 1280]}
       sizes="(max-width: 900px) 100vw, 910px"
     />
@@ -28,14 +41,14 @@ const project = bySlug.hikego;
 
   <Brief project={project} />
 
-  <Band label="fig. 02—03" sub="signals">
+  <Band label="fig. 03—04" sub="signals">
     <div class="stack">
       <SignalTable />
       <CommandLayer />
     </div>
   </Band>
 
-  <CodeViewer repo={sonyScripts} figure="fig. 04" surface />
+  <CodeViewer repo={sonyScripts} figure="fig. 05" surface />
 
   <Contents sections={sections} plateStyle="sony" />
 </ProjectPage>

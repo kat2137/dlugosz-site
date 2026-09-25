@@ -6,39 +6,6 @@ import type { Section } from '../types';
  */
 export const sections: Section[] = [
   {
-    title: 'Signal design',
-    meta: 'Accessibility',
-    lede: 'If a control can be moved, its meaning cannot be carried by its position \u2014 so the edge lighting does the work the layout normally would. Each function has a colour before it has a location.',
-    groups: [
-      {
-        label: 'Colour before position',
-        tag: '5 signal colours',
-        text: 'Green for confirmation, red for warning, purple for sound interaction, blue for nature interaction, white for utility and yellow for encouragement. Because the colour belongs to the function rather than to a module, the mapping survives the controller being rearranged \u2014 which is the whole point of a configurable layout.',
-        plates: [],
-      },
-    ],
-    body1: 'This is where the accessibility work actually lives. A standard pad can rely on muscle memory; a configurable one cannot, so every function has to announce itself.',
-    body2: 'The constraint also simplifies learning: a player learns six colours once rather than re-learning positions every time the hardware is reconfigured.',
-    takeaway: 'Colour carries meaning that position cannot, so the interface survives its own hardware being rearranged.',
-  },
-  {
-    title: 'The six modes',
-    meta: 'Interaction design',
-    lede: 'Six modes came out of the signal system, each triggered differently and each signalling through light because it cannot signal through position.',
-    groups: [
-      {
-        label: 'Modes and triggers',
-        tag: 'break · emergency · torch · social · sound · compass',
-        text: 'Break turns every module white to ask the group for a pause. Emergency flashes red and escalates to a message if it is not cleared. Torch is triggered by sunset in the detected timezone rather than by a button. Social flashes the initialisation sequence and then points players toward each other. Sound gives the D-pad song and volume control, on a two-minute lockout. Compass is the default \u2014 green for the right direction, red for the wrong one.',
-        modes: true,
-        plates: [],
-      },
-    ],
-    body1: 'Two of the six are not player-initiated at all: Torch reads the timezone and Emergency escalates on a timer, so the controller acts when a person might not.',
-    body2: 'Each mode is a script in the repo \u2014 the mode list and the file list are the same list.',
-    takeaway: 'Triggers were chosen so the group, the daylight and the timer can all start a mode, not just a button press.',
-  },
-  {
     title: 'The Unity demo',
     meta: 'Unity · C#',
     lede: 'A physical location rebuilt as an explorable 3D environment, seeded with educational assets \u2014 plants, artefacts, buildings \u2014 with the controller driving the command layer beside it.',
@@ -57,13 +24,29 @@ export const sections: Section[] = [
         tag: 'second screen',
         text: 'The companion app carries what the controller cannot: the map, the quest state and the messages that Emergency escalates to. The controller stays a signalling device; the phone holds the detail.',
         plates: [
-          { id: 'sy-app', video: 'https://www.youtube.com/embed/d0k3ghUGyYE', caption: 'Demo of the game and controller interactions' },
         ],
       },
     ],
     body1: 'The demo was animated fully and the modes programmed in C#, then run on the Sony controller as an interactive demonstration at the SIE Challenge final presentation.',
     body2: 'The plot was developed collectively as a group project; the 3D map assets are by Haiyu. The interaction design, the command layer and the demo build are mine.',
     takeaway: 'The demo had to work in a room with people in it, so the layer that got built is the one that could be tested live.',
+  },
+  {
+    title: 'Hardware interaction',
+    meta: 'Interaction design',
+    lede: 'Six modes came out of the signal system, each triggered differently and each signalling through light because it cannot signal through position.',
+    groups: [
+      {
+        label: 'Modes and triggers',
+        tag: 'break · emergency · torch · social · sound · compass',
+        text: 'Break turns every module white to ask the group for a pause. Emergency flashes red and escalates to a message if it is not cleared. Torch is triggered by sunset in the detected timezone rather than by a button. Social flashes the initialisation sequence and then points players toward each other. Sound gives the D-pad song and volume control, on a two-minute lockout. Compass is the default \u2014 green for the right direction, red for the wrong one.',
+        modes: true,
+        plates: [],
+      },
+    ],
+    body1: 'Two of the six are not player-initiated at all: Torch reads the timezone and Emergency escalates on a timer, so the controller acts when a person might not.',
+    body2: 'Each mode is a script in the repo \u2014 the mode list and the file list are the same list.',
+    takeaway: 'Triggers were chosen so the group, the daylight and the timer can all start a mode, not just a button press.',
   },
   {
     title: 'What I would change',

@@ -1,7 +1,8 @@
 ---
 import fs from 'node:fs';
 import Band from './Band.astro';
-import { highlight, lineCount } from '../lib/highlight';
+import { highlight } from '../lib/highlight';
+import { excerpt } from '../lib/excerpt';
 import { url } from '../lib/paths';
 import type { CodeRepo } from '../data/types-code';
 
@@ -17,8 +18,11 @@ const { repo, figure, surface = false } = Astro.props;
 
 const rail = repo.groups.flatMap((group) => group.files);
 const multiGroup = repo.groups.length > 1;
-const [firstPath, firstNote] = rail[0];
+const [firstPath, firstNote, firstFocus] = rail[0];
 const firstName = firstPath.split('/').pop()!;
+const branch = repo.branch ?? 'main';
+const fileUrl = (path: string) =>
+  repo.github ? `${repo.github}/blob/${branch}/${path}` : url(`code/${repo.base}/${path}`);
 
 /**
  * The sources are vendored under public/code/ so the browser can fetch them on
@@ -29,6 +33,7 @@ const source = fs.readFileSync(
   new URL(`../../public/code/${repo.base}/${firstPath}`, import.meta.url),
   'utf-8',
 );
+const first = excerpt(source, firstFocus);
 
 ---
 
@@ -43,12 +48,16 @@ const source = fs.readFileSync(
       {repo.groups.map((group) => (
         <>
           <div class:list={['code__dir', multiGroup && 'code__dir--inline']}>{group.dir}</div>
-          {group.files.map(([filePath, note]) => (
+          {group.files.map(([filePath, note, focus]) => (
             <button
               type="button"
               class:list={['code__file', filePath === firstPath && 'is-active']}
               data-path={filePath}
               data-note={note}
+              data-from={focus?.from}
+              data-lines={focus?.lines}
+              data-of={focus?.of}
+              data-href={fileUrl(filePath)}
             >
               <div class="code__name">{filePath.split('/').pop()}</div>
               <div class="code__note">{note}</div>
@@ -64,16 +73,34 @@ const source = fs.readFileSync(
     <div class="code__pane">
       <div class="code__header">
         <span class="code__filename" data-code-name>{firstPath}</span>
-        <span data-code-meta>{lineCount(source)} lines</span>
+        <span>
+          <span data-code-meta>
+            {first.truncated ? `lines ${first.start}–${first.start + first.text.split('\n').length - 1} of ${first.total}` : `${first.total} lines`}
+          </span>
+          <a
+            class="code__github"
+            data-code-link
+            href={fileUrl(firstPath)}
+            target="_blank"
+            rel="noopener"
+          >view on github ↗</a>
+        </span>
       </div>
-      <div class="code__body" data-code-body data-initial set:html={highlight(source, true)}></div>
+      <div
+        class="code__body"
+        data-code-body
+        data-initial
+        data-start={first.start}
+        set:html={highlight(first.text, true, first.start)}
+      ></div>
     </div>
   </div>
-  <div class="caption" data-code-caption>{figure} — {firstName} — {firstNote}</div>
+  <div class="caption" data-code-caption>{figure} — {firstName} — {firstFocus?.of ?? firstNote}</div>
 </Band>
 
 <script>
   import { highlight } from '../lib/highlight';
+  import { excerpt } from '../lib/excerpt';
 
   document.querySelectorAll<HTMLElement>('[data-code-viewer]').forEach((viewer) => {
     const base = viewer.dataset.base!;
@@ -82,6 +109,24 @@ const source = fs.readFileSync(
     const nameEl = viewer.querySelector<HTMLElement>('[data-code-name]')!;
     const metaEl = viewer.querySelector<HTMLElement>('[data-code-meta]')!;
     const captionEl = viewer.parentElement!.querySelector<HTMLElement>('[data-code-caption]')!;
+    const linkEl = viewer.querySelector<HTMLAnchorElement>('[data-code-link]')!;
+
+    /** The window a button asks for, as the build computed it. */
+    const windowFor = (button: HTMLElement) => {
+      const from = Number(button.dataset.from);
+      const lines = Number(button.dataset.lines);
+      return from && lines ? { from, lines } : undefined;
+    };
+
+    const show = (text: string, button: HTMLElement) => {
+      const view = excerpt(text, windowFor(button));
+      body.innerHTML = highlight(view.text, false, view.start);
+      const shown = view.text.split('\n').length;
+      metaEl.textContent = view.truncated
+        ? `lines ${view.start}–${view.start + shown - 1} of ${view.total}`
+        : `${view.total} lines`;
+      linkEl.href = button.dataset.href ?? linkEl.href;
+    };
     const cache = new Map<string, string>();
 
     // The first file ships as plain text; highlight it in place on load.
@@ -95,7 +140,7 @@ const source = fs.readFileSync(
           .then((text) => {
             cache.set(path, text);
             if (viewer.querySelector('.code__file.is-active') === first) {
-              body.innerHTML = highlight(text);
+              show(text, first);
             }
           })
           .catch(() => {});
@@ -112,7 +157,7 @@ const source = fs.readFileSync(
         viewer.querySelectorAll('.code__file').forEach((b) => b.classList.remove('is-active'));
         button.classList.add('is-active');
         nameEl.textContent = path;
-        captionEl.textContent = `${figure} — ${name} — ${note}`;
+        captionEl.textContent = `${figure} — ${name} — ${button.dataset.of ?? note}`;
 
         if (cache.has(path)) {
           render(cache.get(path)!);
@@ -133,8 +178,7 @@ const source = fs.readFileSync(
     });
 
     function render(text: string) {
-      body.innerHTML = highlight(text);
-      metaEl.textContent = `${text.replace(/\t/g, '    ').split('\n').length} lines`;
+      show(text, button);
       body.scrollTop = 0;
     }
   });

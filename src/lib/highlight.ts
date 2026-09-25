@@ -60,11 +60,11 @@ export function toLines(source: string): string[] {
  * highlight it in place without moving anything, and the page ships a
  * fraction of the HTML a fully tokenised listing would need.
  */
-export function highlight(source: string, plain = false): string {
+export function highlight(source: string, plain = false, from = 1): string {
   return toLines(source)
     .map(
       (line, i) =>
-        `<div class="code__line"><span class="code__num">${String(i + 1).padStart(
+        `<div class="code__line"><span class="code__num">${String(i + from).padStart(
           2,
           '0',
         )}</span><span>${plain ? escapeHtml(line) || ' ' : highlightLine(line)}</span></div>`,

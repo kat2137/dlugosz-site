@@ -938,6 +938,10 @@ a:hover .plate__frame--develops .plate__duo {
   padding: clamp(90px, 14vw, 190px) 0 clamp(30px, 5vw, 56px);
 }
 
+.intro--no-portrait {
+  grid-template-columns: minmax(0, 1fr);
+}
+
 .intro .plate__frame {
   width: 100%;
   aspect-ratio: 1;

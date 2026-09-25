@@ -2,7 +2,7 @@
 import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import Nav from '../components/Nav.astro';
-import { media, duoFor } from '../lib/media';
+import { media, duoFor, hasMedia } from '../lib/media';
 import { projects } from '../data/projects';
 import { url } from '../lib/paths';
 
@@ -27,8 +27,13 @@ const SHEET: { src: string; alt: string; slug: string; title: string; word: stri
   { src: 'pn-pressure-map.png', alt: 'Pressure map across the garment', slug: 'pneumabra', title: 'PneumaBra', word: 'breathes.' },
 ];
 
-const portrait = media('kd-portrait.jpg');
-const portraitDuo = duoFor('kd-portrait.jpg');
+/*
+ * The portrait is part of the design but must not be load-bearing: a missing
+ * image would otherwise throw and take the whole site down at build time,
+ * rather than costing one picture. Without it the bio simply runs full width.
+ */
+const portrait = hasMedia('kd-portrait.jpg') ? media('kd-portrait.jpg') : null;
+const portraitDuo = portrait ? duoFor('kd-portrait.jpg') : null;
 
 const jsonLd = {
   '@context': 'https://schema.org',
@@ -91,7 +96,8 @@ const jsonLd = {
         })}
       </div>
 
-      <div class="intro">
+      <div class:list={['intro', !portrait && 'intro--no-portrait']}>
+        {portrait && (
         <span class:list={['plate__frame', portraitDuo && 'plate__frame--develops']}>
           {portraitDuo && (
             <Image
@@ -112,6 +118,7 @@ const jsonLd = {
             loading="lazy"
           />
         </span>
+        )}
         <div>
           <p class="intro__name">Katarzyna Długosz</p>
           <p class="intro__line">

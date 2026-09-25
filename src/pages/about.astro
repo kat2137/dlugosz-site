@@ -3,7 +3,7 @@ import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import Nav from '../components/Nav.astro';
 import Band from '../components/Band.astro';
-import { media, duoFor, hasMedia } from '../lib/media';
+import { media, hasMedia } from '../lib/media';
 import { url } from '../lib/paths';
 
 /**
@@ -11,8 +11,12 @@ import { url } from '../lib/paths';
  * route these live on one page, because a visitor who wants one wants the
  * other, and two thin pages read worse than one full one.
  */
+/*
+ * The portrait runs as the photograph, not as a duotone that develops on
+ * hover. Everywhere else the duotone is the point; here the picture is of a
+ * person, and a plate that only resolves when you touch it reads as a trick.
+ */
 const portrait = hasMedia('kd-portrait.jpg') ? media('kd-portrait.jpg') : null;
-const portraitDuo = portrait ? duoFor('kd-portrait.jpg') : null;
 
 /** [TO CONFIRM] the address she wants public — swap and the mailto follows. */
 const EMAIL = 'kasadlugos@gmail.com';
@@ -66,19 +70,8 @@ const jsonLd = {
       <div class="about">
         {portrait && (
           <div>
-            <span class:list={['plate__frame', portraitDuo && 'plate__frame--develops']}>
-              {portraitDuo && (
-                <Image
-                  class="plate__duo"
-                  src={portraitDuo}
-                  alt=""
-                  widths={[280, 420, 560]}
-                  sizes="(max-width: 860px) 200px, 300px"
-                  aria-hidden="true"
-                />
-              )}
+            <span class="plate__frame">
               <Image
-                class="plate__real"
                 src={portrait}
                 alt="Katarzyna Długosz"
                 widths={[280, 420, 560]}

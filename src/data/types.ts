@@ -14,6 +14,10 @@ export interface Plate {
   tall?: boolean;
   /** Sony only — YouTube embed URL. */
   video?: string;
+  /** A short look at one source file, in place of an image. */
+  peek?: { repo: string; path: string; from?: number; lines?: number };
+  /** A local clip under public/media, played as a silent loop. */
+  clip?: string;
 }
 
 export interface Group {

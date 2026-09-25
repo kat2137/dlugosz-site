@@ -1,0 +1,62 @@
+---
+import fs from 'node:fs';
+import { highlightLine, toLines } from '../lib/highlight';
+import { url } from '../lib/paths';
+
+/**
+ * A short look at one source file, sized to sit in the plate grid beside a
+ * photograph. The full listing lives in the page's source viewer; this is the
+ * few lines that make the point next to the figure they belong to.
+ *
+ * A file that has not been pushed yet renders as an empty slot rather than
+ * failing the build, so a section can be written before its code lands.
+ */
+interface Props {
+  /** Folder under public/code/. */
+  repo: string;
+  /** Path inside that folder, as it appears in the repository. */
+  path: string;
+  /** 1-based, inclusive. Omit to start at the top. */
+  from?: number;
+  /** How many lines to show. */
+  lines?: number;
+}
+
+const { repo, path, from = 1, lines = 18 } = Astro.props;
+
+const file = new URL(`../../public/code/${repo}/${path}`, import.meta.url);
+const source = fs.existsSync(file) ? fs.readFileSync(file, 'utf-8') : null;
+const name = path.split('/').pop()!;
+
+const all = source ? toLines(source) : [];
+const start = Math.max(0, from - 1);
+const shown = all.slice(start, start + lines);
+const truncated = all.length > start + lines;
+---
+
+{source ? (
+  <div class="peek">
+    <div class="peek__head">
+      <span class="peek__name">{name}</span>
+      <span class="peek__meta">
+        {all.length} lines{from > 1 && <> · from {from}</>}
+      </span>
+    </div>
+    <pre class="peek__body"><Fragment set:html={shown
+      .map((line, i) =>
+        `<div class="code__line"><span class="code__num">${String(start + i + 1).padStart(2, '0')}</span><span>${highlightLine(line)}</span></div>`,
+      )
+      .join('')} /></pre>
+    {truncated && (
+      <a class="peek__more" href={`${url(`code/${repo}/${path}`)}`} target="_blank" rel="noopener">
+        read the file →
+      </a>
+    )}
+  </div>
+) : (
+  <div class="peek">
+    <div class="plate__frame plate__frame--43">
+      <div class="plate__slot">{name} — to come</div>
+    </div>
+  </div>
+)}

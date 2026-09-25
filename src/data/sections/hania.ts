@@ -16,7 +16,8 @@ export const sections: Section[] = [
         text: 'Footage runs through WiLoR, which returns 21 hand landmarks per frame in a fixed order \u2014 wrist at index 0, then thumb through pinky in fours, each fingertip last. The per-frame JSON is globbed into a single NumPy array shaped [n_frames, 21, 3] and plotted with matplotlib, one coloured polyline per finger, so a clip can be read as a sequence of poses rather than a wall of numbers. Angles come out of the landmarks as vectors: each bone is the vector between two joints, and the flexion angle is the arccos of the normalised dot product between adjacent bones \u2014 taken in the wrist frame for MCP, and in the MCP frame for PIP and tip.',
         plates: [
           { id: 'train-wilor-plot', src: 'train-wilor-plot.png', alt: 'Matplotlib 3D plot of hand keypoints, one coloured polyline per finger', caption: 'WiLoR landmarks plotted per frame, matplotlib' },
-          { id: 'train-phases', placeholder: 'Frame-range breakdown of one stitch' },
+          { peek: { repo: 'robotic-craftsman', path: 'main_motion/grasp_test2.py', lines: 20 },
+            caption: 'grasp_test2.py \u2014 the grasp rig the captured poses are driven through' },
         ],
       },
       {
@@ -24,7 +25,10 @@ export const sections: Section[] = [
         tag: 'on the hardware',
         text: 'Calibration runs on the arm itself rather than in simulation. The finger servos are addressed as PWM channels through a PCA9685 over I\u00b2C at 60 Hz, between 1000 and 2000 \u00b5s; the wrist runs on Feetech STS3215 bus servos over a single half-duplex serial line at 1 Mbaud, addressed by ID. A sweep script walks every channel across its range, waits for each position to settle, and writes step, channel, commanded position, settle time and measured angle to CSV \u2014 tied to the video by a clap on frame one, so the log and the footage share a timebase. Travel limits are then written into the bus servos\u2019 own EPROM: 2000\u20134095 counts for wrist rotate, 2200\u20133000 for wrist tilt, so a bad command cannot drive a joint past its stop.',
         plates: [
-          { id: 'train-sweep', placeholder: 'Position sweep against the video log' },
+          { src: 'train-calibration-rig.jpg', alt: 'The arm on the bench, servos and loom exposed during calibration',
+            caption: 'Calibration runs on the arm itself, not in simulation' },
+          { peek: { repo: 'robotic-craftsman', path: 'main_motion/calib/data/position_log.csv', lines: 18 },
+            caption: 'position_log.csv \u2014 step, channel, commanded position, settle time, measured angle' },
         ],
       },
       {
@@ -32,7 +36,12 @@ export const sections: Section[] = [
         tag: 'forward \u00b7 inverse \u00b7 palm frame',
         text: 'The arm is described as a link tree: each link carries a parent, a rotation axis, an offset from that parent and, where a joint is tendon-driven rather than motor-driven, the driver it follows and the ratio it follows it at. Forward kinematics composes Rodrigues rotations down the tree to place any joint in space; the inverse solve runs the other way, from a fingertip target back to the angles that reach it. Wrist tilt and roll are the part WiLoR cannot give \u2014 it reports the wrist only in relation to the finger joints, so it carries no bend or rotation. They are recovered instead by building a palm frame from the landmarks: the wrist-to-middle-MCP vector as one axis, the index-to-pinky MCP vector as the second, their cross product as the palm normal, re-orthogonalised, then read off as tilt and roll. Motion logic follows Jazar, \u201cTheory of Applied Robotics: Kinematics, Dynamics and Control\u201d; object orientation in frame is estimated by PCA on the contour axes.',
         plates: [
-          { id: 'train-linktree', placeholder: 'Link tree, axes and offsets' },
+          { src: 'train-kinematics.jpg', alt: 'The arm in Fusion with a rotation axis drawn on every joint and the wrist arc measured',
+            caption: 'Every joint carries an axis and an offset from its parent' },
+          { peek: { repo: 'robotic-craftsman', path: 'main_motion/f_kinematics.py', lines: 20 },
+            caption: 'f_kinematics.py \u2014 the link tree, and Rodrigues down it' },
+          { peek: { repo: 'robotic-craftsman', path: 'main_motion/i_kinematics.py', lines: 20 },
+            caption: 'i_kinematics.py \u2014 fingertip target back to joint angles' },
         ],
       },
       {
@@ -40,8 +49,10 @@ export const sections: Section[] = [
         tag: 'fusion 360 \u2192 mujoco',
         text: 'Every link is animated in Fusion 360 and exported as meshes, then assembled into a MuJoCo model \u2014 palm.xml for the hand alone, palm_with_frame.xml for the hand on the arm frame \u2014 through the Fusion-to-MuJoCo export. In simulation the joints get physics: actuator ranges, the coupling between a driven joint and its driver, and contact, so a grasp can be run against a needle before it is run against a real one. The driver script maps raw servo counts onto simulated joint angles (2048 open, 3100 closed, a ratio-1.0 joint reaching about 1.5 rad at full curl), which means a pose can be sent to the sim and the bench in the same units.',
         plates: [
-          { id: 'train-mujoco', placeholder: 'MuJoCo hand, joint visualisation on' },
-          { id: 'train-grasp-sim', placeholder: 'Simulated grasp against the needle' },
+          { clip: 'sim-grasp.mp4', alt: 'The hand closing in MuJoCo, joints and contacts simulated',
+            caption: 'The hand under physics in MuJoCo, driven from the same units as the bench' },
+          { peek: { repo: 'robotic-craftsman', path: 'main_motion/mjc_demo.py', lines: 20 },
+            caption: 'mjc_demo.py \u2014 links mapped onto MuJoCo bodies, joints and actuators' },
         ],
       },
       {
@@ -49,8 +60,10 @@ export const sections: Section[] = [
         tag: 'video hand \u2192 robot hand',
         text: 'The robot\u2019s fingers are not the proportions of the hand in the footage, so angles cannot simply be copied across. The arm was measured by logging the position of every finger through its range and comparing that log against real video, drawn over frame by frame in matplotlib, until each segment\u2019s share of the finger was known: for the index, roughly 0.35 MCP, 0.46 PIP, 0.15 DIP; for the thumb, 0.44 and 0.56; with the bus servos turning about 2.6 degrees per 100 \u00b5s. Those ratios are stored and applied as a scaling layer, and the grasp itself is matched on vector distance from the fingertip rather than on joint angle \u2014 so what transfers from the footage is the shape of the grasp, not the geometry of the hand that made it.',
         plates: [
-          { id: 'train-ratios', placeholder: 'Measured segment ratios per finger' },
-          { id: 'train-overlay', placeholder: 'Logged positions drawn over footage' },
+          { peek: { repo: 'robotic-craftsman', path: 'main_motion/ratios.json', lines: 14 },
+            caption: 'ratios.json \u2014 each segment\u2019s share of its finger, measured off the arm' },
+          { peek: { repo: 'robotic-craftsman', path: 'main_motion/retargeting.py', lines: 20 },
+            caption: 'retargeting.py \u2014 the scaling layer, and grasp matched on fingertip distance' },
         ],
       },
       {
@@ -75,7 +88,8 @@ export const sections: Section[] = [
         tag: 'two buses',
         text: 'The fingers run on PWM hobby servos wired to a PCA9685 breakout, which the board addresses over I\u00b2C \u2014 sixteen channels from two wires, at 60 Hz with pulses between 1000 and 2000 \u00b5s. The wrist runs on Feetech STS3215 bus servos instead, which take position, speed and acceleration as commands and report their own position back. Those do not use I\u00b2C: they are daisy-chained on a single half-duplex TTL serial line at 1 Mbaud, one wire carrying both directions, with each servo answering on its own ID \u2014 so the wrist can be asked where it is, which the PWM fingers cannot be. First prototypes drove everything from the PCA board; the wrist moved to the bus servos once position feedback became the thing that mattered.',
         plates: [
-          { id: 'elec-servo-finger', placeholder: 'Finger servo bed and PCA9685' },
+          { src: 'elec-servo-bed.jpg', alt: 'MG90S micro servos stacked in the forearm bed, horns facing out',
+            caption: 'MG90S micro servos in the forearm bed, driven as PCA9685 channels' },
           { id: 'elec-servo-wrist', placeholder: 'STS3215 bus servos at the wrist' },
         ],
       },

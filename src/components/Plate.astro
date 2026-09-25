@@ -1,6 +1,8 @@
 ---
 import { Image } from 'astro:assets';
 import { media, mediaForSlot, duoFor } from '../lib/media';
+import CodePeek from './CodePeek.astro';
+import { url } from '../lib/paths';
 import type { Plate } from '../data/types';
 
 export type PlateStyle = 'hania' | 'sviatovid' | 'pneumabra' | 'sony';
@@ -34,10 +36,31 @@ function frameClass(): string {
 const image = plate.src ? media(plate.src) : plate.id ? mediaForSlot(plate.id) : null;
 /** The print that shows at rest; the photograph above is revealed on hover. */
 const duo = image ? duoFor(image.src.split('/').pop()!) : null;
+/** A still for the clip, so the slot is never empty before it plays. */
+const clipPoster = plate.clip ? mediaForSlot(plate.clip.replace(/\.\w+$/, '-poster')) : null;
 ---
 
 <div class="plate">
-  {plate.video ? (
+  {plate.peek ? (
+    <CodePeek {...plate.peek} />
+  ) : plate.clip ? (
+    <>
+      <div class:list={['plate__frame', frameClass(), 'plate__frame--clip']}>
+        <video
+          autoplay
+          loop
+          muted
+          playsinline
+          preload="metadata"
+          poster={clipPoster?.src}
+          aria-label={plate.alt ?? plate.caption ?? 'Clip'}
+        >
+          <source src={url(`media/${plate.clip.replace(/\.\w+$/, '.webm')}`)} type="video/webm" />
+          <source src={url(`media/${plate.clip}`)} type="video/mp4" />
+        </video>
+      </div>
+    </>
+  ) : plate.video ? (
     <div class:list={['plate__frame', frameClass()]}>
       <iframe
         src={plate.video}

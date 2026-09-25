@@ -45,7 +45,7 @@ export const sections: Section[] = [
         text: 'On the garment side the channel field has to sit where the load is \u2014 across the pectoral fascia and under the bust \u2014 without the seams fighting the pattern or the tube crossing a fold. The bra is cut so the silicone panel is bonded into a flat area and the luer lock exits at the side seam.',
         plates: [
           { id: 'pn-pressure-map', src: 'pn-pressure-map.png', alt: 'Bra pattern overlaid with arrows showing how pressure should be distributed to support the ligaments: lifting vectors up the cup, lateral vectors along the underband and back', caption: 'How the pressure has to be distributed to support the ligaments', size: 'small' },
-          { id: 'pn-bra-design', src: 'pn-bra-annotated.png', alt: 'Annotated technical flat: a removable two-channel chest panel, a side channel to reduce side bounce, an encapsulating cup channel, a pronounced back channel, a secondary underbust channel for high impact, and a triangular pattern to let the fabric stretch', caption: 'Every channel and what it controls', size: 'large' },
+          { id: 'pn-bra-design', src: 'pn-garment-annotated.jpg', alt: 'Annotated technical flat: a removable two-channel chest panel, a side channel to reduce side bounce, an encapsulating cup channel, a pronounced back channel, a secondary underbust channel for high impact, and a triangular pattern to let the fabric stretch', caption: 'Every channel and what it controls', size: 'large' },
         ],
       },
       {

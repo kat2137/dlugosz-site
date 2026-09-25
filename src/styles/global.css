@@ -164,7 +164,10 @@
   --margin-col: 200px;
   --gap: 46px;
   --pad: 40px;
-  --tile: clamp(140px, 19vw, 260px);
+  /* Three rows of tiles, their words and the gaps between them have to clear
+     a laptop screen, so the tile is bounded by viewport height as well as
+     width rather than by width alone. */
+  --tile: clamp(104px, min(17vw, 20vh), 220px);
 }
 
 *,
@@ -759,6 +762,63 @@ a:hover .plate__frame--develops .plate__duo {
 .tok-word { color: var(--ink-72); }
 .tok-punct { color: var(--ink-50); }
 
+/* Code peek — a few lines of source sitting in the plate grid -------------- */
+
+.peek {
+  display: flex;
+  flex-direction: column;
+}
+
+.peek__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  padding: 8px 12px;
+  border: 1px solid var(--rule);
+  border-bottom: 0;
+  background: rgba(var(--ink-rgb), 0.035);
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.peek__name { color: var(--accent); }
+.peek__meta { color: var(--ink-50); }
+
+.peek__body {
+  margin: 0;
+  padding: 10px 12px;
+  border: 1px solid var(--rule);
+  background: rgba(var(--ink-rgb), 0.035);
+  font-family: var(--mono);
+  font-size: 10px;
+  line-height: 1.7;
+  color: var(--ink-72);
+  overflow-x: auto;
+  min-width: 0;
+}
+
+.peek__more {
+  align-self: flex-start;
+  margin-top: 8px;
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  border-bottom: 1px solid currentColor;
+}
+
+.plate__frame--clip video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: var(--cream);
+}
+
 /* Next --------------------------------------------------------------------- */
 
 .next {
@@ -894,16 +954,16 @@ a:hover .plate__frame--develops .plate__duo {
 .sheet {
   display: grid;
   grid-template-columns: repeat(3, var(--tile));
-  gap: clamp(20px, 3.4vw, 54px);
+  gap: clamp(14px, min(2.6vw, 3vh), 40px);
   justify-content: center;
-  padding: clamp(26px, 5vw, 64px) 0 0;
+  padding: clamp(16px, 3vh, 48px) 0 0;
 }
 
 .cell {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 14px;
+  gap: clamp(6px, 1.2vh, 14px);
 }
 
 .cell .plate__frame {
@@ -940,7 +1000,7 @@ a:hover .plate__frame--develops .plate__duo {
 
 .word {
   font-family: var(--body);
-  font-size: clamp(26px, 3.4vw, 46px);
+  font-size: clamp(19px, min(2.6vw, 3.2vh), 38px);
   line-height: 1;
   text-align: center;
 }
@@ -1177,4 +1237,426 @@ a.lab__row:hover .lab__name { color: var(--accent); }
 
 .index__list .index__row:first-child {
   border-top: 1px solid var(--ink);
+}
+
+/* ---------------------------------------------------------------------------
+   Component tables and diagrams. These were carried over from the design
+   prototype and their rules were lost when the stylesheet was rewritten for
+   the cream system, so each one is restated here in the new tokens.
+   --------------------------------------------------------------------------- */
+
+/* Layout helpers ----------------------------------------------------------- */
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(28px, 4vw, 52px);
+}
+
+.duo {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(14px, 2vw, 28px);
+}
+
+/* Fluid triptych: cells keep their own height rather than a shared aspect. */
+.triptych--fluid {
+  align-items: start;
+}
+
+.group {
+  min-width: 0;
+}
+
+.stat {
+  min-width: 0;
+}
+
+.code--surface {
+  background: rgba(var(--ink-rgb), 0.02);
+}
+
+.code__dir--inline {
+  padding-top: 12px;
+}
+
+/* Tensile chart — PneumaBra -------------------------------------------------- */
+
+.chart {
+  border: 1px solid var(--rule);
+  padding: 18px;
+  background: rgba(var(--ink-rgb), 0.025);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-top: 22px;
+}
+
+.chart__head,
+.chart__bar-row {
+  display: grid;
+  grid-template-columns: 92px minmax(0, 1fr) 150px;
+  gap: 14px;
+  align-items: center;
+}
+
+.chart__head {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-50);
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--rule);
+}
+
+.chart__material-head {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.chart__material {
+  font-family: var(--display);
+  font-weight: var(--display-weight);
+  font-size: 15px;
+  letter-spacing: var(--display-track);
+  text-transform: var(--display-transform);
+}
+
+.chart__verdict {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-50);
+}
+
+.chart__bars {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.chart__direction {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-50);
+}
+
+.chart__track {
+  height: 12px;
+  background: rgba(var(--ink-rgb), 0.07);
+}
+
+.chart__fill {
+  height: 100%;
+  background: var(--accent);
+}
+
+.chart__fill--weft {
+  background: rgba(var(--ink-rgb), 0.42);
+}
+
+.chart__value {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  text-align: right;
+  color: var(--ink);
+}
+
+.chart__strain { color: var(--ink-50); }
+
+.chart__note {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-50);
+  padding-top: 12px;
+  border-top: 1px solid var(--rule);
+}
+
+/* Signal table — HikeGo ------------------------------------------------------ */
+
+.signals {
+  border-top: 1px solid var(--ink);
+}
+
+.signals__head,
+.signals__row {
+  display: grid;
+  grid-template-columns: 18px 170px 150px minmax(0, 1fr);
+  gap: 14px;
+  align-items: baseline;
+  padding: 11px 0;
+  border-bottom: 1px solid var(--rule);
+}
+
+.signals__head {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-50);
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  align-self: center;
+  border: 1px solid rgba(var(--ink-rgb), 0.35);
+}
+
+.signals__name {
+  font-family: var(--display);
+  font-weight: var(--display-weight);
+  font-size: 14px;
+  letter-spacing: var(--display-track);
+  text-transform: var(--display-transform);
+}
+
+.signals__reads,
+.signals__used {
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--ink-72);
+}
+
+/* Modes table — HikeGo ------------------------------------------------------- */
+
+.modes {
+  border-top: 1px solid var(--ink);
+  margin-top: 22px;
+}
+
+.modes__head,
+.modes__row {
+  display: grid;
+  grid-template-columns: 200px 210px minmax(0, 1fr);
+  gap: 20px;
+  align-items: start;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--rule);
+}
+
+.modes__head {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-50);
+  padding: 11px 0;
+}
+
+.modes__shot {
+  aspect-ratio: 3 / 2;
+  overflow: hidden;
+  background: rgba(var(--ink-rgb), 0.05);
+}
+
+.modes__shot img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.modes__shot--cover img { object-fit: cover; }
+
+.modes__name-row {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.modes__dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 1px solid rgba(var(--ink-rgb), 0.35);
+}
+
+.modes__name {
+  font-family: var(--display);
+  font-weight: var(--display-weight);
+  font-size: 15px;
+  letter-spacing: var(--display-track);
+  text-transform: var(--display-transform);
+}
+
+.modes__trigger {
+  margin-top: 5px;
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-50);
+  line-height: 1.7;
+}
+
+.modes__effect {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--ink-72);
+}
+
+/* Command layer — HikeGo ----------------------------------------------------- */
+
+.cmd {
+  border: 1px solid var(--rule);
+  background: rgba(var(--ink-rgb), 0.025);
+  padding: 20px;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-72);
+}
+
+.cmd__top {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.cmd__start,
+.cmd__poll {
+  border: 1px solid var(--ink-30);
+  padding: 7px 11px;
+  color: var(--ink);
+}
+
+.cmd__start { border-color: var(--accent); color: var(--accent); }
+
+.cmd__span {
+  flex: 1 1 24px;
+  min-width: 18px;
+  height: 1px;
+  background: var(--rule);
+}
+
+.cmd__repoll { color: var(--ink-50); }
+
+.cmd__gap { height: 18px; }
+
+.cmd__rule {
+  height: 1px;
+  background: var(--rule);
+}
+
+.cmd__cols {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 16px;
+  align-items: start;
+}
+
+.cmd__col {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.cmd__drop {
+  width: 1px;
+  height: 16px;
+  margin-left: 12px;
+  background: var(--rule);
+}
+
+.cmd__head {
+  padding-bottom: 9px;
+  border-bottom: 1px solid var(--rule);
+  margin-bottom: 10px;
+}
+
+.cmd__head-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cmd__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: 1px solid rgba(var(--ink-rgb), 0.35);
+}
+
+.cmd__mode { color: var(--ink); }
+
+.cmd__trigger {
+  margin-top: 5px;
+  color: var(--ink-50);
+  line-height: 1.7;
+  text-transform: none;
+  letter-spacing: 0.02em;
+}
+
+.cmd__tick {
+  display: flex;
+  justify-content: flex-start;
+  padding-left: 12px;
+}
+
+.cmd__tick span {
+  width: 1px;
+  height: 12px;
+  background: var(--rule);
+}
+
+.cmd__node {
+  border: 1px solid var(--rule);
+  padding: 7px 9px;
+  line-height: 1.6;
+  text-transform: none;
+  letter-spacing: 0.02em;
+  background: var(--cream);
+}
+
+.cmd__node--return {
+  border-style: dashed;
+  color: var(--ink-50);
+}
+
+.cmd__spacer { flex: 1 1 10px; min-height: 10px; }
+
+.cmd__stubs {
+  margin-top: 20px;
+  padding-top: 14px;
+  border-top: 1px solid var(--rule);
+}
+
+.cmd__stubs-label { color: var(--ink-50); }
+
+.cmd__stubs-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.cmd__stub {
+  border: 1px dashed var(--rule);
+  padding: 5px 9px;
+  color: var(--ink-50);
+  text-transform: none;
+  letter-spacing: 0.02em;
+}
+
+@media (max-width: 860px) {
+  .duo { grid-template-columns: 1fr; }
+  .chart__head, .chart__bar-row { grid-template-columns: 70px minmax(0, 1fr) 110px; gap: 8px; }
+  .signals__head, .signals__row { grid-template-columns: 16px minmax(0, 1fr); gap: 8px; }
+  .signals__reads, .signals__used { grid-column: 2; }
+  .modes__head { display: none; }
+  .modes__row { grid-template-columns: 1fr; gap: 10px; }
+  .cmd__cols { grid-template-columns: 1fr; }
 }

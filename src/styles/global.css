@@ -736,6 +736,21 @@ a:hover .plate__frame--develops .plate__duo {
   min-width: 0;
 }
 
+.code__line {
+  display: flex;
+  gap: 14px;
+  /* Source is whitespace: without this the leading indentation collapses. */
+  white-space: pre;
+}
+
+.code__num {
+  flex: none;
+  color: var(--ink-30);
+  user-select: none;
+  text-align: right;
+  min-width: 2.2em;
+}
+
 .tok-comment { color: var(--ink-30); }
 .tok-string { color: var(--ink); }
 .tok-number { color: var(--ink); }

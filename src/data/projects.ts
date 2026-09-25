@@ -52,8 +52,8 @@ export const projects: Project[] = [
     tags: ['pcb', 'electronic design', 'ui'],
     tools: ['fusion 360', 'platsil gel 25', 'nodemcu esp8266', 'mprls sensor', 'easyeda'],
     repo: {
-      label: ['github.com/kat2137/', 'PneumaBra'],
-      url: 'https://github.com/kat2137/PneumaBra',
+      label: ['github.com/kat2137/', 'pneumabra'],
+      url: 'https://github.com/kat2137/pneumabra',
     },
     standfirst:
       'A material that changes its own support — silicone air channels that adjust compression across the hormonal cycle, the working day and physical activity.',
@@ -126,8 +126,8 @@ export const projects: Project[] = [
     tags: ['hardware demo', 'unity'],
     tools: ['unity', 'c#', '3d asset pipeline'],
     repo: {
-      label: ['github.com/kat2137/', 'sony_scripts'],
-      url: 'https://github.com/kat2137/sony_scripts',
+      label: ['github.com/kat2137/', 'group_b_project'],
+      url: 'https://github.com/kat2137/group_b_project',
     },
     standfirst:
       'A location-based game that turns Sony\u2019s configurable controller, built for accessibility, into a reason to go outside with other people.',

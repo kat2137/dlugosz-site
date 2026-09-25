@@ -15,8 +15,14 @@ import { url } from '../lib/paths';
  * learn is the robotic hand, eyes that follow is Sviatovid, cloth that breathes
  * is PneumaBra — so the frame above a word always belongs to it.
  */
-const SHEET: { src: string; alt: string; slug: string; title: string; word: string }[] = [
-  { src: 'hania-cutout.png', alt: 'The robotic arm, isolated', slug: 'robotic-craftsman', title: 'Robotic Craftsman', word: 'Hands' },
+/*
+ * `focus` is the vertical crop point for the square tile, for the few frames
+ * where the middle of the picture is not the subject. The arm cutout is a tall
+ * figure whose centre is the wrist bearing, so it is pulled to the top and the
+ * tile shows the hand.
+ */
+const SHEET: { src: string; alt: string; slug: string; title: string; word: string; focus?: string }[] = [
+  { src: 'hania-cutout.png', alt: 'The robotic hand, isolated', slug: 'robotic-craftsman', title: 'Robotic Craftsman', word: 'Hands', focus: '5%' },
   { src: 'int-handsewing.jpg', alt: 'Hands sewing a panel, filmed as reference footage', slug: 'robotic-craftsman', title: 'Robotic Craftsman', word: 'that' },
   { src: 'hania-needle-grip.jpg', alt: 'A fingertip holding a needle', slug: 'robotic-craftsman', title: 'Robotic Craftsman', word: 'learn,' },
   { src: 'sviatovid-shell-cad.jpg', alt: 'The face of Sviatovid in CAD', slug: 'sviatovid', title: 'Sviatovid', word: 'eyes' },
@@ -66,7 +72,7 @@ const jsonLd = {
           const image = media(tile.src);
           const duo = duoFor(tile.src);
           return (
-            <div class="cell">
+            <div class="cell" style={tile.focus ? `--focus: ${tile.focus}` : undefined}>
               <a href={url(`work/${tile.slug}`)} aria-label={tile.title}>
                 <span class:list={['plate__frame', duo && 'plate__frame--develops']}>
                   {duo && (
@@ -122,8 +128,8 @@ const jsonLd = {
         <div>
           <p class="intro__name">Katarzyna Długosz</p>
           <p class="intro__line">
-            Designer and engineer building robotic and interactive objects — the mechanism, the
-            electronics, and the software that makes them move.
+            Designer and engineer building robotic and interactive objects, from the mechanism and
+            the electronics to the software that makes them move.
           </p>
         </div>
       </div>
@@ -149,7 +155,9 @@ const jsonLd = {
       <div class="foot">
         <span>Katarzyna Długosz — London</span>
         <span>
-          <a href={url('about')}>about and contact →</a>
+          <a href={url('cv')}>cv →</a>
+          &nbsp;·&nbsp;
+          <a href={url('about')}>about →</a>
           &nbsp;·&nbsp;
           <a href={url('lab')}>lab →</a>
         </span>

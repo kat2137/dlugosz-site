@@ -18,7 +18,9 @@ export const sections: Section[] = [
         plates: [
           { src: 'tp-labels.jpg', alt: 'A YAML file listing garment drawings, each with its own labels: trouser, harem, gathered at ankle, elasticated waistband; blazer, tailored, lining, three piece sleeve, standing collar',
             caption: 'The controlled vocabulary, built by labelling real drawings one at a time' },
-        ],
+          { peek: { repo: 'tech_pack_auto', path: 'models.py', lines: 22 },
+            caption: 'models.py — eighteen stitch types and five seams, and nothing outside them' },
+],
       },
     ],
     body1: 'Source packs originate in Illustrator, so the drawings arrive as vector PDFs rather than images. That makes extracting the leader-line paths and their coordinates a stronger route than running raster detection over a rendered page.',
@@ -37,13 +39,18 @@ export const sections: Section[] = [
         plates: [
           { src: 'tp-stitch-breakdown.jpg', alt: 'A stitch breakdown table: seam type, area, stitch image, thread type and thread colour per row, with each stitch drawn beside its description',
             caption: 'One row per attribute, each carrying the stitch it specifies and where it was read from' },
-        ],
+          { peek: { repo: 'tech_pack_auto', path: 'output_structure.py', from: 9, lines: 22 },
+            caption: 'output_structure.py — a row, a BOM line and a fabric, typed' },
+],
       },
       {
         label: 'Suggestions without a model',
         tag: 'frequency table',
         text: 'Construction finishes are a function of element type, fabric class and garment class. That is a conditional frequency table over annotated packs, not something that needs training — and it stays inspectable, which matters when a suggestion has to be defended to whoever is making the garment.',
-        plates: [],
+        plates: [
+          { peek: { repo: 'tech_pack_auto', path: 'app_demo.py', lines: 21 },
+            caption: 'app_demo.py — a drawing in, three tables out' },
+        ],
       },
     ],
     body1: 'Four ML architectures were reviewed against the pipeline as it actually stands — Fashionpedia/Attribute-Mask R-CNN, IMAGGarment, Informative Drawings and GarmentCode/StarVector — and all four were rejected, each for a stated reason rather than on feel. Diffusion was ruled out for both line generation and colourway rendering.',

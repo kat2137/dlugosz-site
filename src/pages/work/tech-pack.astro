@@ -4,8 +4,10 @@ import Band from '../../components/Band.astro';
 import Brief from '../../components/Brief.astro';
 import Figure from '../../components/Figure.astro';
 import Contents from '../../components/Contents.astro';
+import CodeViewer from '../../components/CodeViewer.astro';
 import { bySlug } from '../../data/projects';
 import { sections } from '../../data/sections/tech-pack';
+import { techPackAuto } from '../../data/repos';
 
 const project = bySlug['tech-pack'];
 ---
@@ -55,6 +57,8 @@ const project = bySlug['tech-pack'];
   </Band>
 
   <Brief project={project} />
+
+  <CodeViewer repo={techPackAuto} figure="fig. 05" />
 
   <Contents sections={sections} plateStyle="sviatovid" />
 </ProjectPage>

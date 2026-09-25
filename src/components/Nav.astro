@@ -3,7 +3,7 @@ import { url } from '../lib/paths';
 
 interface Props {
   /** Which nav item is the current page. */
-  current?: 'work' | 'lab' | 'about';
+  current?: 'work' | 'lab' | 'cv' | 'about';
 }
 
 const { current = 'work' } = Astro.props;
@@ -21,6 +21,10 @@ const { current = 'work' } = Astro.props;
         class:list={['nav__link', current === 'lab' && 'is-current']}
         href={url('lab')}
         aria-current={current === 'lab' ? 'page' : undefined}>Lab</a>
+      <a
+        class:list={['nav__link', current === 'cv' && 'is-current']}
+        href={url('cv')}
+        aria-current={current === 'cv' ? 'page' : undefined}>CV</a>
       <a
         class:list={['nav__link', current === 'about' && 'is-current']}
         href={url('about')}

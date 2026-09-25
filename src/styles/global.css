@@ -991,6 +991,8 @@ a:hover .plate__frame--develops .plate__duo {
 
 .cell .plate__frame img {
   object-fit: cover;
+  /* Middle of the frame unless the cell names a crop point. */
+  object-position: 50% var(--focus, 50%);
 }
 
 .cell__tag {
@@ -1152,6 +1154,10 @@ a:hover .plate__frame--develops .plate__duo {
 
 .index__tag { color: var(--ink-50); }
 .index__tag::before { content: '\2014 '; opacity: 0.5; }
+/* In the about page's rail the tags stand alone, so the dash reads as a stray
+   mark rather than a lead-in. Elsewhere it still separates a tag from the line
+   of metadata above it. */
+.meta-stack .index__tag::before { content: none; }
 
 .index__a {
   text-align: right;
@@ -1709,4 +1715,84 @@ a.lab__row:hover .lab__name { color: var(--accent); }
   margin-left: 16px;
   color: var(--accent);
   border-bottom: 1px solid currentColor;
+}
+
+/* CV ------------------------------------------------------------------------ */
+
+.cv__row {
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr) 160px;
+  gap: 20px;
+  align-items: baseline;
+  padding: 17px 0;
+  border-bottom: 1px solid var(--rule);
+}
+
+.cv__row:first-child { border-top: 1px solid var(--ink); }
+
+.cv__cols {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(20px, 3vw, 40px) clamp(26px, 3.4vw, 46px);
+  border-top: 1px solid var(--ink);
+  padding-top: 22px;
+}
+
+.cv__award {
+  display: grid;
+  grid-template-columns: 70px minmax(0, 1fr);
+  gap: 20px;
+  align-items: baseline;
+  padding: 13px 0;
+  border-bottom: 1px solid var(--rule);
+}
+
+.cv__award:first-child { border-top: 1px solid var(--ink); }
+
+.cv__award-text {
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--ink-72);
+}
+
+.cv__languages {
+  margin: 20px 0 0;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-50);
+}
+
+.cv__get {
+  display: flex;
+  align-items: baseline;
+  gap: 22px;
+  flex-wrap: wrap;
+  margin-top: 30px;
+  padding-top: 22px;
+  border-top: 1px solid var(--ink);
+}
+
+.cv__download {
+  font-family: var(--display);
+  font-weight: var(--display-weight);
+  font-size: clamp(24px, 3vw, 34px);
+  letter-spacing: var(--display-track);
+  text-transform: var(--display-transform);
+  color: var(--accent);
+}
+
+.cv__contact {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-50);
+}
+
+@media (max-width: 860px) {
+  .cv__row { grid-template-columns: 30px minmax(0, 1fr); }
+  .cv__row .index__m { grid-column: 2; margin-top: 6px; }
+  .cv__cols { grid-template-columns: 1fr; }
 }

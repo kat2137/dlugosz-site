@@ -29,7 +29,7 @@ const jsonLd = {
     jobTitle: 'Robotics and physical-interaction designer and engineer',
     email: `mailto:${EMAIL}`,
     address: { '@type': 'PostalAddress', addressLocality: 'London', addressCountry: 'GB' },
-    alumniOf: 'London College of Fashion, University of the Arts London',
+    alumniOf: 'University of the Arts London',
     url: 'https://kat2137.github.io/dlugosz-site/about',
     sameAs: [GITHUB, ...(LINKEDIN ? [LINKEDIN] : [])],
   },
@@ -38,7 +38,7 @@ const jsonLd = {
 
 <Base
   title="About and contact — K. Długosz"
-  description="Katarzyna Długosz builds robotic and interactive objects — mechanism, electronics and the software that drives them. Based in London; open to roles in robotics, machine learning and wearable technology."
+  description="Katarzyna Długosz builds robotic and interactive objects, from the mechanism and the electronics to the software that drives them. Based in London; working across robotics, machine learning and wearable technology."
   ogImage="kd-portrait.jpg"
   jsonLd={jsonLd}
 >
@@ -57,8 +57,8 @@ const jsonLd = {
         <div>
           <h1 class="h1">Katarzyna Długosz</h1>
           <p class="standfirst">
-            Designer and engineer building robotic and interactive objects — the mechanism, the
-            electronics, and the software that makes them move.
+            Designer and engineer building robotic and interactive objects, from the mechanism and
+            the electronics to the software that makes them move.
           </p>
         </div>
       </div>
@@ -91,23 +91,24 @@ const jsonLd = {
         <div class="about__text">
           <p class="body body--loose">
             I came to robotics through garment construction. Patternmaking is already a kind of
-            engineering — you are working out how a flat thing becomes a moving one, on a body that
-            never holds still — and the questions that interested me there, about how force travels
+            engineering. You are working out how a flat thing becomes a moving one, on a body that
+            never holds still, and the questions that interested me there, about how force travels
             through a structure and where a material gives, turned out to be the same questions a
             mechanism asks. So I kept the questions and changed the material.
           </p>
           <p class="body body--loose">
-            I am finishing an MA in Fashion Futures at London College of Fashion, UAL, where the
-            work has been a seventeen-joint robotic hand taught to sew from video, a garment that
-            adjusts its own compression, and an object that notices when it is being looked at. I
-            build all of it end to end: CAD and mechanism, the board and the loom, and the model
-            that decides what the thing should do next.
+            I am finishing an MA in Design and Technology at University of the Arts London, after a
+            first class BA at London College of Fashion. The work has been a seventeen joint
+            robotic hand taught to sew from video, a garment that adjusts its own compression, and
+            an object that notices when it is being looked at. I build all of it end to end, from
+            the CAD and the mechanism to the board, the loom, and the model that decides what the
+            thing should do next.
           </p>
           <p class="body body--loose">
-            I am in London, and looking for a role — robotics, machine learning, wearable
-            technology or R&amp;D, at a company small enough that one person can still own a
-            problem from the mechanism to the model. Open to remote. If any of the work here is
-            close to what you are building, I would like to hear about it.
+            I am in London, working across robotics, machine learning, wearable technology and
+            R&amp;D, at the scale where one person can still own a problem from the mechanism to
+            the model. If any of the work here is close to what you are building, I would like to
+            hear about it.
           </p>
         </div>
       </div>
@@ -119,9 +120,7 @@ const jsonLd = {
             <span>
               <span class="index__t">Email</span>
               <p class="index__s">
-                The fastest route — about a role, a collaboration, or anything on these pages.
-                Including the tech pack generator, whose repository is private and shared on
-                request.
+                The fastest route, for a role, a collaboration, or anything on these pages.
               </p>
             </span>
             <span class="index__m"><span class="index__lead">{EMAIL}</span></span>
@@ -133,7 +132,7 @@ const jsonLd = {
             <span>
               <span class="index__t">GitHub</span>
               <p class="index__s">
-                Source for the robotic hand, the eye mechanism and the garment controller — and
+                Source for the robotic hand, the eye mechanism and the garment controller, plus
                 everything else public, listed on the lab page.
               </p>
             </span>
@@ -153,8 +152,18 @@ const jsonLd = {
             </a>
           )}
 
-          <a class="index__row" href={url('lab')}>
+          <a class="index__row" href={url('cv')}>
             <span class="index__n">{LINKEDIN ? '04' : '03'}</span>
+            <span>
+              <span class="index__t">CV</span>
+              <p class="index__s">Experience, education and the full list of skills, on the site or as a PDF to keep.</p>
+            </span>
+            <span class="index__m"><span class="index__lead">/cv</span></span>
+            <span class="index__a" aria-hidden="true">→</span>
+          </a>
+
+          <a class="index__row" href={url('lab')}>
+            <span class="index__n">{LINKEDIN ? '05' : '04'}</span>
             <span>
               <span class="index__t">Lab</span>
               <p class="index__s">Every public repository, straight from GitHub, rebuilt nightly.</p>
@@ -166,7 +175,7 @@ const jsonLd = {
       </Band>
 
       <div class="foot">
-        <span>Katarzyna Długosz — London · open to remote</span>
+        <span>Katarzyna Długosz · London</span>
         <a href={url()}>work ↗</a>
       </div>
     </div>

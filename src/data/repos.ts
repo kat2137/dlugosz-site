@@ -95,10 +95,22 @@ export const pneumaBra: CodeRepo = {
 ] }],
 };
 
+export const techPackAuto: CodeRepo = {
+  name: 'tech_pack_auto/',
+  base: 'tech_pack_auto',
+  github: 'https://github.com/kat2137/tech_pack_auto',
+  stack: ['python 3', 'pydantic · streamlit', 'anthropic api'],
+  groups: [{ dir: 'tech_pack_auto/', files: [
+    ['models.py', 'the controlled vocabulary'],
+    ['output_structure.py', 'the schema the model must fill'],
+    ['app_demo.py', 'drawing in, three tables out'],
+  ] }],
+};
+
 export const sonyScripts: CodeRepo = {
   name: 'sony_scripts/',
   base: 'sony_scripts',
-  github: 'https://github.com/kat2137/sony_scripts',
+  github: 'https://github.com/kat2137/group_b_project',
   stack: ['unity · c#', 'monobehaviour', 'sie challenge 2025'],
   groups: [{ dir: 'sony_scripts/', files: [
   ['Main_Gameplay.cs', 'bearing → which cube lights',
@@ -120,5 +132,6 @@ export const GITHUB: Record<string, string> = {
   'robotic-craftsman': 'https://github.com/kat2137/robotic-craftsman',
   Googly_eyes_project: 'https://github.com/kat2137/Googly_eyes_project',
   PneumaBra: 'https://github.com/kat2137/PneumaBra',
-  sony_scripts: 'https://github.com/kat2137/sony_scripts',
+  sony_scripts: 'https://github.com/kat2137/group_b_project',
+  tech_pack_auto: 'https://github.com/kat2137/tech_pack_auto',
 };

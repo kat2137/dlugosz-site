@@ -1,0 +1,156 @@
+---
+import Base from '../layouts/Base.astro';
+import Nav from '../components/Nav.astro';
+import Band from '../components/Band.astro';
+import { projects } from '../data/projects';
+import { url } from '../lib/paths';
+import {
+  summary,
+  experience,
+  education,
+  skills,
+  software,
+  achievements,
+  languages,
+} from '../data/cv';
+
+const EMAIL = 'kasadlugos@gmail.com';
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'ProfilePage',
+  mainEntity: {
+    '@type': 'Person',
+    name: 'Katarzyna Długosz',
+    jobTitle: 'Design engineer — soft robotics, physical computing, smart textiles',
+    email: `mailto:${EMAIL}`,
+    address: { '@type': 'PostalAddress', addressLocality: 'London', addressCountry: 'GB' },
+    alumniOf: 'University of the Arts London',
+    knowsLanguage: ['pl', 'en', 'ru'],
+    sameAs: ['https://github.com/kat2137'],
+  },
+};
+---
+
+<Base
+  title="CV — K. Długosz"
+  description="Katarzyna Długosz — design engineer across soft robotics, physical computing, smart textiles and computer vision, with a background in technical garment design and B2B product development."
+  ogImage="kd-portrait.jpg"
+  jsonLd={jsonLd}
+>
+  <main class="shell">
+    <div class="page">
+      <Nav current="cv" />
+
+      <div class="band">
+        <div class="meta-stack">
+          <div class="meta-stack__accent">curriculum vitae</div>
+          <div class="meta-stack__muted">London · 2026</div>
+          <div class="meta-stack__repo">
+            <a href={url('cv.pdf')} download>download pdf ↓</a>
+          </div>
+        </div>
+        <div>
+          <h1 class="h1">Katarzyna Długosz</h1>
+          <p class="standfirst">{summary}</p>
+        </div>
+      </div>
+
+      <Band label="experience">
+        <div class="index__list">
+          {experience.map((post, i) => (
+            <div class="cv__row">
+              <span class="index__n">{String(i + 1).padStart(2, '0')}</span>
+              <span>
+                <span class="index__t">{post.role}</span>
+                <p class="index__s">{post.where} — {post.detail}</p>
+              </span>
+              <span class="index__m"><span class="index__lead">{post.period}</span></span>
+            </div>
+          ))}
+        </div>
+      </Band>
+
+      <Band label="education">
+        <div class="index__list">
+          {education.map((post, i) => (
+            <div class="cv__row">
+              <span class="index__n">{String(i + 1).padStart(2, '0')}</span>
+              <span>
+                <span class="index__t">{post.role}</span>
+                <p class="index__s">{post.where} — {post.detail}</p>
+              </span>
+              <span class="index__m"><span class="index__lead">{post.period}</span></span>
+            </div>
+          ))}
+        </div>
+      </Band>
+
+      <Band label="selected work" sub="case studies →">
+        <div class="index__list">
+          {projects.map((project) => (
+            <a class="index__row" href={url(`work/${project.slug}`)}>
+              <span class="index__n">{project.number}</span>
+              <span>
+                <span class="index__t">{project.title}</span>
+                <p class="index__s">{project.standfirst}</p>
+              </span>
+              <span class="index__m">
+                <span class="index__lead">{project.discipline} · {project.year}</span>
+                {project.tags?.map((tag) => <span class="index__tag">{tag}</span>)}
+              </span>
+              <span class="index__a" aria-hidden="true">→</span>
+            </a>
+          ))}
+        </div>
+      </Band>
+
+      <Band label="skills">
+        <div class="cv__cols">
+          {skills.map((group) => (
+            <div>
+              <div class="group__head">
+                <span class="group__label">{group.label}</span>
+              </div>
+              <p class="group__text">{group.items}</p>
+            </div>
+          ))}
+        </div>
+      </Band>
+
+      <Band label="software">
+        <div class="cv__cols">
+          {software.map((group) => (
+            <div>
+              <div class="group__head">
+                <span class="group__label">{group.label}</span>
+              </div>
+              <p class="group__text">{group.items}</p>
+            </div>
+          ))}
+        </div>
+      </Band>
+
+      <Band label="awards" sub="and languages" end>
+        <div class="index__list">
+          {achievements.map((item) => (
+            <div class="cv__award">
+              <span class="index__n">{item.year}</span>
+              <span class="cv__award-text">{item.what}</span>
+            </div>
+          ))}
+        </div>
+        <p class="cv__languages">{languages}</p>
+        <div class="cv__get">
+          <a class="cv__download" href={url('cv.pdf')} download>Download as PDF</a>
+          <a class="cv__contact" href={url('about')}>or get in touch →</a>
+        </div>
+      </Band>
+
+      <div class="foot">
+        <span>Katarzyna Długosz · London</span>
+        <a href={`mailto:${EMAIL}`}>{EMAIL}</a>
+      </div>
+    </div>
+  </main>
+</Base>

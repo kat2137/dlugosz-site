@@ -11,7 +11,7 @@ export interface Post {
 }
 
 export const summary =
-  'Design engineer working across soft robotics, physical computing, smart textiles and computer vision. Background in technical garment design and B2B product development; completing an MA at UAL. I specialise in bridging the physical qualities of fabric with soft robotics, wearable technology and computer vision.';
+  'Design engineer working across soft robotics, physical computing, smart textiles and computer vision. I came to it from technical garment design and B2B product development, and the work still starts from the material: what fabric does under load, and what a mechanism has to do to move with it. Currently completing an MA at UAL.';
 
 export const experience: Post[] = [
   {

@@ -2,7 +2,6 @@
 import Base from '../layouts/Base.astro';
 import Nav from '../components/Nav.astro';
 import Band from '../components/Band.astro';
-import { projects } from '../data/projects';
 import { url } from '../lib/paths';
 import {
   summary,
@@ -56,55 +55,6 @@ const jsonLd = {
         </div>
       </div>
 
-      <Band label="experience">
-        <div class="index__list">
-          {experience.map((post, i) => (
-            <div class="cv__row">
-              <span class="index__n">{String(i + 1).padStart(2, '0')}</span>
-              <span>
-                <span class="index__t">{post.role}</span>
-                <p class="index__s">{post.where} — {post.detail}</p>
-              </span>
-              <span class="index__m"><span class="index__lead">{post.period}</span></span>
-            </div>
-          ))}
-        </div>
-      </Band>
-
-      <Band label="education">
-        <div class="index__list">
-          {education.map((post, i) => (
-            <div class="cv__row">
-              <span class="index__n">{String(i + 1).padStart(2, '0')}</span>
-              <span>
-                <span class="index__t">{post.role}</span>
-                <p class="index__s">{post.where} — {post.detail}</p>
-              </span>
-              <span class="index__m"><span class="index__lead">{post.period}</span></span>
-            </div>
-          ))}
-        </div>
-      </Band>
-
-      <Band label="selected work" sub="case studies →">
-        <div class="index__list">
-          {projects.map((project) => (
-            <a class="index__row" href={url(`work/${project.slug}`)}>
-              <span class="index__n">{project.number}</span>
-              <span>
-                <span class="index__t">{project.title}</span>
-                <p class="index__s">{project.standfirst}</p>
-              </span>
-              <span class="index__m">
-                <span class="index__lead">{project.discipline} · {project.year}</span>
-                {project.tags?.map((tag) => <span class="index__tag">{tag}</span>)}
-              </span>
-              <span class="index__a" aria-hidden="true">→</span>
-            </a>
-          ))}
-        </div>
-      </Band>
-
       <Band label="skills">
         <div class="cv__cols">
           {skills.map((group) => (
@@ -131,7 +81,7 @@ const jsonLd = {
         </div>
       </Band>
 
-      <Band label="awards" sub="and languages" end>
+      <Band label="awards" sub="and languages">
         <div class="index__list">
           {achievements.map((item) => (
             <div class="cv__award">
@@ -141,6 +91,36 @@ const jsonLd = {
           ))}
         </div>
         <p class="cv__languages">{languages}</p>
+      </Band>
+
+      <Band label="experience">
+        <div class="index__list">
+          {experience.map((post, i) => (
+            <div class="cv__row">
+              <span class="index__n">{String(i + 1).padStart(2, '0')}</span>
+              <span>
+                <span class="index__t">{post.role}</span>
+                <p class="index__s">{post.where} — {post.detail}</p>
+              </span>
+              <span class="index__m"><span class="index__lead">{post.period}</span></span>
+            </div>
+          ))}
+        </div>
+      </Band>
+
+      <Band label="education" end>
+        <div class="index__list">
+          {education.map((post, i) => (
+            <div class="cv__row">
+              <span class="index__n">{String(i + 1).padStart(2, '0')}</span>
+              <span>
+                <span class="index__t">{post.role}</span>
+                <p class="index__s">{post.where} — {post.detail}</p>
+              </span>
+              <span class="index__m"><span class="index__lead">{post.period}</span></span>
+            </div>
+          ))}
+        </div>
         <div class="cv__get">
           <a class="cv__download" href={url('cv.pdf')} download>Download as PDF</a>
           <a class="cv__contact" href={url('about')}>or get in touch →</a>

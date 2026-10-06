@@ -145,8 +145,8 @@ repository and the site are public and can be scraped; full tech packs are
 shared separately under a confidentiality agreement. The page shows method
 instead: points of measure as a drawing without values, the sizing system as
 a grid of sizes (`SizeMatrix`), the pack as blurred page thumbnails
-(`PackPages`), and the operation breakdown (`OperationsTable`). Data lives in
-`src/data/industry.ts`; accordion copy in `src/data/sections/industry.ts`.
+(`PackPages`), CLO3D renders and fittings. Data lives in
+`src/data/industry.ts`.
 
 ## M&S Industry Challenge
 

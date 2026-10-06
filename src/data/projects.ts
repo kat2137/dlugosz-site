@@ -59,17 +59,17 @@ export const projects: Project[] = [
     standfirst:
       'Innovative sizing range and collection for Community Sauna Baths.',
     brief: [
-      'DISSOLVE is a brand I work with as technical designer. For Community Sauna Baths it is developing an innovative sizing range and a swimwear collection \u2014 short, brief, bikini top, bikini brief and swimsuit. Each style is specified for production: flats, construction callouts, an inside view, a bill of materials, points of measure with tolerances, a sizing chart and a grade.',
-      'The bikini top is shown end to end below. Its sizing runs across three bands and six cup groups, eighteen sizes from one pattern, and every finish on it is broken down into operations, so it can be read the way a factory \u2014 or a machine \u2014 would have to read it.',
+      'DISSOLVE is a brand I work with as technical designer. For Community Sauna Baths it is developing Oxytocin AW27: a swimwear capsule \u2014 short, brief, bikini top, bikini brief and swimsuit \u2014 with an inclusive sizing range. Each style is specified for production: flats, construction callouts, an inside view, a bill of materials, points of measure with tolerances, a sizing chart and a grade.',
+      'The bikini top is shown end to end below. Its sizing runs across three bands and six cup groups, eighteen sizes from one pattern, developed in CLO3D and taken through samples and fittings.',
     ],
     stats: [
       { value: '05', label: 'styles specified' },
       { value: '18', label: 'sizes graded, bikini top' },
-      { value: '14', label: 'sewing operations' },
+      { value: '13', label: 'points of measure, bikini top' },
     ],
-    next: 'ms-industry-challenge',
+    next: 'pneumabra',
     description:
-      'Technical design for DISSOLVE: an innovative sizing range and swimwear collection for Community Sauna Baths, with full tech packs, an eighteen-size bra grade and an operation breakdown, plus selected tech packs and client work.',
+      'Technical design for DISSOLVE: Oxytocin AW27, an innovative sizing range and swimwear capsule for Community Sauna Baths, with full tech packs, an eighteen-size bra grade, CLO3D development and fittings, plus selected tech packs and client work.',
     card: {
       src: 'dissolve-top-flats.jpg',
       alt: 'DISSOLVE Ripple bikini top, front and back flats',
@@ -77,8 +77,45 @@ export const projects: Project[] = [
     },
   },
   {
-    slug: 'ms-industry-challenge',
+    slug: 'pneumabra',
     number: '03',
+    title: 'PneumaBra',
+    discipline: 'pneumatic textile system',
+    year: '2026',
+    tags: ['pcb', 'electronic design', 'ui'],
+    tools: ['fusion 360', 'platsil gel 25', 'nodemcu esp8266', 'mprls sensor', 'easyeda'],
+    repo: {
+      label: ['github.com/kat2137/', 'pneumabra'],
+      url: 'https://github.com/kat2137/pneumabra',
+    },
+    standfirst:
+      'A material that changes its own support — silicone air channels that adjust compression across the hormonal cycle, the working day and physical activity.',
+    brief: [
+      'A bra is a static object fitted to a body that is not static. Breast volume changes across the hormonal cycle, tissue stiffness changes with it, and the load on the supporting ligaments changes hour by hour with posture and activity. Every woman interviewed described the same mismatch: two sets of bras, or pain for part of every month.',
+      'So the support is made adjustable after the garment is finished, by the wearer, without tools — and it has to hold that adjustment. Elastic cannot: it is chosen for a property it then loses. Air can. Two fabric layers with sealed silicone channels between them, inflated and vented to change the compression of the surface.',
+    ],
+    stats: [
+      { value: '04', label: 'users studied in depth' },
+      { value: '03', label: 'operating modes' },
+      { value: '2 mm', label: 'channel creep over 10 hrs' },
+    ],
+    next: 'ms-industry-challenge',
+    description:
+      'A pneumatic support garment: sealed silicone air channels bonded between two fabric layers, inflated and vented to change compression on demand.',
+    card: {
+      src: 'pneumabra-prototype-lit.jpg',
+      alt: 'The inflated channel sample connected to the printed pump housing, lit in blue and green',
+    },
+    wheel: {
+      image: 'pneumabra-hero-poster.png',
+      alt: 'Render of the spherical control housing with its feed tube',
+      scale: 1.35,
+      turntable: { name: 'pneumabra-hero', frames: 72, width: 369, height: 246 },
+    },
+  },
+  {
+    slug: 'ms-industry-challenge',
+    number: '04',
     title: 'M&S Industry Challenge',
     longTitle: true,
     discipline: 'product development',
@@ -100,49 +137,12 @@ export const projects: Project[] = [
       { value: '\u00bd', label: 'the size range to make' },
       { value: '100%', label: 'recycled materials' },
     ],
-    next: 'pneumabra',
+    next: 'sviatovid',
     description:
       'Winning project for the M&S Industry Challenge 2024: an adjustable cup-size bodysuit with a 3D-printed adjustable underwire that halves the size range to manufacture.',
     card: {
       src: 'ms-full-cup-size-down.jpg',
       alt: 'The bodysuit on two stands, full cup and sized down',
-    },
-  },
-  {
-    slug: 'pneumabra',
-    number: '04',
-    title: 'PneumaBra',
-    discipline: 'pneumatic textile system',
-    year: '2026',
-    tags: ['pcb', 'electronic design', 'ui'],
-    tools: ['fusion 360', 'platsil gel 25', 'nodemcu esp8266', 'mprls sensor', 'easyeda'],
-    repo: {
-      label: ['github.com/kat2137/', 'pneumabra'],
-      url: 'https://github.com/kat2137/pneumabra',
-    },
-    standfirst:
-      'A material that changes its own support — silicone air channels that adjust compression across the hormonal cycle, the working day and physical activity.',
-    brief: [
-      'A bra is a static object fitted to a body that is not static. Breast volume changes across the hormonal cycle, tissue stiffness changes with it, and the load on the supporting ligaments changes hour by hour with posture and activity. Every woman interviewed described the same mismatch: two sets of bras, or pain for part of every month.',
-      'So the support is made adjustable after the garment is finished, by the wearer, without tools — and it has to hold that adjustment. Elastic cannot: it is chosen for a property it then loses. Air can. Two fabric layers with sealed silicone channels between them, inflated and vented to change the compression of the surface.',
-    ],
-    stats: [
-      { value: '04', label: 'users studied in depth' },
-      { value: '03', label: 'operating modes' },
-      { value: '2 mm', label: 'channel creep over 10 hrs' },
-    ],
-    next: 'sviatovid',
-    description:
-      'A pneumatic support garment: sealed silicone air channels bonded between two fabric layers, inflated and vented to change compression on demand.',
-    card: {
-      src: 'pneumabra-prototype-lit.jpg',
-      alt: 'The inflated channel sample connected to the printed pump housing, lit in blue and green',
-    },
-    wheel: {
-      image: 'pneumabra-hero-poster.png',
-      alt: 'Render of the spherical control housing with its feed tube',
-      scale: 1.35,
-      turntable: { name: 'pneumabra-hero', frames: 72, width: 369, height: 246 },
     },
   },
   {

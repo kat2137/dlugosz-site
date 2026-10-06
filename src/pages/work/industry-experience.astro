@@ -3,13 +3,9 @@ import ProjectPage from '../../layouts/ProjectPage.astro';
 import Band from '../../components/Band.astro';
 import Brief from '../../components/Brief.astro';
 import Figure from '../../components/Figure.astro';
-import Contents from '../../components/Contents.astro';
-import OperationsTable from '../../components/spec/OperationsTable.astro';
 import SizeMatrix from '../../components/spec/SizeMatrix.astro';
 import PackPages from '../../components/spec/PackPages.astro';
 import { bySlug } from '../../data/projects';
-import { sections } from '../../data/sections/industry';
-import { topOperations, otherStyles } from '../../data/industry';
 
 const project = bySlug['industry-experience'];
 ---
@@ -21,7 +17,7 @@ const project = bySlug['industry-experience'];
       alt="DISSOLVE Ripple bikini top, front and back flats in dark cobalt with off-white binding and wave piping"
       aspect="1890/807"
       fit="contain"
-      caption="fig. 01 — Ripple bikini top, style 03: triangle cup, non-wired, crossback straps, adjustable back"
+      caption="fig. 01 — Ripple bikini top, style 03, rendered in CLO3D: triangle cup, non-wired, crossback straps, adjustable back"
       widths={[640, 960, 1280]}
       sizes="(max-width: 900px) 100vw, 910px"
     />
@@ -29,38 +25,68 @@ const project = bySlug['industry-experience'];
 
   <Brief project={project} />
 
-  <Band label="fig. 02" sub="construction">
+  <Band label="fig. 02" sub="oxytocin aw27">
+    <Figure
+      src="dissolve-oxytocin-moodboard.jpg"
+      alt="DISSOLVE moodboard for the Oxytocin AW27 collection with Community Sauna Baths: contrast binding on swimwear, wave lines, vintage swim shorts, and the two Pantone colours, Cloud Dancer and Surf the Web"
+      aspect="1600/1189"
+      fit="contain"
+      caption="fig. 02 — Oxytocin AW27: a swimwear capsule with an inclusive sizing range, designed and developed for Community Sauna Baths"
+      widths={[640, 960, 1280, 1600]}
+      sizes="(max-width: 900px) 100vw, 910px"
+    />
+  </Band>
+
+  <Band label="fig. 03—05" sub="clo3d">
+    <div class="stack">
+      <Figure
+        src="dissolve-clo3d-lineup.jpg"
+        alt="The Oxytocin line-up rendered in CLO3D, front and back: swim short, brief, bikini top and bikini brief, swimsuit — navy with white binding and wave piping"
+        aspect="1384/828"
+        fit="contain"
+        caption="fig. 03 — the line-up, front and back, laid out from CLO3D"
+        widths={[640, 960, 1384]}
+        sizes="(max-width: 900px) 100vw, 910px"
+      />
+      <div class="duo">
+        <Figure src="dissolve-clo3d-swimsuit.jpg" alt="CLO3D render of the swimsuit on an avatar" aspect="646/1116" fit="cover" caption="fig. 04 — swimsuit on the avatar, CLO3D" small />
+        <Figure src="dissolve-clo3d-bikini.jpg" alt="CLO3D render of the bikini top and bikini brief on an avatar" aspect="716/1000" fit="cover" caption="fig. 05 — bikini top and brief on the avatar, CLO3D" small />
+      </div>
+    </div>
+  </Band>
+
+  <Band label="fig. 06" sub="construction">
     <Figure
       src="dissolve-top-callouts.jpg"
       alt="Construction page for the bikini top: front and back drawings with callouts for every seam, binding, piping, loop and trim"
       aspect="2000/1125"
       fit="contain"
-      caption="fig. 02 — every finish written down: binding, elastic, stitch, what is bagged out and what is topstitched"
+      caption="fig. 06 — every finish written down: binding, elastic, stitch, what is bagged out and what is topstitched"
       widths={[640, 960, 1280, 1800]}
       sizes="(max-width: 900px) 100vw, 910px"
     />
   </Band>
 
-  <Band label="fig. 03" sub="inside">
+  <Band label="fig. 07" sub="inside">
     <Figure
       src="dissolve-top-inside-bom.jpg"
       alt="Back inside view of the bikini top with callouts for the strap loop, self-loop, wing sliders, back clip and care label"
       aspect="1002/945"
       fit="contain"
-      caption="fig. 03 — back inside view: how the back adjusts, and what holds it"
+      caption="fig. 07 — back inside view: how the back adjusts, and what holds it"
       widths={[480, 760, 1000]}
       sizes="(max-width: 900px) 100vw, 560px"
     />
   </Band>
 
-  <Band label="fig. 04" sub="measurement">
+  <Band label="fig. 08" sub="measurement">
     <div class="duo duo--spec">
       <Figure
         src="dissolve-top-pom-sketch.jpg"
         alt="Front and back drawings of the bikini top with thirteen numbered measurement points"
         aspect="1260/915"
         fit="contain"
-        caption="fig. 04 — thirteen points of measure, sample size 34F"
+        caption="fig. 08 — thirteen points of measure, sample size 34F"
         small
       />
       <p class="body">
@@ -71,69 +97,41 @@ const project = bySlug['industry-experience'];
     </div>
   </Band>
 
-  <Band label="fig. 05" sub="sizing system">
+  <Band label="fig. 09" sub="sizing system">
     <p class="body spec__intro">
       One pattern, graded on two axes. The band steps with the underbust, and within each
       band the cup steps with the bust, so each pattern piece has its own increment per cup
       step and per band step rather than one overall scale.
     </p>
-    <SizeMatrix caption="fig. 05 — eighteen sizes from one bikini top pattern: three bands by six cup groups" />
+    <SizeMatrix caption="fig. 09 — eighteen sizes from one bikini top pattern: three bands by six cup groups" />
   </Band>
 
-  <Band label="fig. 06" sub="the full pack">
-    <PackPages caption="fig. 06 — the bikini top\u2019s pack, page by page; the full pack is shared on request under a confidentiality agreement" />
+  <Band label="fig. 10" sub="the full pack">
+    <PackPages caption="fig. 10 — the bikini top’s pack, page by page; the full pack is shared on request under a confidentiality agreement" />
   </Band>
 
-  <Band label="fig. 07" sub="operations">
-    <p class="body spec__intro">
-      The same garment as a sewing sequence. Each operation is written with its machine and
-      its ISO 4915 stitch class, and marked for whether a machine could do it today, whether
-      it is held back by how the fabric behaves, or whether it still needs a hand.
-    </p>
-    <OperationsTable
-      operations={topOperations}
-      caption="fig. 07 — operation breakdown, bikini top; machines and stitch classes follow the finishes on the callout pages"
-    />
-  </Band>
-
-  <Band label="fig. 08—10" sub="fittings">
+  <Band label="fig. 11—13" sub="fittings">
     <p class="body spec__intro">
       Samples are fitted on the stand and on the body, and every fitting goes back into the
       pattern as a correction — piping lines redrawn, binding tension adjusted, prints placed.
     </p>
     <div class="triptych triptych--fluid">
-      <Figure src="dissolve-fit-top.jpg" alt="Navy bikini top sample with white binding and piping on a 1XL dress stand" aspect="3/4" fit="cover" caption="fig. 08 — bikini top sample, 1XL" small />
-      <Figure src="dissolve-fit-swimsuit.jpg" alt="Navy swimsuit sample with white binding and wave piping on a 1XL dress stand" aspect="3/4" fit="cover" caption="fig. 09 — swimsuit sample, 1XL" small />
-      <Figure src="dissolve-fit-brief.jpg" alt="Brief sample with white waistband tie and piping on a dress stand" aspect="3/4" fit="cover" caption="fig. 10 — brief sample" small />
+      <Figure src="dissolve-fit-top.jpg" alt="Navy bikini top sample with white binding and piping on a 1XL dress stand" aspect="3/4" fit="cover" caption="fig. 11 — bikini top sample, 1XL" small />
+      <Figure src="dissolve-fit-swimsuit.jpg" alt="Navy swimsuit sample with white binding and wave piping on a 1XL dress stand" aspect="3/4" fit="cover" caption="fig. 12 — swimsuit sample, 1XL" small />
+      <Figure src="dissolve-fit-brief.jpg" alt="Brief sample with white waistband tie and piping on a dress stand" aspect="3/4" fit="cover" caption="fig. 13 — brief sample" small />
     </div>
   </Band>
 
-  <Band label="fig. 11—13" sub="sample to correction">
+  <Band label="fig. 14—16" sub="sample to correction">
     <div class="stack">
       <div class="duo">
-        <Figure src="dissolve-sample-swimsuit-inside.jpg" alt="The swimsuit production sample laid flat, back straps, clip and grey lining visible, with DISSOLVE and Community Sauna Baths prints" aspect="3/4" fit="cover" caption="fig. 11 — swimsuit sample: lining, removable back straps, clip" small />
-        <Figure src="dissolve-sample-short.jpg" alt="The navy swim short sample laid flat, with white wave piping, drawcord and DISSOLVE print" aspect="3/4" fit="cover" caption="fig. 12 — short sample, piping and prints placed" small />
+        <Figure src="dissolve-sample-swimsuit-inside.jpg" alt="The swimsuit production sample laid flat, back straps, clip and grey lining visible, with DISSOLVE and Community Sauna Baths prints" aspect="3/4" fit="cover" caption="fig. 14 — swimsuit sample: lining, removable back straps, clip" small />
+        <Figure src="dissolve-sample-short.jpg" alt="The navy swim short sample laid flat, with white wave piping, drawcord and DISSOLVE print" aspect="3/4" fit="cover" caption="fig. 15 — short sample, piping and prints placed" small />
       </div>
       <div style="max-width: 560px">
-        <Figure src="dissolve-fit-comment.jpg" alt="Back view of the short worn, with the piping line redrawn over the photo and annotated" aspect="414/286" fit="contain" caption="fig. 13 — fit comment: the back piping line redrawn on the photo, then corrected on the pattern" small />
+        <Figure src="dissolve-fit-comment.jpg" alt="Back view of the short worn, with the piping line redrawn over the photo and annotated" aspect="414/286" fit="contain" caption="fig. 16 — fit comment: the back piping line redrawn on the photo, then corrected on the pattern" small />
       </div>
     </div>
   </Band>
 
-  <Band label="fig. 14—17" sub="the line">
-    <div class="duo">
-      {otherStyles.map((s, i) => (
-        <Figure
-          src={s.src}
-          alt={`DISSOLVE ${s.title}, front and back flats`}
-          aspect={s.aspect}
-          fit="contain"
-          caption={`fig. ${String(14 + i).padStart(2, '0')} — style ${s.n}, ${s.title.toLowerCase()}`}
-          small
-        />
-      ))}
-    </div>
-  </Band>
-
-  <Contents sections={sections} plateStyle="spec" />
 </ProjectPage>

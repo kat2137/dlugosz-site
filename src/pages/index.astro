@@ -3,7 +3,7 @@ import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import Nav from '../components/Nav.astro';
 import { media, duoFor, hasMedia } from '../lib/media';
-import { projects } from '../data/projects';
+import { visibleProjects as projects } from '../data/projects';
 import { url } from '../lib/paths';
 
 /**
@@ -11,9 +11,9 @@ import { url } from '../lib/paths';
  * printed under each, so the sheet reads as one sentence about the work. Every
  * frame sits as a duotone print and develops into the photograph on hover.
  *
- * The nine run three to a phrase, and each phrase is one project — hands that
- * learn is the robotic hand, eyes that follow is Sviatovid, cloth that breathes
- * is PneumaBra — so the frame above a word always belongs to it.
+ * The nine run three to a phrase — hands that learn is the robotic hand, eyes
+ * that follow is Sviatovid, cloth that breathes is the garment work (PneumaBra,
+ * DISSOLVE, the tech pack generator).
  */
 /*
  * `focus` is the vertical crop point for the square tile, for the few frames
@@ -29,7 +29,7 @@ const SHEET: { src: string; alt: string; slug: string; title: string; word: stri
   { src: 'sviatovid-eyeball-section.jpg', alt: 'Section through one eye, linkage to the servo horn', slug: 'sviatovid', title: 'Sviatovid', word: 'that' },
   { src: 'pneumabra-prototype-lit.jpg', alt: 'The inflated prototype, lit', slug: 'pneumabra', title: 'PneumaBra', word: 'follow,' },
   { src: 'pn-bra-pattern.png', alt: 'The garment pattern', slug: 'pneumabra', title: 'PneumaBra', word: 'cloth' },
-  { src: 'sony-controller-assembled.jpg', alt: "The assembled controller modules", slug: 'hikego', title: 'HikeGo', word: 'that' },
+  { src: 'dissolve-tile.jpg', alt: 'The DISSOLVE bikini top, front flat', slug: 'industry-experience', title: 'Industry experience', word: 'that' },
   { src: 'pn-bra-annotated.jpg', alt: 'The annotated garment drawing', slug: 'tech-pack', title: 'Tech pack generator', word: 'breathes.' },
 ];
 
@@ -129,7 +129,8 @@ const jsonLd = {
           <p class="intro__name">Katarzyna Długosz</p>
           <p class="intro__line">
             Designer and engineer building robotic and interactive objects, from the mechanism and
-            the electronics to the software that makes them move.
+            the electronics to the software that makes them move — with a working background in
+            technical garment design and production specification.
           </p>
         </div>
       </div>

@@ -1,0 +1,36 @@
+---
+import { sizeBands, cupGroups } from '../../data/industry';
+
+/**
+ * The sizing system as a grid of sizes — every cell is one size the pattern
+ * grades to. Deliberately carries no measurements.
+ */
+interface Props { caption?: string }
+const { caption } = Astro.props;
+---
+
+<div>
+  <div class="spec-wrap">
+    <table class="sizes">
+      <thead>
+        <tr>
+          <td></td>
+          {cupGroups.map((c) => <th scope="col">{c}</th>)}
+        </tr>
+      </thead>
+      <tbody>
+        {sizeBands.map((b) => (
+          <tr>
+            <th scope="row">{b}</th>
+            {cupGroups.map((c) => <td><span>{b} {c}</span></td>)}
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+  <div class="sizes__axes">
+    <span>band ↓ &nbsp; underbust range, with extension</span>
+    <span>cup →&nbsp; bust range within each band</span>
+  </div>
+  {caption && <div class="caption">{caption}</div>}
+</div>

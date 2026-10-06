@@ -1,0 +1,115 @@
+---
+import ProjectPage from '../../layouts/ProjectPage.astro';
+import Band from '../../components/Band.astro';
+import Brief from '../../components/Brief.astro';
+import Figure from '../../components/Figure.astro';
+import Contents from '../../components/Contents.astro';
+import OperationsTable from '../../components/spec/OperationsTable.astro';
+import SizeMatrix from '../../components/spec/SizeMatrix.astro';
+import PackPages from '../../components/spec/PackPages.astro';
+import { bySlug } from '../../data/projects';
+import { sections } from '../../data/sections/industry';
+import { topOperations, otherStyles } from '../../data/industry';
+
+const project = bySlug['industry-experience'];
+---
+
+<ProjectPage project={project} ogImage="dissolve-top-flats.jpg">
+  <Band label="fig. 01" sub="the style">
+    <Figure
+      src="dissolve-top-flats.jpg"
+      alt="DISSOLVE Ripple bikini top, front and back flats in dark cobalt with off-white binding and wave piping"
+      aspect="1890/807"
+      fit="contain"
+      caption="fig. 01 — Ripple bikini top, style 03: triangle cup, non-wired, crossback straps, adjustable back"
+      widths={[640, 960, 1280]}
+      sizes="(max-width: 900px) 100vw, 910px"
+    />
+  </Band>
+
+  <Brief project={project} />
+
+  <Band label="fig. 02" sub="construction">
+    <Figure
+      src="dissolve-top-callouts.jpg"
+      alt="Construction page for the bikini top: front and back drawings with callouts for every seam, binding, piping, loop and trim"
+      aspect="2000/1125"
+      fit="contain"
+      caption="fig. 02 — every finish written down: binding, elastic, stitch, what is bagged out and what is topstitched"
+      widths={[640, 960, 1280, 1800]}
+      sizes="(max-width: 900px) 100vw, 910px"
+    />
+  </Band>
+
+  <Band label="fig. 03" sub="inside">
+    <Figure
+      src="dissolve-top-inside-bom.jpg"
+      alt="Back inside view of the bikini top with callouts for the strap loop, self-loop, wing sliders, back clip and care label"
+      aspect="1002/945"
+      fit="contain"
+      caption="fig. 03 — back inside view: how the back adjusts, and what holds it"
+      widths={[480, 760, 1000]}
+      sizes="(max-width: 900px) 100vw, 560px"
+    />
+  </Band>
+
+  <Band label="fig. 04" sub="measurement">
+    <div class="duo duo--spec">
+      <Figure
+        src="dissolve-top-pom-sketch.jpg"
+        alt="Front and back drawings of the bikini top with thirteen numbered measurement points"
+        aspect="1260/915"
+        fit="contain"
+        caption="fig. 04 — thirteen points of measure, sample size 34F"
+        small
+      />
+      <p class="body">
+        Every point is defined on the drawing and carries its own tolerance — tighter on the
+        cup, looser around the full underband, where the elastic gives. The values themselves
+        stay in the pack.
+      </p>
+    </div>
+  </Band>
+
+  <Band label="fig. 05" sub="sizing system">
+    <p class="body spec__intro">
+      One pattern, graded on two axes. The band steps with the underbust, and within each
+      band the cup steps with the bust, so each pattern piece has its own increment per cup
+      step and per band step rather than one overall scale.
+    </p>
+    <SizeMatrix caption="fig. 05 — eighteen sizes from one bikini top pattern: three bands by six cup groups" />
+  </Band>
+
+  <Band label="fig. 06" sub="the full pack">
+    <PackPages caption="fig. 06 — the bikini top\u2019s pack, page by page; the full pack is shared on request under a confidentiality agreement" />
+  </Band>
+
+  <Band label="fig. 07" sub="operations">
+    <p class="body spec__intro">
+      The same garment as a sewing sequence. Each operation is written with its machine and
+      its ISO 4915 stitch class, and marked for whether a machine could do it today, whether
+      it is held back by how the fabric behaves, or whether it still needs a hand.
+    </p>
+    <OperationsTable
+      operations={topOperations}
+      caption="fig. 07 — operation breakdown, bikini top; machines and stitch classes follow the finishes on the callout pages"
+    />
+  </Band>
+
+  <Band label="fig. 08—11" sub="the line">
+    <div class="duo">
+      {otherStyles.map((s, i) => (
+        <Figure
+          src={s.src}
+          alt={`DISSOLVE ${s.title}, front and back flats`}
+          aspect={s.aspect}
+          fit="contain"
+          caption={`fig. ${String(8 + i).padStart(2, '0')} — style ${s.n}, ${s.title.toLowerCase()}`}
+          small
+        />
+      ))}
+    </div>
+  </Band>
+
+  <Contents sections={sections} plateStyle="spec" />
+</ProjectPage>

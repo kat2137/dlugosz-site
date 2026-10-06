@@ -160,7 +160,7 @@ const first = excerpt(source, firstFocus);
         captionEl.textContent = `${figure} — ${name} — ${button.dataset.of ?? note}`;
 
         if (cache.has(path)) {
-          render(cache.get(path)!);
+          render(cache.get(path)!, button);
           return;
         }
 
@@ -170,14 +170,14 @@ const first = excerpt(source, firstFocus);
           if (!response.ok) throw new Error(String(response.status));
           const text = await response.text();
           cache.set(path, text);
-          render(text);
+          render(text, button);
         } catch {
-          render(`// could not load ${path}`);
+          render(`// could not load ${path}`, button);
         }
       });
     });
 
-    function render(text: string) {
+    function render(text: string, button: HTMLElement) {
       show(text, button);
       body.scrollTop = 0;
     }

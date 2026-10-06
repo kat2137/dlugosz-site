@@ -1,0 +1,22 @@
+---
+import { Image } from 'astro:assets';
+import { media } from '../../lib/media';
+import { packPages } from '../../data/industry';
+
+interface Props { caption?: string }
+const { caption } = Astro.props;
+---
+
+<div>
+  <ol class="pack">
+    {packPages.map((p, i) => (
+      <li class="pack__page">
+        <div class="pack__sheet">
+          <Image src={media(p.src)} alt="" widths={[240, 480]} sizes="(max-width: 700px) 50vw, 280px" loading="lazy" />
+        </div>
+        <div class="pack__label"><span>{String(i + 1).padStart(2, '0')}</span>{p.label}</div>
+      </li>
+    ))}
+  </ol>
+  {caption && <div class="caption">{caption}</div>}
+</div>

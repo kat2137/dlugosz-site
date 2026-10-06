@@ -1,0 +1,103 @@
+---
+import ProjectPage from '../../layouts/ProjectPage.astro';
+import Band from '../../components/Band.astro';
+import Brief from '../../components/Brief.astro';
+import Figure from '../../components/Figure.astro';
+import { bySlug } from '../../data/projects';
+
+const project = bySlug['ms-industry-challenge'];
+
+/* The wire, in the order it was designed: curve, ring, insert, socket, rail, joint. */
+const wire = [
+  { src: 'ms-wire-curve.png', alt: 'Fusion 360 sketch of the wire curve with offset construction lines', cap: 'the wire curve, sketched to the underbust' },
+  { src: 'ms-wire-sketch.png', alt: 'Fusion 360 sketch of the crescent ring with five 6 mm ball positions marked along it', cap: 'ball insert positions along the crescent ring' },
+  { src: 'ms-wire-ball-insert.png', alt: 'Exploded CAD of the ball insert: grooved top half, ball, and curved bottom socket', cap: 'ball insert — the fabric is sandwiched between the halves' },
+  { src: 'ms-wire-base.png', alt: 'CAD of the curved bottom half with its split ball socket', cap: 'bottom half, curved to sit on the body' },
+  { src: 'ms-wire-rail.png', alt: 'CAD of the straight rail section with ball inserts along it', cap: 'rail section with inserts' },
+  { src: 'ms-wire-joint.png', alt: 'CAD close-up of the wire joint with its interlocking key', cap: 'overlap groove — the keyed joint in the wire' },
+];
+---
+
+<ProjectPage project={project} ogImage="ms-full-cup-size-down.jpg">
+  <Band label="fig. 01" sub="one garment, two sizes">
+    <div style="max-width: 520px">
+    <Figure
+      src="ms-full-cup-size-down.jpg"
+      alt="The brown bodysuit on two stands: on the left at full cup, on the right adjusted down a size"
+      aspect="262/349"
+      fit="contain"
+      caption="fig. 01 — the same bodysuit at full cup and adjusted down a size"
+      widths={[380, 600, 900]}
+      sizes="(max-width: 900px) 100vw, 520px"
+    />
+    </div>
+  </Band>
+
+  <Brief project={project} />
+
+  <Band label="fig. 02—07" sub="adjustable underwire">
+    <p class="body spec__intro">
+      The wire is moved out of the casing and into an external element: a curved rail shaped to
+      the underbust, with ball inserts placed along it. Each insert sandwiches the cup fabric
+      between a grooved top half and a bottom half curved to sit on the body, so the mesh cup
+      hangs from a crescent-shaped ring and stays fully mobile. Moving the inserts along the rail
+      changes the cup volume without opening a seam. The exposed part of the wire is encased in
+      velvet to protect the skin.
+    </p>
+    <div class="duo">
+      {wire.map((w, i) => (
+        <Figure
+          src={w.src}
+          alt={w.alt}
+          caption={`fig. ${String(2 + i).padStart(2, '0')} — ${w.cap}`}
+          small
+        />
+      ))}
+    </div>
+  </Band>
+
+  <Band label="fig. 08" sub="stretch ratio">
+    <p class="body spec__intro">
+      The adjustable panel has to stretch with the cup as it changes size, so its stretch ratio
+      was developed on the stand, one iteration at a time.
+    </p>
+    <Figure
+      src="ms-stretch-ratio.jpg"
+      alt="Six iterations of the adjustable cup panel drawn and pinned on a dress stand"
+      caption="fig. 08 — iterations of the adjustable panel on the stand"
+      widths={[640, 960, 1280]}
+      sizes="(max-width: 900px) 100vw, 760px"
+    />
+  </Band>
+
+  <Band label="fig. 09" sub="grading">
+    <p class="body spec__intro">
+      Adjustability changes what grading has to do. Above a D cup the garment needs lateral side
+      support, inner reinforcement at the waist and cradle, a wire roughly twice as resistant as
+      the one used below D, and an underband with more than 20% elastane.
+    </p>
+    <Figure
+      src="ms-pressure-sketches.png"
+      alt="Development sketches of cup coverage and adjustable bodysuit variants, with notes on DD+ requirements"
+      caption="fig. 09 — coverage and adjustability studies, with the DD+ requirements"
+      widths={[640, 960, 1280]}
+      sizes="(max-width: 900px) 100vw, 910px"
+    />
+  </Band>
+
+  <Band label="fig. 10—12" sub="the garment">
+    <div class="stack">
+      <div class="duo">
+        <Figure src="ms-bodysuit-flat-front.png" alt="Front flat of the bodysuit: underwired cups, panelled body, adjustable straps" caption="fig. 10 — front flat" small />
+        <Figure src="ms-bodysuit-flat-back.png" alt="Back flat of the bodysuit: slider straps and a vertical back panel" caption="fig. 11 — back flat" small />
+      </div>
+      <Figure
+        src="ms-bodysuit-shoot.png"
+        alt="The finished brown bodysuit photographed on a model"
+        caption="fig. 12 — the finished bodysuit"
+        widths={[640, 960, 1280]}
+        sizes="(max-width: 900px) 100vw, 910px"
+      />
+    </div>
+  </Band>
+</ProjectPage>

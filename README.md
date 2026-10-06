@@ -18,11 +18,17 @@ npm run check    # astro check (TypeScript + template diagnostics)
 | Route              | Project                                      |
 | ------------------ | -------------------------------------------- |
 | `/`                | Project wheel — five miniatures, link to Lab |
-| `/work/hania`      | Hania — robotics · 2026                      |
-| `/work/sviatovid`  | Sviatovid — robotics · 2025                  |
+| `/work/robotic-craftsman` | Robotic Craftsman — robotics · 2026   |
+| `/work/industry-experience` | Industry experience — DISSOLVE · technical design · 2026 |
+| `/work/ms-industry-challenge` | M&S Industry Challenge — product development · 2024 |
 | `/work/pneumabra`  | PneumaBra — interactive material · 2026      |
-| `/work/hikego`     | HikeGo — software · 2025                     |
+| `/work/sviatovid`  | Sviatovid — robotics · 2025                  |
 | `/work/tech-pack`  | Tech pack generator — tooling · 2026         |
+
+HikeGo is hidden: its page is `src/pages/work/_hikego.astro`, which Astro
+does not build, and its entry in `projects.ts` carries `hidden: true`. Rename
+the file back to `hikego.astro`, drop the flag and restore its `next` link to
+bring it back.
 | `/lab`             | Public repositories, fetched from GitHub     |
 
 ## Layout of the source
@@ -131,6 +137,20 @@ Private or not-yet-public work goes in the `MANUAL` array in
 If GitHub is unreachable or rate-limits the build, the page falls back to the
 manual entries and logs a warning rather than failing the build. In Actions the
 workflow passes `GITHUB_TOKEN`, which lifts the unauthenticated limit.
+
+## Industry experience — DISSOLVE
+
+**No dimensions, tolerances or grade values on the site or in this repo.** The
+repository and the site are public and can be scraped; full tech packs are
+shared separately under a confidentiality agreement. The page shows method
+instead: points of measure as a drawing without values, the sizing system as
+a grid of sizes (`SizeMatrix`), the pack as blurred page thumbnails
+(`PackPages`), and the operation breakdown (`OperationsTable`). Data lives in
+`src/data/industry.ts`; accordion copy in `src/data/sections/industry.ts`.
+
+## M&S Industry Challenge
+
+Its own project page (`/work/ms-industry-challenge`), separate from DISSOLVE.
 
 ## Decisions worth a second look
 

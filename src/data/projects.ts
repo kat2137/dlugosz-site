@@ -29,7 +29,7 @@ export const projects: Project[] = [
       { value: '06', label: 'joint systems' },
       { value: '03', label: 'tendon groups' },
     ],
-    next: 'pneumabra',
+    next: 'industry-experience',
     description:
       'A seventeen-joint tendon-driven robotic hand built to learn hand-sewing from reference footage, with rolling-contact finger joints and cast silicone fingertips.',
     card: {
@@ -44,8 +44,73 @@ export const projects: Project[] = [
     },
   },
   {
-    slug: 'pneumabra',
+    slug: 'industry-experience',
     number: '02',
+    title: 'Industry experience \u2014 DISSOLVE',
+    longTitle: true,
+    discipline: 'technical design',
+    year: '2026',
+    tags: ['tech packs', 'grading', 'production specification'],
+    tools: ['adobe illustrator', 'clo3d', 'fusion 360'],
+    repo: {
+      label: ['full tech packs', 'on request'],
+      url: '/dlugosz-site/about',
+    },
+    standfirst:
+      'Innovative sizing range and collection for Community Sauna Baths.',
+    brief: [
+      'DISSOLVE is a brand I work with as technical designer. For Community Sauna Baths it is developing an innovative sizing range and a swimwear collection \u2014 short, brief, bikini top, bikini brief and swimsuit. Each style is specified for production: flats, construction callouts, an inside view, a bill of materials, points of measure with tolerances, a sizing chart and a grade.',
+      'The bikini top is shown end to end below. Its sizing runs across three bands and six cup groups, eighteen sizes from one pattern, and every finish on it is broken down into operations, so it can be read the way a factory \u2014 or a machine \u2014 would have to read it.',
+    ],
+    stats: [
+      { value: '05', label: 'styles specified' },
+      { value: '18', label: 'sizes graded, bikini top' },
+      { value: '14', label: 'sewing operations' },
+    ],
+    next: 'ms-industry-challenge',
+    description:
+      'Technical design for DISSOLVE: an innovative sizing range and swimwear collection for Community Sauna Baths, with full tech packs, an eighteen-size bra grade and an operation breakdown, plus selected tech packs and client work.',
+    card: {
+      src: 'dissolve-top-flats.jpg',
+      alt: 'DISSOLVE Ripple bikini top, front and back flats',
+      fit: 'contain' as const,
+    },
+  },
+  {
+    slug: 'ms-industry-challenge',
+    number: '03',
+    title: 'M&S Industry Challenge',
+    longTitle: true,
+    discipline: 'product development',
+    year: '2024',
+    tags: ['adjustable underwire', 'sizing', 'winner'],
+    tools: ['fusion 360', '3d print', 'clo3d'],
+    repo: {
+      label: ['winning project,', 'm&s industry challenge'],
+      url: '/dlugosz-site/about',
+    },
+    standfirst:
+      'An adjustable cup-size bodysuit for Marks & Spencer \u2014 one garment that covers two sizes, through a 3D-printed underwire.',
+    brief: [
+      'A bra is fitted to a body that does not stay one size: weight changes, and breast volume changes across the hormonal cycle. The usual answer is more sizes, and more garments bought and discarded as the body moves between them.',
+      'Here the size is adjusted in the garment instead. A 3D-printed underwire with ball inserts gives the cup two levels of adjustment, so one bodysuit covers what would otherwise be two sizes \u2014 halving the size range that has to be manufactured. Materials are fully recycled, down to the elastic.',
+    ],
+    stats: [
+      { value: '02', label: 'cup adjustment levels' },
+      { value: '\u00bd', label: 'the size range to make' },
+      { value: '100%', label: 'recycled materials' },
+    ],
+    next: 'pneumabra',
+    description:
+      'Winning project for the M&S Industry Challenge 2024: an adjustable cup-size bodysuit with a 3D-printed adjustable underwire that halves the size range to manufacture.',
+    card: {
+      src: 'ms-full-cup-size-down.jpg',
+      alt: 'The bodysuit on two stands, full cup and sized down',
+    },
+  },
+  {
+    slug: 'pneumabra',
+    number: '04',
     title: 'PneumaBra',
     discipline: 'pneumatic textile system',
     year: '2026',
@@ -82,7 +147,7 @@ export const projects: Project[] = [
   },
   {
     slug: 'sviatovid',
-    number: '03',
+    number: '05',
     title: 'Sviatovid',
     discipline: 'robotics',
     year: '2025',
@@ -103,7 +168,7 @@ export const projects: Project[] = [
       { value: '150.74', label: 'housing height, mm' },
       { value: '51.12', label: 'housing depth, mm' },
     ],
-    next: 'hikego',
+    next: 'tech-pack',
     description:
       'A wearable robotic object with four animated eyes that detect and track passers-by, built on a Raspberry Pi with a two-axis servo yoke.',
     card: {
@@ -119,7 +184,9 @@ export const projects: Project[] = [
   },
   {
     slug: 'hikego',
-    number: '04',
+    /* Hidden for now; the page lives at src/pages/work/_hikego.astro, which Astro does not build. Rename it back and drop this flag to restore. */
+    hidden: true,
+    number: '\u2014',
     title: 'Hike Go',
     discipline: 'software',
     year: '2025',
@@ -160,7 +227,7 @@ export const projects: Project[] = [
   },
   {
     slug: 'tech-pack',
-    number: '05',
+    number: '06',
     title: 'Tech pack generator',
     discipline: 'tooling',
     year: '2026',
@@ -188,6 +255,9 @@ export const projects: Project[] = [
 ];
 
 export const bySlug = Object.fromEntries(projects.map((p) => [p.slug, p]));
+
+/** What the index lists. */
+export const visibleProjects = projects.filter((p) => !p.hidden);
 
 export function nextOf(slug: string): Project {
   return bySlug[bySlug[slug].next];

@@ -1,0 +1,67 @@
+---
+/**
+ * The argument of the project in one table: three ways of getting a sewing
+ * skill into a machine, and what each one gives up.
+ */
+const columns = [
+  {
+    name: 'Gesture preservation',
+    who: 'Maillet et al.',
+    changes: 'Nothing physical. The craftsperson’s gesture is recorded.',
+    keeps: 'The gesture, as data.',
+    lives: 'In an archive of motion.',
+    loses: 'The performance — a record can be replayed, not carried out on cloth.',
+  },
+  {
+    name: 'Fabric stiffening',
+    who: 'Sewbo',
+    changes: 'The cloth. It is stiffened with a water-soluble thermoplastic until it handles like a rigid sheet, then washed out.',
+    keeps: 'The robot — a standard industrial arm.',
+    lives: 'In the process: stiffen, sew, rinse.',
+    loses: 'The hand altogether. The cloth is made to stop behaving like cloth.',
+  },
+  {
+    name: 'Gesture performance',
+    who: 'Robotic Craftsman',
+    changes: 'The machine. A tendon-driven hand shaped after the human one.',
+    keeps: 'Limp cloth, and the gesture of a practised hand.',
+    lives: 'In motion retargeted from footage and performed on the fabric.',
+    loses: 'What video cannot carry — grip pressure, the pause before a knot.',
+    own: true,
+  },
+];
+
+const rows: { key: keyof (typeof columns)[number]; label: string }[] = [
+  { key: 'changes', label: 'What changes' },
+  { key: 'keeps', label: 'What is kept' },
+  { key: 'lives', label: 'Where the skill ends up' },
+  { key: 'loses', label: 'What is lost' },
+];
+---
+
+<div>
+  <div class="spec-wrap">
+    <table class="spec approaches">
+      <thead>
+        <tr>
+          <td></td>
+          {columns.map((c) => (
+            <th scope="col" class:list={[c.own && 'approaches__own']}>
+              <span class="approaches__name">{c.name}</span>
+              <span class="approaches__who">{c.who}</span>
+            </th>
+          ))}
+        </tr>
+      </thead>
+      <tbody>
+        {rows.map((r) => (
+          <tr>
+            <th scope="row">{r.label}</th>
+            {columns.map((c) => <td class:list={[c.own && 'approaches__own']}>{c[r.key]}</td>)}
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+  <div class="caption">fig. 02 — three ways to put a sewing skill into a machine, and what each gives up</div>
+</div>

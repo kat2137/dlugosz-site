@@ -6,12 +6,18 @@ import Brief from '../../components/Brief.astro';
 import Figure from '../../components/Figure.astro';
 import CodeViewer from '../../components/CodeViewer.astro';
 import Contents from '../../components/Contents.astro';
+import Approaches from '../../components/hania/Approaches.astro';
+import Pipeline from '../../components/hania/Pipeline.astro';
+import { url } from '../../lib/paths';
+import { mediaForSlot } from '../../lib/media';
 import { bySlug } from '../../data/projects';
 import { roboticCraftsman } from '../../data/repos';
 import { sections } from '../../data/sections/hania';
 import type { Callout } from '../../data/types';
 
 const project = bySlug['robotic-craftsman'];
+const replayPoster = mediaForSlot('retarget-replay-poster');
+const footagePoster = mediaForSlot('handsewing-footage-poster');
 
 /*
  * Heights are the designer's on this render; each arrowhead lands just beside
@@ -47,16 +53,61 @@ const callouts: Callout[] = [
 
   <Brief project={project} label="build" />
 
-  <CodeViewer repo={roboticCraftsman} figure="fig. 02" />
+  <Band label="fig. 02" sub="position">
+    <Approaches />
+  </Band>
 
-  <Band label="fig. 03—05" sub="process">
+  <Band label="fig. 03" sub="pipeline">
+    <Pipeline />
+  </Band>
+
+  <Band label="fig. 04" sub="footage · sim">
+    <div class="duo duo--clips">
+    <div>
+      <div class="frame" style="aspect-ratio: 960/544">
+        <video
+          autoplay
+          loop
+          muted
+          playsinline
+          preload="metadata"
+          poster={footagePoster?.src}
+          aria-label="Overhead footage of hands sewing a black panel with needle and thread"
+        >
+          <source src={url('media/handsewing-footage.mp4')} type="video/mp4" />
+        </video>
+      </div>
+      <div class="caption caption--sm">fig. 04a — the reference: a practised hand sewing, filmed from above</div>
+    </div>
+    <div>
+      <div class="frame" style="aspect-ratio: 320/144">
+        <video
+          autoplay
+          loop
+          muted
+          playsinline
+          preload="metadata"
+          poster={replayPoster?.src}
+          aria-label="The arm in MuJoCo replaying a hand-sewing clip, retargeted from the footage"
+        >
+          <source src={url('media/retarget-replay.mp4')} type="video/mp4" />
+        </video>
+      </div>
+      <div class="caption caption--sm">fig. 04b — the same motion retargeted onto the arm and replayed in MuJoCo, elbow and wrist included</div>
+    </div>
+    </div>
+  </Band>
+
+  <CodeViewer repo={roboticCraftsman} figure="fig. 05" />
+
+  <Band label="fig. 06—08" sub="process">
     <div class="triptych triptych--fluid">
       <Figure
         src="hania-tendon-exposed.jpeg"
         alt="Exposed tendon mechanism in the finger joints"
         aspect="4/3"
         fit="cover"
-        caption="fig. 03 — exposed tendon mechanism"
+        caption="fig. 06 — exposed tendon mechanism"
         small
       />
       <Figure
@@ -64,7 +115,7 @@ const callouts: Callout[] = [
         alt="Fingertip holding a needle"
         aspect="4/3"
         fit="cover"
-        caption="fig. 04 — fingertip grip on the needle"
+        caption="fig. 07 — fingertip grip on the needle"
         small
       />
       <Figure
@@ -72,7 +123,7 @@ const callouts: Callout[] = [
         alt="Still from the reference footage used for training"
         aspect="4/3"
         fit="cover"
-        caption="fig. 05 — reference footage, pose extracted per frame"
+        caption="fig. 08 — reference footage, pose extracted per frame"
         small
       />
     </div>

@@ -1,0 +1,105 @@
+---
+import { Image } from 'astro:assets';
+import { media, mediaForSlot, duoFor, nameForSlot } from '../../lib/media';
+
+/**
+ * Footage to robot, one stage per card. A stage with `src` shows that image;
+ * a stage with only `id` is an empty slot — drop src/assets/media/<id>.jpg
+ * (or .png) in and it fills with no code change.
+ */
+interface Stage {
+  title: string;
+  tool: string;
+  text: string;
+  src?: string;
+  id?: string;
+  placeholder?: string;
+  alt?: string;
+  status: 'done' | 'in progress' | 'next';
+}
+
+const stages: Stage[] = [
+  {
+    title: 'Footage',
+    tool: 'camera, overhead',
+    text: 'A practised hand sewing a panel, filmed from above. Nine clips so far, each a candidate demonstration.',
+    src: 'int-handsewing.jpg',
+    alt: 'Overhead footage of hands sewing a black panel',
+    status: 'done',
+  },
+  {
+    title: 'Landmarks',
+    tool: 'WiLoR',
+    text: '21 hand landmarks per frame, plus the camera translation of the wrist that the landmarks alone do not give.',
+    src: 'pipe-wilor-frame.png',
+    alt: 'A video frame with 21 hand landmarks drawn over the sewing hand',
+    status: 'done',
+  },
+  {
+    title: 'Retarget',
+    tool: 'scipy · vector-based',
+    text: 'Hand size scaled from WiLoR, fingertip positions solved as targets with an optimiser. The elbow follows the wrist’s travel; wrist roll and tilt come from the palm frame.',
+    id: 'pipe-retarget',
+    src: 'pipe-retarget-sim.jpg',
+    alt: 'The arm in MuJoCo holding a pose retargeted from the footage',
+    status: 'done',
+  },
+  {
+    title: 'Simulate',
+    tool: 'MuJoCo',
+    text: 'The retargeted motion drives the arm model exported from Fusion 360, rendered and checked against the original footage.',
+    src: 'pipe-mujoco.png',
+    alt: 'The arm model in the MuJoCo viewer',
+    status: 'done',
+  },
+  {
+    title: 'Replay',
+    tool: 'arm.py · ST3215 · PCA9685',
+    text: 'The same joint targets sent to the bench arm, through one module that holds the servo, arm and finger classes and their calibration.',
+    src: 'hania-bench.jpg',
+    alt: 'The physical arm on the bench, wired to the Jetson Orin Nano',
+    status: 'in progress',
+  },
+  {
+    title: 'Learn',
+    tool: 'imitation · sim-to-real · Isaac Lab',
+    text: 'The demonstrations become training data for a policy, trained in simulation and transferred to the arm — narrowed to two fingers and the needle.',
+    status: 'next',
+  },
+];
+
+/* A file named after the slot id wins over the stand-in `src`. */
+const resolved = stages.map((s) => ({
+  ...s,
+  image: (s.id && mediaForSlot(s.id)) || (s.src ? media(s.src) : null),
+})).map((s) => {
+  const name = (s.id && nameForSlot(s.id)) || s.src;
+  return { ...s, duo: s.image && name ? duoFor(name) : null };
+});
+---
+
+<div>
+  <ol class="pipe">
+    {resolved.map((s, i) => (
+      <li class:list={['pipe__stage', s.status === 'next' && 'pipe__stage--next']}>
+        {s.image ? (
+          <div class:list={['plate__frame plate__frame--43 plate__frame--cover', s.duo && 'plate__frame--develops']}>
+            {s.duo && <Image class="plate__duo" src={s.duo} alt="" widths={[300, 480, 720]} sizes="(max-width: 900px) 100vw, 300px" aria-hidden="true" />}
+            <Image class={s.duo ? 'plate__real' : undefined} src={s.image} alt={s.alt ?? s.title} widths={[300, 480, 720]} sizes="(max-width: 900px) 100vw, 300px" loading="lazy" />
+          </div>
+        ) : (
+          <div class="pipe__blank" aria-hidden="true"><span>{String(i + 1).padStart(2, '0')}</span></div>
+        )}
+        <div class="pipe__head">
+          <span class="pipe__n">{String(i + 1).padStart(2, '0')}</span>
+          <span class="pipe__title">{s.title}</span>
+          {i < resolved.length - 1 && <span class="pipe__arrow" aria-hidden="true">→</span>}
+        </div>
+        <div class="pipe__tool">{s.tool}</div>
+        <p class="pipe__text">{s.text}</p>
+        <span class:list={['pipe__status', `pipe__status--${s.status.replace(' ', '-')}`]}>{s.status}</span>
+      </li>
+    ))}
+  </ol>
+  <div class="caption">fig. 03 — from footage of a hand to motion on the arm</div>
+</div>

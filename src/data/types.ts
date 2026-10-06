@@ -66,6 +66,8 @@ export interface Callout {
 
 export interface Project {
   slug: string;
+  /** Kept in the data but left out of the index and the page sequence. */
+  hidden?: boolean;
   /** "01"–"04" — the order the pages run in. */
   number: string;
   title: string;

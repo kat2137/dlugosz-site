@@ -48,3 +48,11 @@ export function mediaForSlot(id: string): ImageMetadata | null {
   }
   return null;
 }
+
+/** The file name an unfilled slot id resolves to, if an asset with that stem exists. */
+export function nameForSlot(id: string): string | null {
+  for (const name of byName.keys()) {
+    if (name.slice(0, name.lastIndexOf('.')) === id) return name;
+  }
+  return null;
+}

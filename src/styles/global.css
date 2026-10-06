@@ -1796,3 +1796,436 @@ a.lab__row:hover .lab__name { color: var(--accent); }
   .cv__row .index__m { grid-column: 2; margin-top: 6px; }
   .cv__cols { grid-template-columns: 1fr; }
 }
+
+/* Spec tables — Industry experience ------------------------------------------ */
+
+.spec-wrap {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.spec {
+  width: 100%;
+  border-collapse: collapse;
+  border-top: 1px solid var(--ink);
+  font-size: 15px;
+  line-height: 1.4;
+}
+
+.spec th,
+.spec td {
+  padding: 9px 12px 9px 0;
+  border-bottom: 1px solid var(--rule);
+  text-align: left;
+  vertical-align: baseline;
+  font-weight: 400;
+}
+
+.spec thead th,
+.spec thead td {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-50);
+  padding-top: 11px;
+  padding-bottom: 11px;
+  white-space: nowrap;
+}
+
+.spec tbody th {
+  color: var(--ink);
+}
+
+.spec__num {
+  text-align: right !important;
+  font-family: var(--mono);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.spec thead .spec__num { font-size: 9px; }
+
+.spec__tbc {
+  color: var(--accent);
+  text-transform: uppercase;
+  font-size: 9px !important;
+  letter-spacing: 0.1em;
+}
+
+.spec__group th,
+.spec__group td {
+  border-top: 1px solid var(--ink-50);
+}
+
+.spec--compact {
+  font-size: 14px;
+}
+
+.spec--compact th,
+.spec--compact td {
+  padding-top: 7px;
+  padding-bottom: 7px;
+}
+
+.spec__intro {
+  max-width: 62ch;
+  margin: 0 0 22px;
+}
+
+.duo--spec {
+  align-items: start;
+}
+
+.plates--spec {
+  align-items: start;
+}
+
+/* Operation breakdown */
+
+.ops__summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px 34px;
+  margin-bottom: 18px;
+}
+
+.ops__count {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.ops__n {
+  font-family: var(--display);
+  font-weight: var(--display-weight);
+  font-size: 34px;
+  line-height: 1;
+}
+
+.ops__tag {
+  display: inline-block;
+  padding: 3px 7px 2px;
+  font-family: var(--mono);
+  font-size: 8.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  border: 1px solid currentColor;
+}
+
+.ops__tag--machine { color: var(--ink-72); }
+.ops__tag--handling { color: var(--accent); }
+.ops__tag--hand { color: var(--cream); background: var(--accent); border-color: var(--accent); }
+
+.ops th,
+.ops td { vertical-align: top; }
+
+.ops__seq {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  color: var(--ink-50);
+  padding-top: 12px !important;
+  width: 32px;
+}
+
+.ops__op { min-width: 220px; }
+
+.ops__machine {
+  font-size: 14px;
+  color: var(--ink-72);
+  min-width: 130px;
+}
+
+.ops__auto { min-width: 240px; }
+
+.ops__why {
+  display: block;
+  margin-top: 6px;
+  font-size: 14px;
+  line-height: 1.45;
+  color: var(--ink-72);
+}
+
+/* Three approaches — Robotic Craftsman ---------------------------------------- */
+
+.approaches th,
+.approaches td {
+  vertical-align: top;
+  padding-right: 18px;
+}
+
+.approaches thead th {
+  white-space: normal;
+}
+
+.approaches tbody th {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-50);
+  width: 120px;
+  padding-top: 13px;
+}
+
+.approaches td { min-width: 180px; }
+
+.approaches__name {
+  display: block;
+  font-family: var(--display);
+  font-weight: var(--display-weight);
+  font-size: 17px;
+  letter-spacing: var(--display-track);
+  text-transform: var(--display-transform);
+  color: var(--ink);
+}
+
+.approaches__who {
+  display: block;
+  margin-top: 4px;
+}
+
+.approaches__own .approaches__name,
+.approaches__own.approaches__own { color: var(--accent); }
+.approaches td.approaches__own { color: var(--ink); background: var(--accent-wash); padding-left: 12px; }
+.approaches th.approaches__own { background: var(--accent-wash); padding-left: 12px; }
+
+/* Pipeline — Robotic Craftsman ------------------------------------------------- */
+
+.pipe {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 34px clamp(14px, 2vw, 28px);
+}
+
+.pipe__stage { min-width: 0; }
+
+.pipe__stage--next .plate__frame { opacity: 0.6; }
+
+.pipe__head {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.pipe__n {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  color: var(--ink-50);
+}
+
+.pipe__title {
+  font-family: var(--display);
+  font-weight: var(--display-weight);
+  font-size: 20px;
+  letter-spacing: var(--display-track);
+  text-transform: var(--display-transform);
+}
+
+.pipe__arrow {
+  margin-left: auto;
+  color: var(--accent);
+  font-family: var(--mono);
+}
+
+.pipe__tool {
+  margin-top: 4px;
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.pipe__text {
+  margin: 8px 0 10px;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--ink-72);
+}
+
+.pipe__status {
+  font-family: var(--mono);
+  font-size: 8.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-50);
+  border: 1px solid var(--rule);
+  padding: 2px 6px 1px;
+}
+
+.pipe__status--in-progress { color: var(--accent); border-color: var(--accent); }
+.pipe__status--next { border-style: dashed; }
+
+.frame video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: var(--cream);
+}
+
+@media (max-width: 900px) {
+  .pipe { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 560px) {
+  .pipe { grid-template-columns: 1fr; }
+  .pipe__arrow { transform: rotate(90deg); }
+}
+
+@media print {
+  .spec-wrap { overflow: visible; }
+}
+
+/* A lone or odd-one-out drawing in a spec group takes the full width. */
+.plates--spec > .plate:only-child,
+.plates--spec > .plate:last-child:nth-child(odd) {
+  grid-column: 1 / -1;
+}
+
+/* Let wide tables scroll inside their wrapper instead of widening the band. */
+.band > div,
+.stack > div,
+.duo > div { min-width: 0; }
+.section__body > div,
+.plates > * { min-width: 0; }
+
+/* Operation breakdown on a phone: one card per operation instead of a wide table. */
+@media (max-width: 700px) {
+  .ops thead { display: none; }
+  .ops, .ops tbody, .ops tr { display: block; }
+  .ops tr {
+    display: grid;
+    grid-template-columns: 28px minmax(0, 1fr) auto;
+    gap: 4px 10px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .ops th, .ops td { display: block; padding: 0 !important; border: 0; min-width: 0 !important; }
+  .ops__seq { grid-row: 1 / span 3; }
+  .ops__op { grid-column: 2; }
+  .ops td.spec__num { grid-column: 3; grid-row: 1; }
+  .ops__machine { grid-column: 2 / -1; }
+  .ops__auto { grid-column: 2 / -1; margin-top: 6px; }
+}
+
+/* Pipeline stage with no image yet: a quiet numbered block, not an empty slot. */
+.pipe__blank {
+  aspect-ratio: 4 / 3;
+  display: flex;
+  align-items: flex-end;
+  padding: 14px;
+  background: var(--wash);
+}
+
+.pipe__blank span {
+  font-family: var(--display);
+  font-size: 54px;
+  line-height: 1;
+  color: var(--ink-18);
+}
+
+.duo--clips { align-items: start; }
+
+/* Size matrix — the sizing system without its measurements ------------------ */
+
+.sizes {
+  border-collapse: collapse;
+  width: 100%;
+  border-top: 1px solid var(--ink);
+}
+
+.sizes th,
+.sizes td {
+  padding: 0;
+  border-bottom: 1px solid var(--rule);
+  font-weight: 400;
+  text-align: center;
+}
+
+.sizes thead th {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-50);
+  padding: 11px 4px;
+}
+
+.sizes tbody th {
+  font-family: var(--display);
+  font-size: 28px;
+  width: 56px;
+  text-align: left;
+}
+
+.sizes td span {
+  display: block;
+  margin: 6px 3px;
+  padding: 14px 4px;
+  background: var(--wash);
+  font-family: var(--mono);
+  font-size: 10px;
+  white-space: nowrap;
+}
+
+.sizes__axes {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 6px 20px;
+  margin-top: 10px;
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-50);
+}
+
+/* The pack, blurred: what it contains, not what it says ---------------------- */
+
+.pack {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 22px clamp(14px, 2vw, 28px);
+}
+
+.pack__sheet {
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 1px 0 var(--rule), 0 0 0 1px var(--rule);
+}
+
+.pack__sheet img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.pack__label {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.pack__label span { color: var(--ink-50); }
+
+@media (max-width: 700px) {
+  .pack { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}

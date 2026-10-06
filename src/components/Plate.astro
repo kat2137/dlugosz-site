@@ -1,11 +1,11 @@
 ---
 import { Image } from 'astro:assets';
-import { media, mediaForSlot, duoFor } from '../lib/media';
+import { media, mediaForSlot, duoFor, nameForSlot } from '../lib/media';
 import CodePeek from './CodePeek.astro';
 import { url } from '../lib/paths';
 import type { Plate } from '../data/types';
 
-export type PlateStyle = 'hania' | 'sviatovid' | 'pneumabra' | 'sony';
+export type PlateStyle = 'hania' | 'sviatovid' | 'pneumabra' | 'sony' | 'spec';
 
 interface Props {
   plate: Plate;
@@ -23,6 +23,8 @@ function frameClass(): string {
   if (plate.size === 'small') return 'plate__frame--small';
   if (plate.size === 'large') return 'plate__frame--large';
   if (plate.tall) return 'plate__frame--tall';
+  /* Tech packs and drawings: natural height, never cropped. */
+  if (style === 'spec') return 'plate__frame--auto';
   if (style === 'hania') return 'plate__frame--43 plate__frame--cover';
   if (style === 'sviatovid') return 'plate__frame--169 plate__frame--cover';
   if (style === 'sony') return plate.video ? 'plate__frame--169' : 'plate__frame--32';
@@ -35,7 +37,12 @@ function frameClass(): string {
  */
 const image = plate.src ? media(plate.src) : plate.id ? mediaForSlot(plate.id) : null;
 /** The print that shows at rest; the photograph above is revealed on hover. */
-const duo = image ? duoFor(image.src.split('/').pop()!) : null;
+/*
+ * Look the twin up by source file name. The built image URL carries a content
+ * hash (name.HASH.jpg), so deriving the name from image.src never matched.
+ */
+const fileName = plate.src ?? (plate.id ? nameForSlot(plate.id) : null);
+const duo = image && fileName ? duoFor(fileName) : null;
 /** A still for the clip, so the slot is never empty before it plays. */
 const clipPoster = plate.clip ? mediaForSlot(plate.clip.replace(/\.\w+$/, '-poster')) : null;
 ---

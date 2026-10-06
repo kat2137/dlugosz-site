@@ -141,7 +141,7 @@ export const projects: Project[] = [
     description:
       'Winning project for the M&S Industry Challenge 2024: an adjustable cup-size bodysuit with a 3D-printed adjustable underwire that halves the size range to manufacture.',
     card: {
-      src: 'ms-full-cup-size-down.jpg',
+      src: 'ms-full-cup-size-down.png',
       alt: 'The bodysuit on two stands, full cup and sized down',
     },
   },

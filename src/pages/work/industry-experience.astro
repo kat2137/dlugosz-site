@@ -96,7 +96,31 @@ const project = bySlug['industry-experience'];
     />
   </Band>
 
-  <Band label="fig. 08—11" sub="the line">
+  <Band label="fig. 08—10" sub="fittings">
+    <p class="body spec__intro">
+      Samples are fitted on the stand and on the body, and every fitting goes back into the
+      pattern as a correction — piping lines redrawn, binding tension adjusted, prints placed.
+    </p>
+    <div class="triptych triptych--fluid">
+      <Figure src="dissolve-fit-top.jpg" alt="Navy bikini top sample with white binding and piping on a 1XL dress stand" aspect="3/4" fit="cover" caption="fig. 08 — bikini top sample, 1XL" small />
+      <Figure src="dissolve-fit-swimsuit.jpg" alt="Navy swimsuit sample with white binding and wave piping on a 1XL dress stand" aspect="3/4" fit="cover" caption="fig. 09 — swimsuit sample, 1XL" small />
+      <Figure src="dissolve-fit-brief.jpg" alt="Brief sample with white waistband tie and piping on a dress stand" aspect="3/4" fit="cover" caption="fig. 10 — brief sample" small />
+    </div>
+  </Band>
+
+  <Band label="fig. 11—13" sub="sample to correction">
+    <div class="stack">
+      <div class="duo">
+        <Figure src="dissolve-sample-swimsuit-inside.jpg" alt="The swimsuit production sample laid flat, back straps, clip and grey lining visible, with DISSOLVE and Community Sauna Baths prints" aspect="3/4" fit="cover" caption="fig. 11 — swimsuit sample: lining, removable back straps, clip" small />
+        <Figure src="dissolve-sample-short.jpg" alt="The navy swim short sample laid flat, with white wave piping, drawcord and DISSOLVE print" aspect="3/4" fit="cover" caption="fig. 12 — short sample, piping and prints placed" small />
+      </div>
+      <div style="max-width: 560px">
+        <Figure src="dissolve-fit-comment.jpg" alt="Back view of the short worn, with the piping line redrawn over the photo and annotated" aspect="414/286" fit="contain" caption="fig. 13 — fit comment: the back piping line redrawn on the photo, then corrected on the pattern" small />
+      </div>
+    </div>
+  </Band>
+
+  <Band label="fig. 14—17" sub="the line">
     <div class="duo">
       {otherStyles.map((s, i) => (
         <Figure
@@ -104,7 +128,7 @@ const project = bySlug['industry-experience'];
           alt={`DISSOLVE ${s.title}, front and back flats`}
           aspect={s.aspect}
           fit="contain"
-          caption={`fig. ${String(8 + i).padStart(2, '0')} — style ${s.n}, ${s.title.toLowerCase()}`}
+          caption={`fig. ${String(14 + i).padStart(2, '0')} — style ${s.n}, ${s.title.toLowerCase()}`}
           small
         />
       ))}

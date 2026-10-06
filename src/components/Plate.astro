@@ -1,6 +1,6 @@
 ---
 import { Image } from 'astro:assets';
-import { media, mediaForSlot, duoFor, nameForSlot } from '../lib/media';
+import { media, mediaForSlot } from '../lib/media';
 import CodePeek from './CodePeek.astro';
 import { url } from '../lib/paths';
 import type { Plate } from '../data/types';
@@ -36,13 +36,11 @@ function frameClass(): string {
  * where one exists; the rest render as an empty frame with the placeholder.
  */
 const image = plate.src ? media(plate.src) : plate.id ? mediaForSlot(plate.id) : null;
-/** The print that shows at rest; the photograph above is revealed on hover. */
 /*
- * Look the twin up by source file name. The built image URL carries a content
- * hash (name.HASH.jpg), so deriving the name from image.src never matched.
+ * Plates sit inside the contents tabs, which always show the photograph:
+ * duotone is kept for the homepage and the page-level figures only.
  */
-const fileName = plate.src ?? (plate.id ? nameForSlot(plate.id) : null);
-const duo = image && fileName ? duoFor(fileName) : null;
+const duo = null;
 /** A still for the clip, so the slot is never empty before it plays. */
 const clipPoster = plate.clip ? mediaForSlot(plate.clip.replace(/\.\w+$/, '-poster')) : null;
 ---

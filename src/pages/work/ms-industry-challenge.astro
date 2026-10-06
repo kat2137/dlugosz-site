@@ -3,6 +3,7 @@ import ProjectPage from '../../layouts/ProjectPage.astro';
 import Band from '../../components/Band.astro';
 import Brief from '../../components/Brief.astro';
 import Figure from '../../components/Figure.astro';
+import HeroFigure from '../../components/HeroFigure.astro';
 import { bySlug } from '../../data/projects';
 
 const project = bySlug['ms-industry-challenge'];
@@ -19,23 +20,42 @@ const wire = [
 ---
 
 <ProjectPage project={project} ogImage="ms-full-cup-size-down.jpg">
-  <Band label="fig. 01" sub="one garment, two sizes">
+  <Band label="fig. 01" sub="adjustable underwire">
+    <HeroFigure
+      src="ms-underwire-turntable-poster.png"
+      alt="Render of the adjustable underwire, turning as the page scrolls: a curved rail with ball inserts and a keyed overlap joint"
+      aspect="388/256"
+      fig="clamp(280px, 62%, 580px)"
+      fit="contain"
+      turntable={{
+        name: 'ms-underwire',
+        frames: 72,
+        width: 388,
+        height: 256,
+        poster: 'ms-underwire-turntable-poster.png',
+      }}
+      caption="fig. 01 — the adjustable underwire: a rail shaped to the underbust, ball inserts along it, a keyed overlap joint"
+    />
+  </Band>
+
+  <Brief project={project} />
+
+  <Band label="fig. 02" sub="one garment, two sizes">
     <div style="max-width: 520px">
     <Figure
       src="ms-full-cup-size-down.jpg"
       alt="The brown bodysuit on two stands: on the left at full cup, on the right adjusted down a size"
       aspect="262/349"
       fit="contain"
-      caption="fig. 01 — the same bodysuit at full cup and adjusted down a size"
+      caption="fig. 02 — the same bodysuit at full cup and adjusted down a size"
       widths={[380, 600, 900]}
       sizes="(max-width: 900px) 100vw, 520px"
     />
     </div>
   </Band>
 
-  <Brief project={project} />
 
-  <Band label="fig. 02—07" sub="adjustable underwire">
+  <Band label="fig. 03—08" sub="the wire in cad">
     <p class="body spec__intro">
       The wire is moved out of the casing and into an external element: a curved rail shaped to
       the underbust, with ball inserts placed along it. Each insert sandwiches the cup fabric
@@ -49,14 +69,14 @@ const wire = [
         <Figure
           src={w.src}
           alt={w.alt}
-          caption={`fig. ${String(2 + i).padStart(2, '0')} — ${w.cap}`}
+          caption={`fig. ${String(3 + i).padStart(2, '0')} — ${w.cap}`}
           small
         />
       ))}
     </div>
   </Band>
 
-  <Band label="fig. 08" sub="stretch ratio">
+  <Band label="fig. 09" sub="stretch ratio">
     <p class="body spec__intro">
       The adjustable panel has to stretch with the cup as it changes size, so its stretch ratio
       was developed on the stand, one iteration at a time.
@@ -64,13 +84,13 @@ const wire = [
     <Figure
       src="ms-stretch-ratio.jpg"
       alt="Six iterations of the adjustable cup panel drawn and pinned on a dress stand"
-      caption="fig. 08 — iterations of the adjustable panel on the stand"
+      caption="fig. 09 — iterations of the adjustable panel on the stand"
       widths={[640, 960, 1280]}
       sizes="(max-width: 900px) 100vw, 760px"
     />
   </Band>
 
-  <Band label="fig. 09" sub="grading">
+  <Band label="fig. 10" sub="grading">
     <p class="body spec__intro">
       Adjustability changes what grading has to do. Above a D cup the garment needs lateral side
       support, inner reinforcement at the waist and cradle, a wire roughly twice as resistant as
@@ -79,22 +99,22 @@ const wire = [
     <Figure
       src="ms-pressure-sketches.png"
       alt="Development sketches of cup coverage and adjustable bodysuit variants, with notes on DD+ requirements"
-      caption="fig. 09 — coverage and adjustability studies, with the DD+ requirements"
+      caption="fig. 10 — coverage and adjustability studies, with the DD+ requirements"
       widths={[640, 960, 1280]}
       sizes="(max-width: 900px) 100vw, 910px"
     />
   </Band>
 
-  <Band label="fig. 10—12" sub="the garment">
+  <Band label="fig. 11—13" sub="the garment">
     <div class="stack">
       <div class="duo">
-        <Figure src="ms-bodysuit-flat-front.png" alt="Front flat of the bodysuit: underwired cups, panelled body, adjustable straps" caption="fig. 10 — front flat" small />
-        <Figure src="ms-bodysuit-flat-back.png" alt="Back flat of the bodysuit: slider straps and a vertical back panel" caption="fig. 11 — back flat" small />
+        <Figure src="ms-bodysuit-flat-front.png" alt="Front flat of the bodysuit: underwired cups, panelled body, adjustable straps" caption="fig. 11 — front flat" small />
+        <Figure src="ms-bodysuit-flat-back.png" alt="Back flat of the bodysuit: slider straps and a vertical back panel" caption="fig. 12 — back flat" small />
       </div>
       <Figure
         src="ms-bodysuit-shoot.png"
         alt="The finished brown bodysuit photographed on a model"
-        caption="fig. 12 — the finished bodysuit"
+        caption="fig. 13 — the finished bodysuit"
         widths={[640, 960, 1280]}
         sizes="(max-width: 900px) 100vw, 910px"
       />

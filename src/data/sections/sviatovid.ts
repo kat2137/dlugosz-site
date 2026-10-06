@@ -25,7 +25,7 @@ export const sections: Section[] = [
     notes: ['Fusion 360', '2 axes', 'MG90S servos', 'Yoke linkage'],
   },
   {
-    title: 'Packaging and serviceability',
+    title: 'Garment',
     meta: 'Housing',
     lede: 'Everything lives in the head: two motors, a camera, a Raspberry Pi, a battery and the driver board, inside a housing 150.74 mm tall and just over 51 mm deep.',
     groups: [
